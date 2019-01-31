@@ -1,0 +1,38 @@
+.carousel {
+  position: relative;
+  .carousel-wrapper {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      .carousel-inner {
+          display: flex;
+          flex-direction: row;
+          backface-visibility: hidden;
+      }
+      .carousel-item {
+          position: relative;
+          width: 100%;
+          flex: 1;
+          user-select: none;
+      }
+  }
+
+  .indicators {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      .indicator {
+          width: 6px;
+          height: 6px;
+          display: inline-block;
+          border-radius: 100%;
+          background: #868686;
+          opacity: .8;
+          margin: 0 3px;
+          &.active {
+              background: #fff;
+          }
+      }
+  }
+}
