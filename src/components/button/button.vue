@@ -1,10 +1,5 @@
 <template>
-  <button
-    type="button"
-    class="btn"
-    :class="btnClass"
-    :disabled="disabled"
-    @click="onClick">
+  <button type="button" class="lake-btn" :class="btnClass" :disabled="disabled" @click="onClick">
     <i class="loading" v-if="loading"></i>
     <slot name="icon"></slot>
     <slot></slot>
@@ -56,7 +51,7 @@ export default {
         [`btn-${this.mode}`]: true,
         [`btn-${this.size}`]: true,
       };
-    }
+    },
   },
   methods: {
     onClick($event) {
@@ -85,11 +80,11 @@ export default {
   &:disabled {
     background-color: lighten(@backgroundColor, 20%);
     border-color: lighten(@backgroundColor, 20%);
-    opacity: .8;
+    opacity: 0.8;
   }
 }
 
-.btn {
+.lake-btn {
   display: block;
   outline: 0 none;
   box-sizing: border-box;
@@ -105,9 +100,10 @@ export default {
   white-space: nowrap;
   color: #333;
   background-color: @color-default;
-  border: 1px solid @color-default;
+  border: 1px solid #f1f1f1;
   border-radius: 5px;
   padding: 0 15px;
+  user-select: none;
   -webkit-tap-highlight-color: transparent;
   .btn-mutate(@color-default);
 
@@ -165,7 +161,7 @@ export default {
     border: 2px solid #e8e8e8;
     border-top-color: #c5c5c5;
     border-radius: 100%;
-    animation: rotation .5s linear 0s infinite;
+    animation: rotation 0.5s linear 0s infinite;
   }
 
   @keyframes rotation {

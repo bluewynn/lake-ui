@@ -101,7 +101,7 @@ export default {
 .lake-search-bar {
   display: flex;
   align-items: center;
-  padding: 6px;
+  padding: 6px 9px;
   position: relative;
   background-color: #ececec;
   .border-1px-top();
@@ -121,7 +121,7 @@ export default {
   }
   &-input {
     width: 100%;
-    line-height: 1.8;
+    line-height: 2.0;
     border: none;
     border-radius: 4px;
     outline: none;
@@ -135,8 +135,8 @@ export default {
   }
   &-clean {
     position: absolute;
-    right: 5px;
-    top: 4px;
+    right: 6px;
+    top: 6px;
     width: 16px;
     height: 16px;
     background-color: #b5b5b5;
@@ -145,7 +145,7 @@ export default {
     color: #fff;
   }
   &-cancel {
-    margin: 0 6px;
+    margin-left: 6px;
     font-size: 13px;
     color: @color-text-link;
   }
