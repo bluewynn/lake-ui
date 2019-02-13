@@ -4,10 +4,10 @@
       <header class="header">Basic</header>
       <div class="body">
         <lake-button @click="isShowBasicActionsheet = !isShowBasicActionsheet">Basic</lake-button>
-        <lake-actionsheet v-model="isShowBasicActionsheet" :items="items"></lake-actionsheet>
+        <lake-actionsheet :show.sync="isShowBasicActionsheet" :items="items"></lake-actionsheet>
         <br>
         <lake-button @click="isShowTitleActionsheet = !isShowTitleActionsheet">With Title</lake-button>
-        <lake-actionsheet title="请选择正确的选项" v-model="isShowTitleActionsheet" :items="items"></lake-actionsheet>
+        <lake-actionsheet title="请选择正确的选项" :show.sync="isShowTitleActionsheet" :items="items"></lake-actionsheet>
       </div>
     </div>
 
@@ -15,7 +15,7 @@
       <header class="header">Custom</header>
       <div class="body">
         <lake-button @click="isShowCustomActionsheet = !isShowCustomActionsheet">Custom</lake-button>
-        <lake-actionsheet title="请选择正确的选项" v-model="isShowCustomActionsheet">
+        <lake-actionsheet title="请选择正确的选项" :show.sync="isShowCustomActionsheet">
           <div slot="body">自定义内容</div>
         </lake-actionsheet>
       </div>

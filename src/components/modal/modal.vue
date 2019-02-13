@@ -38,9 +38,6 @@ import popup from '../popup';
 export default {
   name: 'lake-modal',
   components: { popup },
-  model: {
-    prop: 'show',
-  },
   props: {
     show: {
       type: Boolean,
@@ -77,9 +74,11 @@ export default {
     },
     onConfirm() {
       this.$emit('confirm');
+      this.$emit('update:show', false);
     },
     onCancel() {
       this.$emit('cancel');
+      this.$emit('update:show', false);
     },
   },
 };

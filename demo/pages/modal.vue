@@ -7,7 +7,7 @@
         <lake-modal
           title="Alert"
           msg="This is a danger operation"
-          v-model="isShowAlertModal"
+          :show.sync="isShowAlertModal"
           @confirm="isShowAlertModal = false"
         ></lake-modal>
       </div>
@@ -20,7 +20,7 @@
         <lake-modal
           title="Confirm"
           msg="This is your choose This is your choose This is your choose This is your choose"
-          v-model="isShowConfirmModal"
+          :show.sync="isShowConfirmModal"
           :show-cancel-btn="true"
           @confirm="isShowConfirmModal = false"
           @cancel="isShowConfirmModal = false"
@@ -34,7 +34,7 @@
         <lake-button @click="isShowWithoutTitleModal = !isShowWithoutTitleModal">Without Title</lake-button>
         <lake-modal
           msg="No Title"
-          v-model="isShowWithoutTitleModal"
+          :show.sync="isShowWithoutTitleModal"
           @confirm="isShowWithoutTitleModal = false"
           @cancel="isShowWithoutTitleModal = false"
         ></lake-modal>
@@ -47,7 +47,7 @@
         <lake-button @click="isShowCustomModal = !isShowCustomModal">Custom</lake-button>
         <lake-modal
           msg="No Title"
-          v-model="isShowCustomModal"
+          :show.sync="isShowCustomModal"
           @confirm="isShowCustomModal = false"
           @cancel="isShowCustomModal = false"
         >

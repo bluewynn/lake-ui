@@ -1,6 +1,6 @@
 <template>
   <div>
-    <popup @click-mask="onMaskClick" v-if="show"></popup>
+    <popup @click-mask="onCancel" v-if="show"></popup>
     <div class="lake-actionsheet">
       <transition name="slide">
         <div class="lake-actionsheet-wrapper" v-if="show">
@@ -38,10 +38,6 @@ import popup from '../popup';
 export default {
   name: 'lake-actionsheet',
   components: { popup },
-  model: {
-    prop: 'show',
-    event: 'change',
-  },
   props: {
     show: {
       type: Boolean,
@@ -74,18 +70,12 @@ export default {
     return {};
   },
   methods: {
-    onMaskClick() {
-      if (this.maskClose) {
-        this.show = false;
-        this.$emit('cancel');
-      }
-    },
     onItemSelect(item) {
-      this.show = false;
+      this.$emit('update:show', false);
       this.$emit('select', item);
     },
     onCancel() {
-      this.show = false;
+      this.$emit('update:show', false);
       this.$emit('cancel');
     },
   },
