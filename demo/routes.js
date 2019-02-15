@@ -14,6 +14,7 @@ import tabs from './pages/tabs.vue';
 import tag from './pages/tag.vue';
 import popover from './pages/popover.vue';
 import imageUpload from './pages/image-upload.vue';
+import field from './pages/field.vue';
 
 export default [
   {
@@ -79,6 +80,10 @@ export default [
   {
     path: '/image-upload',
     component: imageUpload,
+  },
+  {
+    path: '/field',
+    component: field,
   },
   {
     path: '*',

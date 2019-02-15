@@ -24,10 +24,10 @@ body {
   }
   .body {
     padding: 10px;
+    &.no-side-padding {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
-}
-.no-side-padding {
-  padding-left: 0;
-  padding-right: 0;
 }
 </style>
