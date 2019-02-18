@@ -1,14 +1,14 @@
 <template>
-  <div class="lake-textarea">
+  <div class="lake-field">
     <slot name="label">
-      <div class="lake-textarea-left" v-if="label">
-        <label class="lake-textarea-label" :class="disabled ? 'disabled' : ''" :for="id">{{ label }}</label>
+      <div class="lake-field-left" v-if="label">
+        <label class="lake-field-label" :class="disabled ? 'disabled' : ''" :for="id">{{ label }}</label>
       </div>
     </slot>
-    <div class="lake-textarea-right">
+    <div class="lake-field-right">
       <textarea
         :id="id"
-        class="lake-textarea-instance"
+        class="lake-field-input"
         :value="value"
         :type="type"
         :placeholder="placeholder"
@@ -17,11 +17,11 @@
         :autocomplete="autocomplete"
         :rows="rows"
         ref="textarea"
-        @input="$emit('input', $event.target.value)"
+        @input="onInput"
         @change="$emit('change', $event.target.value)"
       ></textarea>
-      <div class="lake-textarea-count" v-if="count > 0">
-        <span :class="wordLength > count ? 'lake-textarea-count-error' : ''">{{ wordLength }}</span>
+      <div class="lake-field-count" v-if="count > 0">
+        <span :class="wordLength > count ? 'lake-field-count-error' : ''">{{ wordLength }}</span>
         / {{ count }}
       </div>
     </div>
@@ -87,12 +87,26 @@ export default {
       return this.wordLengthParser ? this.wordLengthParser(this.value) : this.value.length;
     },
   },
+  mounted() {
+    this.autosize && this.$nextTick().then(() => this.adjustSize());
+  },
   methods: {
     focus() {
       this.$refs.textarea.focus();
     },
     blur() {
       this.$refs.textarea.blur();
+    },
+    onInput($event) {
+      this.$emit('input', $event.target.value);
+      this.autosize && this.adjustSize();
+    },
+    adjustSize() {
+      const { textarea } = this.$refs;
+
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+      textarea.style.overflowY = 'hidden';
     },
   },
   watch: {
@@ -104,60 +118,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less" scoped>
-@import '../../style/themes/default.less';
-@import '../../style/common/mixins.less';
-
-.lake-textarea {
-  display: flex;
-  position: relative;
-  align-items: center;
-  padding: 10px 15px;
-  background-color: #fff;
-  .border-1px-bottom(15px);
-
-  &:last-child {
-    .border-1px-hide();
-  }
-  &-right {
-    flex: 1;
-  }
-  &-label {
-    display: block;
-    font-size: 17px;
-    color: @color-text-base;
-    width: 85px;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-right: 5px;
-  }
-  &-label.disabled {
-    color: @color-text-disabled;
-  }
-  &-instance {
-    width: 100%;
-    border: 0;
-    outline: 0;
-    -webkit-appearance: none;
-    background-color: transparent;
-    font-size: 17px;
-    color: @color-text-primary;
-    line-height: 1.5;
-  }
-  &-instance::placeholder {
-    color: @color-text-secondary;
-  }
-  &-instance:disabled::placeholder,
-  &-instance:disabled {
-    color: @color-text-disabled;
-  }
-  &-count {
-    text-align: right;
-  }
-  &-count-error {
-    color: @color-text-error;
-  }
-}
-</style>

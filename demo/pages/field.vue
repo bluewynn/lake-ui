@@ -45,6 +45,12 @@
         ></lake-textarea>
       </div>
     </div>
+    <div class="demo-section">
+      <header class="header">Textarea with autosize</header>
+      <div class="body no-side-padding">
+        <lake-textarea v-model="textareaAutosize" :autosize="true" placeholder="请输入文本（高度自适应）"></lake-textarea>
+      </div>
+    </div>
   </page-view>
 </template>
 
@@ -65,6 +71,7 @@ export default {
       textarea: '',
       textareaCount: '',
       textareaCustomCount: '',
+      textareaAutosize: '',
       wordLengthParser: value => {
         if (value) {
           const len = value.replace(/[^\x00-\xff]/g, 'aa').length;

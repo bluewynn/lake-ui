@@ -9,8 +9,6 @@
 
 - [x] Field
 - [x] TextArea
-- - [ ] autosize
-- - [ ] label align top
 
 ## Display
 
