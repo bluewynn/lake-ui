@@ -15,6 +15,7 @@ import searchBar from './components/search-bar';
 import tag from './components/tag';
 import { upload, imageUpload } from './components/upload';
 import { field, textarea } from './components/field';
+import badge from './components/badge';
 
 export {
   flexBox,
@@ -39,4 +40,5 @@ export {
   imageUpload,
   field,
   textarea,
+  badge,
 };

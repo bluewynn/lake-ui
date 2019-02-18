@@ -12,7 +12,21 @@ const router = new VueRouter({
   mode: 'hash',
   base: __dirname,
   routes,
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
 });
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || document.title;
+  next();
+});
+
+router.afterEach(() => {});
+
+if (process.env.NODE_ENV !== 'production') {
+  Vue.config.productionTip = false;
+}
 
 new Vue({
   router,

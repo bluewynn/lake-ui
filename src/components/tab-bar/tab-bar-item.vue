@@ -1,7 +1,9 @@
 <template>
   <div class="tab-bar-item" :class="{ 'active': active }" @click="onClick">
     <slot name="icon"></slot>
-    <slot>{{ text }}</slot>
+    <slot>
+      <div>{{ text }}</div>
+    </slot>
   </div>
 </template>
 

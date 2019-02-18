@@ -2,8 +2,8 @@
   "name": "lake-ui",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@git.code.oa.com:wynnezheng/lake-ui.git",
-  "author": "wynnezheng <wynnezheng@tencent.com>",
+  "repository": "git@github.com:bluewynn/lake-ui.git",
+  "author": "bluewynn",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.js --open",

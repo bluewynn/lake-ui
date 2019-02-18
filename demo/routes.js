@@ -15,8 +15,11 @@ import tag from './pages/tag.vue';
 import popover from './pages/popover.vue';
 import imageUpload from './pages/image-upload.vue';
 import field from './pages/field.vue';
+import badge from './pages/badge.vue';
 
-export default [
+import { upperFirst } from './common/util';
+
+const routes = [
   {
     path: '',
     component: home,
@@ -86,7 +89,19 @@ export default [
     component: field,
   },
   {
+    path: '/badge',
+    component: badge,
+  },
+  {
     path: '*',
     component: home,
   },
 ];
+
+routes.forEach(route => {
+  route.meta = {
+    title: upperFirst(route.component.name.replace('page-', '')),
+  };
+});
+
+export default routes;

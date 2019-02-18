@@ -40,5 +40,7 @@ module.exports = {
     'no-unused-expressions': [2, { allowShortCircuit: true }],
 
     'arrow-parens': 'off',
+
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
 };
