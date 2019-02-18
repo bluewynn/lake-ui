@@ -1,7 +1,8 @@
-import toastPlugin from './toast';
-import modalPlugin from './modal';
+import modal from './modal';
 
 export default {
   name: 'plugins',
-  toastPlugin,
+  install(Vue) {
+    Vue.use(modal);
+  },
 };

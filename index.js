@@ -3,7 +3,11 @@ import { version } from './package.json';
 
 const install = Vue => {
   Object.keys(components).forEach(key => {
-    Vue.component(components[key].name, components[key]);
+    if (components[key].name === 'plugins') {
+      Vue.use(components[key]);
+    } else {
+      Vue.component(components[key].name, components[key]);
+    }
   });
 };
 

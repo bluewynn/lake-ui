@@ -63,6 +63,14 @@
         </lake-modal>
       </div>
     </div>
+
+    <div class="demo-section">
+      <header class="header">Function</header>
+      <div class="body">
+        <lake-button :inline="true" @click="callAlert">this.$alert()</lake-button>
+        <lake-button :inline="true" @click="callConfirm">this.$confirm()</lake-button>
+      </div>
+    </div>
   </page-view>
 </template>
 
@@ -105,6 +113,22 @@ export default {
           this.isFinished = true;
         }
       }, 1000);
+    },
+    callAlert() {
+      this.$alert({
+        title: '确认',
+        msg: '确认文字',
+      }).then(() => {
+        // this.$toast('resolve');
+      });
+    },
+    callConfirm() {
+      this.$confirm({
+        title: '确认',
+        msg: '确认文字',
+      }).then(isConfirm => {
+        // this.$toast(`resolve: ${isConfirm : 'true' : 'false'}`);
+      });
     },
   },
   mounted() {

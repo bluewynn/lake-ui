@@ -29,7 +29,7 @@
 - [x] Toast
 - - [ ] quick function: toast
 - [x] Modal
-- - [ ] quick function: alert, confirm
+- - [ ] disable scroll
 - [x] Actionsheet
 
 ## Navigation

@@ -1,11 +1,56 @@
 import modal from '../components/modal';
 
-console.log(modal);
+export default {
+  install(Vue) {
+    let instance = null;
+    const ModalConstructor = Vue.extend(modal);
+    const defaultOptions = {
+      show: true,
+      title: '',
+      msg: '',
+      showConfirmBtn: true,
+      showCancelBtn: false,
+    };
 
-export const alert = (options, successCb) => {
+    const formatOptions = (options) => {
+      if (typeof options !== 'string' && typeof options !== 'object') {
+        throw new Error('options should be \'string\' or \'object\'');
+      }
 
-};
+      return typeof options === 'string' ? { ...defaultOptions, msg: options } : { ...defaultOptions, ...options };
+    };
 
-export const confirm = (options, successCb, failCb) => {
+    const getInstance = () => new ModalConstructor({ el: document.createElement('div') });
 
+    const openModal = (options = defaultOptions, successCb, failCb) => {
+      let payload = {};
+
+      if (!instance) {
+        instance = getInstance();
+        document.body.appendChild(instance.$el);
+      }
+
+      payload = formatOptions(options);
+
+      Object.assign(instance, payload);
+
+      return new Promise((resolve) => {
+        instance.$on('confirm', () => {
+          instance.show = false;
+          successCb && successCb();
+          resolve && resolve(true);
+        });
+        instance.$on('cancel', () => {
+          instance.show = false;
+          failCb && failCb();
+          resolve && resolve(false);
+        });
+      });
+    };
+
+    Vue.prototype.$alert = openModal;
+    Vue.prototype.$confirm = (options, ...args) => {
+      return openModal(Object.assign(formatOptions(options), { showCancelBtn: true }), ...args);
+    };
+  },
 };
