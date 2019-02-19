@@ -1,7 +1,50 @@
 import toast from '../components/toast';
 
-console.log(toast);
+export default {
+  install(Vue) {
+    let instance = null;
+    let timer = null;
+    const ToastConstructor = Vue.extend(toast);
+    const defaultOptions = {
+      msg: '',
+      type: 'text',
+      position: 'middle',
+      duration: 3000,
+    };
 
-export default ({msg, mode, mask, position}, onClose) => {
+    const formatOptions = options => {
+      if (typeof options !== 'string' && typeof options !== 'object') {
+        throw new Error("options should be 'string' or 'object'");
+      }
 
+      return typeof options === 'string' ? { ...defaultOptions, msg: options } : { ...defaultOptions, ...options };
+    };
+
+    const getInstance = () => new ToastConstructor({ el: document.createElement('div') });
+
+    const createToast = (options = defaultOptions, successCb) => {
+      if (instance) {
+        clearTimeout(timer);
+      }
+
+      let payload = {};
+
+      payload = formatOptions(options);
+      instance = getInstance();
+      Object.assign(instance, payload);
+
+      document.body.appendChild(instance.$el);
+
+      return new Promise(resolve => {
+        timer = setTimeout(() => {
+          document.body.removeChild(instance.$el);
+          instance = null;
+          resolve();
+          successCb && successCb();
+        }, payload.duration);
+      });
+    };
+
+    Vue.prototype.$toast = createToast;
+  },
 };

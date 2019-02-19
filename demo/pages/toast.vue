@@ -1,9 +1,12 @@
 <template>
-  <page-view title="Toast">
+  <page-view>
     <div class="demo-section">
-      <lake-button @click="isShowToast = true">basic</lake-button>
-
-      <lake-toast msg="测试一下" mode="success" v-show="isShowToast" @click-mask="isShowToast = false"></lake-toast>
+      <header class="header">Basic</header>
+      <div class="body">
+        <lake-button @click="showText">basic</lake-button>
+        <br>
+        <lake-button @click="showTextResolve">resolve</lake-button>
+      </div>
     </div>
   </page-view>
 </template>
@@ -21,11 +24,15 @@ export default {
       isShowToast: false,
     };
   },
+  methods: {
+    showText() {
+      this.$toast('滥用Toast是懒惰的做法');
+    },
+    showTextResolve() {
+      this.$toast('设计师完全有其他形式代替Toast，达到更优雅的用户体验。').then(() => {
+        this.$toast('没错');
+      });
+    },
+  },
 };
 </script>
-
-<style lang="less" scoped>
-.btn {
-  margin-bottom: 5px;
-}
-</style>

@@ -1,101 +1,86 @@
 <template>
-  <transition name="fade">
-    <div class="toast">
-      <div
-        class="mask"
-        :class="mask ? 'mask-color' : 'mask-transparent'"
-        @touchmove.prevent
-        @click="onClickMask"
-      >
-        <div class="toast-wrapper">
-          <div class="toast-inline">
-            <div
-              class="toast-content"
-              :class="[
-                  `toast-${position}`,
-                  `toast-${mode}`
-                ]"
-            >
-              <slot name="icon"></slot>
-              {{ msg }}
-            </div>
+  <popup :mask="false">
+    <div class="lake-toast">
+      <div class="lake-toast-wrapper">
+        <div class="lake-toast-inline">
+          <div class="lake-toast-content" :class="[position, type]">
+            <slot name="icon"></slot>
+            {{ msg }}
           </div>
         </div>
       </div>
     </div>
-  </transition>
+  </popup>
 </template>
 
 <script>
-const TOAST_MODES = ['success', 'info', 'error'];
-const TOAST_POSITION = ['top', 'center', 'bottom'];
+import popup from '../popup';
+
+const TOAST_MODES = ['success', 'loading', 'error', 'text'];
+const TOAST_POSITION = ['top', 'middle', 'bottom'];
 
 export default {
   name: 'lake-toast',
+  components: { popup },
   props: {
     msg: {
       type: String,
-      default: ''
+      default: '',
     },
-    mode: {
+    type: {
       type: String,
-      default: 'info',
+      default: 'text',
       validator(mode) {
         return TOAST_MODES.includes(mode);
-      }
+      },
     },
     mask: {
       type: Boolean,
-      default: false
+      default: false,
     },
     position: {
       type: String,
-      default: 'top',
+      default: 'middle',
       validator(pos) {
         return TOAST_POSITION.includes(pos);
-      }
-    }
+      },
+    },
+    duration: {
+      type: Number,
+      default: 3000,
+    },
   },
-  methods: {
-    onClickMask() {
-      this.$emit('click-mask');
-    }
-  }
 };
 </script>
 
 <style lang="less">
 @import '../../style/themes/default.less';
 
-.toast {
+.lake-toast {
   text-align: center;
-  .mask {
-    position: fixed;
-    width: 100%;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    &-color {
-      background-color: @color-bg-mask;
-    }
-    &-transparent {
-      background-color: transparent;
-    }
-  }
   &-inline {
     display: inline-block;
   }
   &-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
     background-color: #5f5c5c;
     color: #fff;
-    border-radius: 15px;
+    border-radius: 3px;
     padding: 6px 15px;
     font-size: 13px;
-    line-height: 15px;
+    line-height: 1.5;
     text-align: center;
     min-width: 40px;
-    margin-top: 20px;
+    max-width: 230px;
+    &.top {
+      top: 10%;
+    }
+    &.bottom {
+      bottom: 10%;
+    }
   }
   &-success {
     background-color: @brand-success;
@@ -107,7 +92,7 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity .1s;
+  transition: opacity 0.1s;
 }
 .fade-enter,
 .fade-leave-to {

@@ -8,6 +8,9 @@
 ## Form
 
 - [x] Field
+- - [ ] change name to TextField
+- - [ ] clear button
+- - [ ] helper text
 - [x] TextArea
 
 ## Display
@@ -27,7 +30,8 @@
 ## Feedback
 
 - [x] Toast
-- - [ ] quick function: toast
+- - [x] quick function: toast
+- - [ ] quick function, transition, message queue
 - [x] Modal
 - - [ ] disable scroll
 - [x] Actionsheet
