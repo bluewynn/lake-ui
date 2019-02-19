@@ -35,6 +35,7 @@
 - [x] Modal
 - - [ ] disable scroll
 - [x] Actionsheet
+- [x] Progress
 
 ## Navigation
 

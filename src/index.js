@@ -16,6 +16,7 @@ import tag from './components/tag';
 import { upload, imageUpload } from './components/upload';
 import { field, textarea } from './components/field';
 import badge from './components/badge';
+import progress from './components/progress';
 import plugins from './plugins';
 
 export {
@@ -42,5 +43,6 @@ export {
   field,
   textarea,
   badge,
+  progress,
   plugins,
 };

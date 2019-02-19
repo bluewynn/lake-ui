@@ -16,6 +16,7 @@ import popover from './pages/popover.vue';
 import imageUpload from './pages/image-upload.vue';
 import field from './pages/field.vue';
 import badge from './pages/badge.vue';
+import progress from './pages/progress.vue';
 
 import { upperFirst } from './common/util';
 
@@ -91,6 +92,10 @@ const routes = [
   {
     path: '/badge',
     component: badge,
+  },
+  {
+    path: '/progress',
+    component: progress,
   },
   {
     path: '*',
