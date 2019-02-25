@@ -5,27 +5,34 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
 const commonConfig = require('./webpack.common');
 
 const developmentConfig = webpackMerge(commonConfig, {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: path.join(__dirname, '../demo/index.js'),
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, '../demo/dist'),
+  },
   devServer: {
     port: 9527,
     publicPath: '/',
-    clientLogLevel: 'none'
+    clientLogLevel: 'none',
+    hot: true,
   },
   plugins: [
     new CleanWebpackPlugin(['demo/dist'], {
-      root: path.resolve(process.cwd())
+      root: path.resolve(process.cwd()),
     }),
     new HtmlWebpackPlugin({
       template: './demo/index.html',
       filename: './index.html',
-      title: 'UI-demo'
-    })
-  ]
+      title: 'UI-demo',
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 });
 
 const productionConfig = webpackMerge(commonConfig, {
@@ -43,23 +50,22 @@ const productionConfig = webpackMerge(commonConfig, {
         parallel: true,
         sourceMap: true, // set to true if you want JS source maps
       }),
-      new OptimizeCSSAssetsPlugin({})
-    ]
+      new OptimizeCSSAssetsPlugin({}),
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(['demo/dist'], {
-      root: path.resolve(process.cwd())
+      root: path.resolve(process.cwd()),
     }),
     new HtmlWebpackPlugin({
       template: './demo/index.html',
       filename: './index.html',
-      title: 'UI-demo'
+      title: 'UI-demo',
     }),
     new MiniCssExtractPlugin({
       filename: 'style.[hash:8].min.css',
     }),
-  ]
+  ],
 });
 
-module.exports =
-  process.env.NODE_ENV === 'production' ? productionConfig : developmentConfig;
+module.exports = process.env.NODE_ENV === 'production' ? productionConfig : developmentConfig;

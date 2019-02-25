@@ -1,6 +1,11 @@
 {
   "name": "lake-ui",
   "version": "1.0.0",
+  "description": "Vue mobile UI components",
+  "keywords": [
+    "vue",
+    "UI"
+  ],
   "main": "index.js",
   "repository": "git@github.com:bluewynn/lake-ui.git",
   "author": "bluewynn",

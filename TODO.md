@@ -1,4 +1,4 @@
-# Component Todo
+# Todo
 
 ## Basic
 
@@ -42,3 +42,8 @@
 - - [ ] multiple tabs
 - - [ ] swipe panel
 - - [ ] disabled animated
+
+## Development
+
+- [x] Hot Reload
+- [ ] Git hook pre commit auto fix eslint issue

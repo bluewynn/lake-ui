@@ -2,7 +2,7 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -17,30 +17,25 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        use: 'vue-loader',
+        use: [
+          {
+            loader: 'vue-loader',
+          },
+        ],
       },
       {
         test: /\.js?$/,
         loader: 'babel-loader',
-        exclude: file => (
-          /node_modules/.test(file) && !/\.vue\.js/.test(file)
-        ),
+        exclude: file => /node_modules/.test(file) && !/\.vue\.js/.test(file),
       },
       {
         test: /\.css$/,
-        use: [
-          !isProduction
-            ? 'vue-style-loader'
-            : MiniCssExtractPlugin.loader,
-          'css-loader',
-        ],
+        use: [!isProduction ? 'vue-style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.less$/,
         use: [
-          !isProduction
-            ? 'vue-style-loader'
-            : MiniCssExtractPlugin.loader,
+          !isProduction ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
           'less-loader',
@@ -64,9 +59,5 @@ module.exports = {
     maxEntrypointSize: 300000,
     hints: isProduction ? 'warning' : false,
   },
-  plugins: [
-    new VueLoaderPlugin(),
-    new ProgressBarWebpackPlugin(),
-    new FriendlyErrorsPlugin(),
-  ],
+  plugins: [new VueLoaderPlugin(), new ProgressBarWebpackPlugin(), new FriendlyErrorsPlugin()],
 };
