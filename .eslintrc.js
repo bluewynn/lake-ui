@@ -4,9 +4,13 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
   },
-  extends: ['airbnb-base', 'plugin:vue/essential'],
-  plugins: ['vue'],
+  env: {
+    browser: true,
+  },
+  extends: ['airbnb-base', 'prettier', 'plugin:vue/essential'],
+  plugins: ['vue', 'prettier'],
   rules: {
+    'prettier/prettier': 'error',
     // 单行最大代码长度
     'max-len': [
       'error',
