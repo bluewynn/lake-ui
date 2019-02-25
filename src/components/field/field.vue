@@ -16,67 +16,29 @@
         :disabled="disabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
-        ref="input"
+        ref="instance"
         @input="$emit('input', $event.target.value)"
         @change="$emit('change', $event.target.value)"
       >
+      <div class="lake-field-error-text" v-if="error">{{ errorText }}</div>
     </div>
     <slot name="extra"></slot>
   </div>
 </template>
 
 <script>
+import fieldMixin from '../../mixins/field';
+
 export default {
   name: 'lake-field',
-  model: {
-    prop: 'value',
-  },
+  mixins: [fieldMixin],
   props: {
-    value: {
-      type: String,
-    },
-    id: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    type: {
-      type: String,
-      default: 'text',
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-    autocomplete: {
-      type: Boolean,
-      default: false,
-    },
     align: {
       type: String,
       default: 'left',
       validator(align) {
         return ['left', 'center', 'right'].includes(align);
       },
-    },
-  },
-  methods: {
-    focus() {
-      this.$refs.input.focus();
-    },
-    blur() {
-      this.$refs.input.blur();
     },
   },
 };

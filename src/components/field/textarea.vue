@@ -16,7 +16,7 @@
         :readonly="readonly"
         :autocomplete="autocomplete"
         :rows="rows"
-        ref="textarea"
+        ref="instance"
         @input="onInput"
         @change="$emit('change', $event.target.value)"
       ></textarea>
@@ -24,48 +24,18 @@
         <span :class="wordLength > count ? 'lake-field-count-error' : ''">{{ wordLength }}</span>
         / {{ count }}
       </div>
+      <div class="lake-field-error-text" v-if="error">{{ errorText }}</div>
     </div>
   </div>
 </template>
 
 <script>
+import fieldMixin from '../../mixins/field';
+
 export default {
   name: 'lake-textarea',
-  model: {
-    prop: 'value',
-  },
+  mixins: [fieldMixin],
   props: {
-    value: {
-      type: String,
-    },
-    id: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    type: {
-      type: String,
-      default: 'text',
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-    autocomplete: {
-      type: Boolean,
-      default: false,
-    },
     autosize: {
       type: Boolean,
       default: true,
@@ -91,22 +61,16 @@ export default {
     this.autosize && this.$nextTick().then(() => this.adjustSize());
   },
   methods: {
-    focus() {
-      this.$refs.textarea.focus();
-    },
-    blur() {
-      this.$refs.textarea.blur();
-    },
     onInput($event) {
       this.$emit('input', $event.target.value);
       this.autosize && this.adjustSize();
     },
     adjustSize() {
-      const { textarea } = this.$refs;
+      const { instance } = this.$refs;
 
-      textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight}px`;
-      textarea.style.overflowY = 'hidden';
+      instance.style.height = 'auto';
+      instance.style.height = `${instance.scrollHeight}px`;
+      instance.style.overflowY = 'hidden';
     },
   },
   watch: {

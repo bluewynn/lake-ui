@@ -8,9 +8,7 @@
 ## Form
 
 - [x] Field
-- - [ ] change name to TextField
 - - [ ] clear button
-- - [ ] helper text
 - [x] TextArea
 
 ## Display

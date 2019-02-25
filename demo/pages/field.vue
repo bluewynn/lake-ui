@@ -1,5 +1,5 @@
 <template>
-  <page-view title="Field">
+  <page-view title="Field & Textarea">
     <div class="demo-section">
       <header class="header">Basic</header>
       <div class="body no-side-padding">
@@ -18,6 +18,12 @@
         <lake-field v-model="readonlyField" placeholder="控制只读" label="标题"></lake-field>
         <lake-field v-model="readonlyField" placeholder="请输入文本（只读）" label="标题" :readonly="true"></lake-field>
         <lake-field v-model="disabledField" placeholder="请输入文本（禁用）" label="标题" :disabled="true"></lake-field>
+      </div>
+    </div>
+    <div class="demo-section">
+      <header class="header">Field with error text</header>
+      <div class="body no-side-padding">
+        <lake-field placeholder="请输入文本" label="标题" :error="true" error-text="标题不能为空"></lake-field>
       </div>
     </div>
     <div class="demo-section">
@@ -49,6 +55,12 @@
       <header class="header">Textarea with autosize</header>
       <div class="body no-side-padding">
         <lake-textarea v-model="textareaAutosize" :autosize="true" placeholder="请输入文本（高度自适应）"></lake-textarea>
+      </div>
+    </div>
+    <div class="demo-section">
+      <header class="header">Textarea with error tips</header>
+      <div class="body no-side-padding">
+        <lake-textarea placeholder="请输入文本" label="标题" :error="true" error-text="标题不能为空"></lake-textarea>
       </div>
     </div>
   </page-view>
