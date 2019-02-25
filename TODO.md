@@ -46,4 +46,5 @@
 ## Development
 
 - [x] Hot Reload
-- [ ] Git hook pre commit auto fix eslint issue
+- [x] Git hook pre commit lint by eslint
+- [ ] yarn:build UI

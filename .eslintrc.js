@@ -10,7 +10,12 @@ module.exports = {
   extends: ['airbnb-base', 'prettier', 'plugin:vue/essential'],
   plugins: ['vue', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
     // 单行最大代码长度
     'max-len': [
       'error',

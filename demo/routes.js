@@ -1,111 +1,91 @@
-import home from './pages/home.vue';
-import flex from './pages/flex.vue';
-import button from './pages/button.vue';
-import tabBar from './pages/tab-bar.vue';
-import toast from './pages/toast.vue';
-import noticeBar from './pages/notice-bar.vue';
-import pagination from './pages/pagination.vue';
-import list from './pages/list.vue';
-import carousel from './pages/carousel.vue';
-import modal from './pages/modal.vue';
-import actionSheet from './pages/actionsheet.vue';
-import searchBar from './pages/search-bar.vue';
-import tabs from './pages/tabs.vue';
-import tag from './pages/tag.vue';
-import popover from './pages/popover.vue';
-import imageUpload from './pages/image-upload.vue';
-import field from './pages/field.vue';
-import badge from './pages/badge.vue';
-import progress from './pages/progress.vue';
-
 import { upperFirst } from './common/util';
 
 const routes = [
   {
     path: '',
-    component: home,
+    component: () => import('./pages/home.vue'),
   },
   {
     path: '/flex',
-    component: flex,
+    component: () => import('./pages/flex.vue'),
   },
   {
     path: '/button',
-    component: button,
+    component: () => import('./pages/button.vue'),
   },
   {
     path: '/tab-bar',
-    component: tabBar,
+    component: () => import('./pages/tab-bar.vue'),
   },
   {
     path: '/toast',
-    component: toast,
+    component: () => import('./pages/toast.vue'),
   },
   {
     path: '/notice-bar',
-    component: noticeBar,
+    component: () => import('./pages/notice-bar.vue'),
   },
   {
     path: '/pagination',
-    component: pagination,
+    component: () => import('./pages/pagination.vue'),
   },
   {
     path: '/list',
-    component: list,
+    component: () => import('./pages/list.vue'),
   },
   {
     path: '/carousel',
-    component: carousel,
+    component: () => import('./pages/carousel.vue'),
   },
   {
     path: '/modal',
-    component: modal,
+    component: () => import('./pages/modal.vue'),
   },
   {
     path: '/action-sheet',
-    component: actionSheet,
+    component: () => import('./pages/actionsheet.vue'),
   },
   {
     path: '/search-bar',
-    component: searchBar,
+    component: () => import('./pages/search-bar.vue'),
   },
   {
     path: '/tabs',
-    component: tabs,
+    component: () => import('./pages/tabs.vue'),
   },
   {
     path: '/tag',
-    component: tag,
+    component: () => import('./pages/tag.vue'),
   },
   {
     path: '/popover',
-    component: popover,
+    component: () => import('./pages/popover.vue'),
   },
   {
     path: '/image-upload',
-    component: imageUpload,
+    component: () => import('./pages/image-upload.vue'),
   },
   {
     path: '/field',
-    component: field,
+    component: () => import('./pages/field.vue'),
   },
   {
     path: '/badge',
-    component: badge,
+    component: () => import('./pages/badge.vue'),
   },
   {
     path: '/progress',
-    component: progress,
+    component: () => import('./pages/progress.vue'),
   },
   {
     path: '*',
-    component: home,
+    component: () => import('./pages/home.vue'),
   },
 ];
 
 routes.forEach(route => {
   route.meta = {
-    title: upperFirst(route.component.name.replace('page-', '')),
+    title: upperFirst(route.path.replace('/', '')),
   };
 });
 
