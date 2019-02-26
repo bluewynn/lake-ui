@@ -1,12 +1,7 @@
 <template>
   <transition name="fade">
     <div class="popup">
-      <div
-        class="mask"
-        :class="mask ? '' : 'mask-transparent'"
-        @touchmove.prevent
-        @click="onClickMask"
-      >
+      <div class="mask" :class="mask ? '' : 'mask-transparent'" @touchmove.prevent @click="onClickMask">
         <slot></slot>
       </div>
     </div>
@@ -37,6 +32,7 @@ export default {
   .mask {
     position: fixed;
     width: 100%;
+    height: 100%;
     left: 0;
     top: 0;
     bottom: 0;

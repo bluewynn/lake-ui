@@ -14,7 +14,8 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.js --open",
     "demo-dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js --open",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
-    "demo-build": "cross-env NODE_ENV=production webpack --config build/webpack.demo.js"
+    "demo-build": "cross-env NODE_ENV=production webpack --config build/webpack.demo.js",
+    "format-code": "prettier --write src/**/*.vue,src/**/*.js"
   },
   "engines": {
     "node": ">=8.11.4",
@@ -27,7 +28,7 @@
   },
   "lint-staged": {
     "*.{js,vue}": [
-      "eslint",
+      "prettier --write",
       "git add"
     ]
   },

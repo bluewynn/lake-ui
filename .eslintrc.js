@@ -7,8 +7,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ['airbnb-base', 'prettier', 'plugin:vue/essential'],
-  plugins: ['vue', 'prettier'],
+  extends: ['airbnb-base', 'plugin:prettier/recommended', 'plugin:vue/essential'],
   rules: {
     'prettier/prettier': [
       'error',

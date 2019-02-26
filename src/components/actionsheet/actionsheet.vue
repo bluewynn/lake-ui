@@ -1,9 +1,9 @@
 <template>
   <div>
-    <popup @click-mask="onCancel" v-if="show"></popup>
-    <div class="lake-actionsheet">
-      <transition name="slide">
-        <div class="lake-actionsheet-wrapper" v-if="show">
+    <lake-mask :show="show" :lock-scroll="true" @click="onCancel" />
+    <transition name="slide">
+      <div class="lake-actionsheet" v-if="show">
+        <div class="lake-actionsheet-wrapper">
           <div class="lake-actionsheet-title" v-if="title">
             <slot name="title">{{ title }}</slot>
           </div>
@@ -16,28 +16,27 @@
                 @click.prevent.stop="onItemSelect(item)"
               >
                 <div class="lake-actionsheet-item-name">{{ item.name }}</div>
-                <div class="lake-actionsheet-subitem-name" v-if="item.subName">{{ item.subName}}</div>
+                <div class="lake-actionsheet-subitem-name" v-if="item.subName">{{ item.subName }}</div>
               </div>
             </slot>
           </section>
           <div class="lake-actionsheet-operation" v-if="showCancelBtn">
-            <button
-              class="lake-actionsheet-operation-cancel"
-              @click.prevent.stop="onCancel"
-            >{{ cancelBtnText }}</button>
+            <button class="lake-actionsheet-operation-cancel" @click.prevent.stop="onCancel">
+              {{ cancelBtnText }}
+            </button>
           </div>
         </div>
-      </transition>
-    </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import popup from '../popup';
+import lakeMask from '../mask';
 
 export default {
   name: 'lake-actionsheet',
-  components: { popup },
+  components: { lakeMask },
   props: {
     show: {
       type: Boolean,
@@ -91,12 +90,10 @@ export default {
   left: 0;
   bottom: 0;
   width: 100%;
-
   &-wrapper {
     background-color: @color-bg-body;
     overflow: hidden;
   }
-
   &-title {
     position: relative;
     text-align: center;
@@ -159,20 +156,9 @@ export default {
   opacity: 0;
 }
 .slide-enter-active {
-  animation: 0.2s ease slide 0.2s;
+  animation: 0.2s linear slide 0.2s;
 }
 .slide-leave-active {
-  animation: 0.2s ease slide 0.2s reverse;
-}
-
-@keyframes slide {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
+  animation: 0.2s linear slide 0.2s reverse;
 }
 </style>

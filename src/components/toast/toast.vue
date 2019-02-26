@@ -1,28 +1,35 @@
 <template>
-  <popup :mask="false">
-    <div class="lake-toast">
-      <div class="lake-toast-wrapper">
-        <div class="lake-toast-inline">
-          <div class="lake-toast-content" :class="[position, type]">
-            <slot name="icon"></slot>
-            {{ msg }}
+  <div>
+    <lake-mask :show="show" :transparent="true" />
+    <transition name="fade">
+      <div class="lake-toast" v-if="show">
+        <div class="lake-toast-wrapper">
+          <div class="lake-toast-inline">
+            <div class="lake-toast-content" :class="[position, type]">
+              <slot name="icon"></slot>
+              {{ msg }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </popup>
+    </transition>
+  </div>
 </template>
 
 <script>
-import popup from '../popup';
+import lakeMask from '../mask';
 
 const TOAST_MODES = ['success', 'loading', 'error', 'text'];
 const TOAST_POSITION = ['top', 'middle', 'bottom'];
 
 export default {
   name: 'lake-toast',
-  components: { popup },
+  components: { lakeMask },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     msg: {
       type: String,
       default: '',
@@ -92,10 +99,13 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.1s;
+  transition: opacity 0.4s ease;
 }
 .fade-enter,
-.fade-leave-to {
+.fade-leave-active {
   opacity: 0;
+}
+.fade-leave-active {
+  display: none;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <popup @click-mask="onMaskClick" v-if="show"></popup>
-    <div class="lake-modal">
-      <transition name="zoom-in">
-        <div class="lake-modal-wrapper" v-if="show">
+    <lake-mask :show="show" :lock-scroll="lockScroll" @click="onMaskClick" />
+    <transition name="zoom-in">
+      <div class="lake-modal" v-if="show">
+        <div class="lake-modal-wrapper">
           <div class="lake-modal-title" v-if="title">
             <slot name="title">{{ title }}</slot>
           </div>
@@ -14,30 +14,26 @@
           </section>
           <div class="lake-modal-operation" v-if="showConfirmBtn || showCancelBtn">
             <slot name="operation">
-              <button
-                class="lake-modal-operation-confirm"
-                @click.prevent.stop="onConfirm"
-                v-if="showConfirmBtn"
-              >{{ confirmBtnText }}</button>
-              <button
-                class="lake-modal-operation-cancel"
-                @click.prevent.stop="onCancel"
-                v-if="showCancelBtn"
-              >{{ cancelBtnText }}</button>
+              <button class="lake-modal-operation-confirm" @click.prevent.stop="onConfirm" v-if="showConfirmBtn">
+                {{ confirmBtnText }}
+              </button>
+              <button class="lake-modal-operation-cancel" @click.prevent.stop="onCancel" v-if="showCancelBtn">
+                {{ cancelBtnText }}
+              </button>
             </slot>
           </div>
         </div>
-      </transition>
-    </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import popup from '../popup';
+import lakeMask from '../mask';
 
 export default {
   name: 'lake-modal',
-  components: { popup },
+  components: { lakeMask },
   props: {
     show: {
       type: Boolean,
@@ -50,6 +46,10 @@ export default {
     msg: {
       type: String,
       default: '',
+    },
+    lockScroll: {
+      type: Boolean,
+      default: true,
     },
     showConfirmBtn: {
       type: Boolean,
@@ -89,18 +89,27 @@ export default {
 @import '../../style/common/mixins.less';
 
 .lake-modal {
-  left: 50%;
-  top: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  z-index: 999;
+  outline: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(1px);
+  -webkit-overflow-scrolling: touch;
   &-wrapper {
     background-color: @color-bg-base;
+    max-width: 300px;
     min-width: 280px;
     border-radius: 6px;
     overflow: hidden;
   }
-
   &-title {
     text-align: center;
     padding: 20px 15px 5px;
@@ -153,16 +162,5 @@ export default {
 }
 .zoom-in-leave-active {
   animation: zoomIn 0.2s reverse;
-}
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale3d(0.8, 0.8, 0.8);
-  }
-
-  50% {
-    opacity: 1;
-  }
 }
 </style>

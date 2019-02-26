@@ -58,10 +58,6 @@ const routes = [
     component: () => import('./pages/tag.vue'),
   },
   {
-    path: '/popover',
-    component: () => import('./pages/popover.vue'),
-  },
-  {
     path: '/image-upload',
     component: () => import('./pages/image-upload.vue'),
   },

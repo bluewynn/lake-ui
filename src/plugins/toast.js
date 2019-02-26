@@ -6,6 +6,7 @@ export default {
     let timer = null;
     const ToastConstructor = Vue.extend(toast);
     const defaultOptions = {
+      show: false,
       msg: '',
       type: 'text',
       position: 'middle',
@@ -34,13 +35,17 @@ export default {
       Object.assign(instance, payload);
 
       document.body.appendChild(instance.$el);
+      instance.show = true;
 
       return new Promise(resolve => {
         timer = setTimeout(() => {
-          document.body.removeChild(instance.$el);
-          instance = null;
-          resolve();
-          successCb && successCb();
+          instance.show = false;
+          instance.$nextTick().then(() => {
+            document.body.removeChild(instance.$el);
+            instance = null;
+            resolve();
+            successCb && successCb();
+          });
         }, payload.duration);
       });
     };
