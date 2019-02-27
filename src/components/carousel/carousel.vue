@@ -1,6 +1,6 @@
 <template>
   <div class="lake-carousel">
-    <div class="lake-carousel-wrapper">
+    <div class="lake-carousel-wrapper" :style="{ overflow: !transparentSide ? 'hidden' : 'initial' }">
       <div
         class="lake-carousel-inner"
         :style="{
@@ -9,19 +9,15 @@
           width: `${carouselWidth}px`,
           height: `${carouselMinHeight}px`,
         }"
-        @transitionend="onTransitionEnd"
+        @transitionend.stop
       >
         <slot></slot>
       </div>
     </div>
-    <div
-      class="lake-carousel-indicators"
-      :style="indicatorContainerStyle"
-      v-if="indicate && carouselItemCount > 1"
-    >
+    <div class="lake-carousel-indicators" :style="indicatorContainerStyle" v-if="indicate && carouselItemCount > 1">
       <div
         class="lake-carousel-indicator"
-        :class="currentCarouselItemIndex + 1 === n ? 'active' : ''"
+        :class="[currentCarouselItemIndex + 1 === n ? 'active' : '']"
         v-for="n in carouselItemCount"
         :key="n"
         @click.prevent="moveToPage(n - 1)"
@@ -29,19 +25,24 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: 'lake-carousel',
   props: {
-    auto: {
-      type: Boolean,
-      default: false,
+    width: {
+      type: Number,
+      default: 0,
+    },
+    height: {
+      type: Number,
+      default: 0,
     },
     indicate: {
       type: Boolean,
-      default: false,
+      default: true,
     },
-    loop: {
+    auto: {
       type: Boolean,
       default: false,
     },
@@ -53,9 +54,9 @@ export default {
       type: Number,
       default: 50,
     },
-    rate: {
-      type: Number,
-      default: 190 / 375,
+    transparentSide: {
+      type: Boolean,
+      default: false,
     },
     indicatorContainerStyle: Object,
   },
@@ -68,10 +69,15 @@ export default {
       currentCarouselItemIndex: 0,
       carouselItemCount: 0,
       dragOffsetX: 0,
+      dragOffsetY: 0,
       dragStartX: 0,
+      dragStartY: 0,
       currentOffsetX: 0,
+      currentOffsetY: 0,
       currentStartOffsetX: 0,
+      currentStartOffsetY: 0,
       isDragging: false,
+      isScrolling: false,
       isAnimating: false,
       timerId: null,
     };
@@ -83,9 +89,11 @@ export default {
       this.$el.addEventListener('touchstart', this.onTouchStart);
       this.$el.addEventListener('touchmove', this.onTouchMove);
       this.$el.addEventListener('touchend', this.onTouchEnd);
+      this.$el.addEventListener('touchcancel', this.onTouchEnd);
 
       this.adjustCarouselSize();
       this.startInterval();
+      this.setActiveCarouselItem(0);
     });
   },
   destroyed() {
@@ -94,6 +102,7 @@ export default {
     this.$el.removeEventListener('touchstart', this.onTouchStart);
     this.$el.removeEventListener('touchmove', this.onTouchMove);
     this.$el.removeEventListener('touchend', this.onTouchEnd);
+    this.$el.removeEventListener('touchcancel', this.onTouchEnd);
   },
   computed: {
     prevPage() {
@@ -118,11 +127,8 @@ export default {
     },
   },
   watch: {
-    currentOffsetX(currentOffsetX) {
-      if (currentOffsetX > this.currentStartOffsetX) {
-      } else if (currentOffsetX < this.currentStartOffsetX) {
-      } else {
-      }
+    currentCarouselItemIndex(index) {
+      this.setActiveCarouselItem(index);
     },
   },
   methods: {
@@ -144,14 +150,14 @@ export default {
       }
     },
     adjustCarouselSize() {
-      this.containerWidth = this.$el.clientWidth || document.body.clientWidth;
+      this.containerWidth = this.width || (this.$el && this.$el.clientWidth) || 0;
       this.carouselItemCount =
         (this.$slots &&
           this.$slots.default &&
           this.$slots.default.filter(slot => slot.tag && slot.tag.indexOf('lake-carousel-item') > -1).length) ||
         0;
       this.carouselWidth = this.containerWidth * this.carouselItemCount;
-      this.carouselMinHeight = this.containerWidth * this.rate;
+      this.carouselMinHeight = this.height || (this.$el && this.$el.clientHeight) || 0;
     },
     onTouchStart(e) {
       if (!e.touches) {
@@ -159,17 +165,36 @@ export default {
       }
       if (this.isDragging) return;
 
+      this.isAnimating = false;
+      this.dragOffsetX = 0;
+
       this.stopInterval();
       this.isDragging = true;
+      this.isScrolling = false;
       this.dragStartX = e.touches[0].clientX;
+      this.dragStartY = e.touches[0].clientY;
       this.currentStartOffsetX = this.currentOffsetX;
+      this.currentStartOffsetY = this.currentOffsetY;
     },
     onTouchMove(e) {
       if (!this.isDragging) return;
 
-      const { clientX } = e.touches[0];
+      const { clientX, clientY } = e.touches[0];
       const dragOffsetX = this.dragStartX - clientX;
+      const dragOffsetY = this.dragStartY - clientY;
       const currentOffsetX = this.currentStartOffsetX - this.dragOffsetX;
+
+      // 用户在滚动页面
+      if (
+        Math.abs(dragOffsetX) < 5 ||
+        (Math.abs(dragOffsetX) >= 5 && Math.abs(dragOffsetY) >= 1.73 * Math.abs(dragOffsetX))
+      ) {
+        this.isScrolling = true;
+        return;
+      }
+
+      this.isScrolling = false;
+      e.preventDefault();
 
       if (currentOffsetX > this.maxOffset) {
         this.currentOffsetX = this.maxOffset;
@@ -181,31 +206,41 @@ export default {
       }
     },
     onTouchEnd() {
+      if (this.isScrolling) {
+        this.isDragging = false;
+        return;
+      }
+
       if (!this.isDragging) return;
 
       this.isDragging = false;
       this.isAnimating = true;
 
       if (this.dragOffsetX > this.swipeDistance) {
+        // 左滑
         this.moveToPage(this.nextPage);
       } else if (this.dragOffsetX < -this.swipeDistance) {
+        // 右滑
         this.moveToPage(this.prevPage);
       } else {
+        // 复位
         this.moveToPage(this.currentCarouselItemIndex);
       }
 
       this.startInterval();
     },
-    onTransitionEnd() {
-      this.isAnimating = false;
-      this.dragOffsetX = 0;
-    },
     moveToPage(page) {
       this.currentCarouselItemIndex = page;
       this.currentOffsetX = this.currentCarouselItemIndex * this.containerWidth * -1;
       this.isAnimating = true;
-
       this.$emit('change', this.currentCarouselItemIndex);
+    },
+    setActiveCarouselItem(index) {
+      if (this.transparentSide && this.$children && this.$children.length) {
+        this.$children.forEach(($vm, i) => {
+          $vm.active = index === i;
+        });
+      }
     },
   },
 };
@@ -217,17 +252,22 @@ export default {
   &-wrapper {
     width: 100%;
     position: relative;
-    overflow: hidden;
   }
   &-inner {
     display: flex;
     align-items: flex-start;
     flex-direction: row;
+    backface-visibility: hidden;
   }
   &-item {
     position: relative;
     flex: 1;
     user-select: none;
+    transition: opacity ease 0.2s;
+    opacity: 0.75;
+  }
+  &-item.active {
+    opacity: 1;
   }
   &-indicators {
     position: absolute;
@@ -236,16 +276,14 @@ export default {
     transform: translateX(-50%);
   }
   &-indicator {
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
     display: inline-block;
     border-radius: 100%;
-    background-color: rgba(134, 134, 134, 0.8);
+    background-color: #b3b1b1;
     margin: 0 3px;
-    border: 1px solid transparent;
     &.active {
       background-color: #fff;
-      border: 1px solid rgba(134, 134, 134, 0.8);
     }
   }
 }

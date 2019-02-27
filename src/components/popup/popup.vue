@@ -1,17 +1,27 @@
 <template>
-  <transition name="fade">
-    <div class="popup">
-      <div class="mask" :class="mask ? '' : 'mask-transparent'" @touchmove.prevent @click="onClickMask">
+  <div>
+    <lake-mask :show="show" :transparent="false" @click="onClickMask" />
+    <transition name="lake-fade">
+      <div class="lake-popup" v-if="show">
         <slot></slot>
       </div>
-    </div>
-  </transition>
+    </transition>
+  </div>
 </template>
 
 <script>
+import lakeMask from '../mask';
+
 export default {
   name: 'lake-popup',
+  components: {
+    lakeMask,
+  },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     mask: {
       type: Boolean,
       default: true,
@@ -25,31 +35,23 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import '../../style/themes/default.less';
-
-.popup {
-  .mask {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    background-color: @color-bg-mask;
-    &-transparent {
-      background-color: transparent;
-    }
-  }
+<style lang="less" scoped>
+.lake-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-height: 100%;
+  transition: 0.3s ease-out;
+  -webkit-overflow-scrolling: touch;
+  transform: translate3d(-50%, -50%, 0);
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+.lake-fade-enter-active,
+.lake-fade-leave-active {
+  transition: opacity 0.3s;
 }
-.fade-enter,
-.fade-leave-to {
+.lake-fade-enter,
+.lake-fade-leave-to {
   opacity: 0;
 }
 </style>
