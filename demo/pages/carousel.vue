@@ -3,9 +3,9 @@
     <div class="demo-section">
       <header class="header">Basic</header>
       <div class="body">
-        <lake-carousel>
-          <lake-carousel-item v-for="(item, index) in items" :key="index">
-            <div class="fake-carousel-item" :style="{ backgroundColor: item.bgColor }">{{ index }}</div>
+        <lake-carousel class="fake-carousel">
+          <lake-carousel-item class="fake-carousel-item" v-for="(item, index) in items" :key="index">
+            <div :style="{ backgroundColor: item.bgColor }">{{ index }}</div>
           </lake-carousel-item>
         </lake-carousel>
       </div>
@@ -14,9 +14,9 @@
     <div class="demo-section">
       <header class="header">With dot</header>
       <div class="body">
-        <lake-carousel :indicate="true">
-          <lake-carousel-item v-for="(item, index) in items" :key="index">
-            <div class="fake-carousel-item" :style="{ backgroundColor: item.bgColor }">{{ index }}</div>
+        <lake-carousel class="fake-carousel" :indicate="true">
+          <lake-carousel-item class="fake-carousel-item" v-for="(item, index) in items" :key="index">
+            <div :style="{ backgroundColor: item.bgColor }">{{ index }}</div>
           </lake-carousel-item>
         </lake-carousel>
       </div>
@@ -25,9 +25,9 @@
     <div class="demo-section">
       <header class="header">Auto</header>
       <div class="body">
-        <lake-carousel :auto="true">
-          <lake-carousel-item v-for="(item, index) in items" :key="index">
-            <div class="fake-carousel-item" :style="{ backgroundColor: item.bgColor }">{{ index }}</div>
+        <lake-carousel class="fake-carousel" :auto="true">
+          <lake-carousel-item class="fake-carousel-item" v-for="(item, index) in items" :key="index">
+            <div :style="{ backgroundColor: item.bgColor }">{{ index }}</div>
           </lake-carousel-item>
         </lake-carousel>
       </div>
@@ -36,9 +36,9 @@
     <div class="demo-section">
       <header class="header">Loop</header>
       <div class="body">
-        <lake-carousel :loop="true">
-          <lake-carousel-item v-for="(item, index) in items" :key="index">
-            <div class="fake-carousel-item" :style="{ backgroundColor: item.bgColor }">{{ index }}</div>
+        <lake-carousel class="fake-carousel" :loop="true">
+          <lake-carousel-item class="fake-carousel-item" v-for="(item, index) in items" :key="index">
+            <div :style="{ backgroundColor: item.bgColor }">{{ index }}</div>
           </lake-carousel-item>
         </lake-carousel>
       </div>
@@ -63,12 +63,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.fake-carousel-item {
+.fake-carousel {
   height: 180px;
-  font-size: 28px;
-  line-height: 180px;
-  color: #fff;
-  text-align: center;
-  border: 1px solid #eee;
+  &-item {
+    font-size: 28px;
+    height: 180px;
+    line-height: 180px;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #eee;
+  }
 }
 </style>
