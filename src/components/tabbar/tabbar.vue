@@ -1,7 +1,5 @@
 <template>
-  <div class="tab-bar" :class="[
-      `fixed-${position}`,
-    ]" v-show="show">
+  <div class="lake-tabbar" :class="`fixed-${position}`" v-show="show">
     <slot></slot>
   </div>
 </template>
@@ -10,7 +8,7 @@
 const TAB_POSITIONS = ['top', 'bottom'];
 
 export default {
-  name: 'lake-tab-bar',
+  name: 'lake-tabbar',
   props: {
     selected: {
       type: String,
@@ -52,23 +50,32 @@ export default {
 
 @color-primary: #007bff;
 
-.tab-bar {
+.lake-tabbar {
   display: flex;
   align-items: center;
   align-content: center;
   justify-content: center;
   width: 100%;
-  min-height: 45px;
+  min-height: 50px;
   background-color: #fff;
   .border-1px-top();
   .border-1px-bottom();
+  &-item {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: #333;
+    transition: color 0.2s;
+    &.active {
+      color: @color-primary;
+    }
+  }
   &.popup {
     animation: popup 0.2s;
   }
   &.popin {
     animation: popin 0.2s;
   }
-
   &.fixed-bottom {
     position: fixed;
     left: 0;
@@ -79,17 +86,6 @@ export default {
     position: relative;
     z-index: 1;
   }
-  .tab-bar-item {
-    flex: 1;
-    text-align: center;
-    font-size: 13px;
-    color: #333;
-    transition: color 0.2s;
-    &.active {
-      color: @color-primary;
-    }
-  }
-
   @keyframes popup {
     from {
       transform: translate3d(0, 45px, 0);

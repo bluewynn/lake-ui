@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-bar-item" :class="{ 'active': active }" @click="onClick">
+  <div class="lake-tabbar-item" :class="active ? 'active' : ''" @click="onClick">
     <slot name="icon"></slot>
     <slot>
       <div>{{ text }}</div>
@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'lake-tab-bar-item',
+  name: 'lake-tabbar-item',
   props: {
     text: {
       type: String,

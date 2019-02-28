@@ -14,8 +14,8 @@ const routes = [
     component: () => import('./pages/button.vue'),
   },
   {
-    path: '/tab-bar',
-    component: () => import('./pages/tab-bar.vue'),
+    path: '/tabbar',
+    component: () => import('./pages/tabbar.vue'),
   },
   {
     path: '/toast',

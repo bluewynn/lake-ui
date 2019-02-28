@@ -1,7 +1,7 @@
 <template>
   <div>
     <lake-mask :show="show" :transparent="true" />
-    <transition name="fade">
+    <transition name="lake-fade">
       <div class="lake-toast" v-if="show">
         <div class="lake-toast-wrapper">
           <div class="lake-toast-inline">
@@ -86,6 +86,7 @@ export default {
       top: 10%;
     }
     &.bottom {
+      top: initial;
       bottom: 10%;
     }
   }
@@ -97,15 +98,15 @@ export default {
   }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s ease;
+.lake-fade-enter-active,
+.lake-fade-leave-active {
+  transition: opacity 0.5s ease;
 }
-.fade-enter,
-.fade-leave-active {
+.lake-fade-enter,
+.lake-fade-leave-active {
   opacity: 0;
 }
-.fade-leave-active {
+.lake-fade-leave-active {
   display: none;
 }
 </style>

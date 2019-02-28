@@ -5,7 +5,7 @@ import noticeBar from './components/notice-bar';
 import { carousel, carouselItem } from './components/carousel';
 import pagination from './components/pagination';
 import button from './components/button';
-import { tabBar, tabBarItem } from './components/tab-bar';
+import { tabbar, tabbarItem } from './components/tabbar';
 import toast from './components/toast';
 import list from './components/list';
 import pullRefresh from './components/pull-refresh';
@@ -29,8 +29,8 @@ export {
   carouselItem,
   pagination,
   button,
-  tabBar,
-  tabBarItem,
+  tabbar,
+  tabbarItem,
   toast,
   list,
   pullRefresh,

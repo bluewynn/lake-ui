@@ -10,7 +10,7 @@ export default {
       msg: '',
       type: 'text',
       position: 'middle',
-      duration: 3000,
+      duration: 1000,
     };
 
     const formatOptions = options => {

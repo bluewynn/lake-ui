@@ -4,8 +4,12 @@
       <header class="header">Basic</header>
       <div class="body">
         <lake-button @click="showText">basic</lake-button>
-        <br>
+        <br />
         <lake-button @click="showTextResolve">resolve</lake-button>
+        <br />
+        <lake-button @click="showTextWithPos('top')">top</lake-button>
+        <br />
+        <lake-button @click="showTextWithPos('bottom')">bottom</lake-button>
       </div>
     </div>
   </page-view>
@@ -32,6 +36,9 @@ export default {
       this.$toast('设计师完全有其他形式代替Toast，达到更优雅的用户体验。').then(() => {
         this.$toast('没错');
       });
+    },
+    showTextWithPos(position) {
+      this.$toast({ msg: '顶部信息', position: position });
     },
   },
 };
