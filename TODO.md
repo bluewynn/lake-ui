@@ -4,6 +4,7 @@
 
 - [x] Button
 - [x] Flex
+- [x] Popup
 
 ## Form
 
@@ -39,9 +40,15 @@
 - - [ ] multiple tabs
 - - [ ] swipe panel
 - - [ ] disabled animated
+- [x] Pagination
 
 ## Development
 
 - [x] Hot Reload
 - [x] Git hook pre commit lint by eslint
 - [ ] yarn:build UI
+
+## Demo
+
+- [x] add Home page
+- [ ] add progress bar

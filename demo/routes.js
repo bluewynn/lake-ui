@@ -1,92 +1,122 @@
-import { upperFirst } from './common/util';
+import { upperFirst, camelCase } from './common/util';
 
 const routes = [
   {
     path: '',
     component: () => import('./pages/home.vue'),
   },
+
+  /* Basic */
   {
     path: '/flex',
     component: () => import('./pages/flex.vue'),
+    meta: { group: 'Basic' },
   },
   {
     path: '/button',
     component: () => import('./pages/button.vue'),
-  },
-  {
-    path: '/tabbar',
-    component: () => import('./pages/tabbar.vue'),
-  },
-  {
-    path: '/toast',
-    component: () => import('./pages/toast.vue'),
-  },
-  {
-    path: '/notice-bar',
-    component: () => import('./pages/notice-bar.vue'),
-  },
-  {
-    path: '/pagination',
-    component: () => import('./pages/pagination.vue'),
-  },
-  {
-    path: '/list',
-    component: () => import('./pages/list.vue'),
-  },
-  {
-    path: '/carousel',
-    component: () => import('./pages/carousel.vue'),
-  },
-  {
-    path: '/modal',
-    component: () => import('./pages/modal.vue'),
-  },
-  {
-    path: '/action-sheet',
-    component: () => import('./pages/actionsheet.vue'),
-  },
-  {
-    path: '/search-bar',
-    component: () => import('./pages/search-bar.vue'),
-  },
-  {
-    path: '/tabs',
-    component: () => import('./pages/tabs.vue'),
-  },
-  {
-    path: '/tag',
-    component: () => import('./pages/tag.vue'),
-  },
-  {
-    path: '/image-upload',
-    component: () => import('./pages/image-upload.vue'),
-  },
-  {
-    path: '/field',
-    component: () => import('./pages/field.vue'),
-  },
-  {
-    path: '/badge',
-    component: () => import('./pages/badge.vue'),
-  },
-  {
-    path: '/progress',
-    component: () => import('./pages/progress.vue'),
+    meta: { group: 'Basic' },
   },
   {
     path: '/popup',
     component: () => import('./pages/popup.vue'),
+    meta: { group: 'Popup' },
   },
+
+  /* Form */
+  {
+    path: '/field',
+    component: () => import('./pages/field.vue'),
+    meta: { group: 'Form' },
+  },
+  {
+    path: '/image-upload',
+    component: () => import('./pages/image-upload.vue'),
+    meta: { group: 'Form' },
+  },
+
+  /* Display */
+  {
+    path: '/carousel',
+    component: () => import('./pages/carousel.vue'),
+    meta: { group: 'Display' },
+  },
+  {
+    path: '/list',
+    component: () => import('./pages/list.vue'),
+    meta: { group: 'Display' },
+  },
+  {
+    path: '/notice-bar',
+    component: () => import('./pages/notice-bar.vue'),
+    meta: { group: 'Display' },
+  },
+  {
+    path: '/badge',
+    component: () => import('./pages/badge.vue'),
+    meta: { group: 'Display' },
+  },
+  {
+    path: '/search-bar',
+    component: () => import('./pages/search-bar.vue'),
+    meta: { group: 'Display' },
+  },
+  {
+    path: '/tag',
+    component: () => import('./pages/tag.vue'),
+    meta: { group: 'Display' },
+  },
+
+  /* Feedback */
+  {
+    path: '/toast',
+    component: () => import('./pages/toast.vue'),
+    meta: { group: 'Feedback' },
+  },
+  {
+    path: '/modal',
+    component: () => import('./pages/modal.vue'),
+    meta: { group: 'Feedback' },
+  },
+  {
+    path: '/action-sheet',
+    component: () => import('./pages/actionsheet.vue'),
+    meta: { group: 'Feedback' },
+  },
+  {
+    path: '/progress',
+    component: () => import('./pages/progress.vue'),
+    meta: { group: 'Feedback' },
+  },
+
+  /* Navigation */
+  {
+    path: '/tabbar',
+    component: () => import('./pages/tabbar.vue'),
+    meta: { group: 'Navigation' },
+  },
+  {
+    path: '/tabs',
+    component: () => import('./pages/tabs.vue'),
+    meta: { group: 'Navigation' },
+  },
+  {
+    path: '/pagination',
+    component: () => import('./pages/pagination.vue'),
+    meta: { group: 'Navigation' },
+  },
+
   {
     path: '*',
     redirect: '/',
   },
 ];
 
+// add route's name and route's page title
 routes.forEach(route => {
-  route.meta = {
-    title: upperFirst(route.path.replace('/', '')),
-  };
+  route.name = upperFirst(camelCase(route.path.replace('/', '')));
+  route.meta = route.meta || {};
+  route.meta.title = upperFirst(route.path.replace('/', ''));
 });
 
 export default routes;
