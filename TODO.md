@@ -17,7 +17,6 @@
 - - [ ] loop
 - [x] List
 - [x] PullRefresh
-- - [ ] touchstart delay issue
 - [x] NoticeBar
 - - [ ] icon
 - [ ] Badge
@@ -28,8 +27,6 @@
 ## Feedback
 
 - [x] Toast
-- - [x] quick function: toast
-- - [ ] quick function, transition, message queue
 - [x] Modal
 - - [ ] disable scroll
 - [x] Actionsheet

@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const commonConfig = require('./webpack.common');
 
 const developmentConfig = webpackMerge(commonConfig, {
@@ -31,6 +32,7 @@ const developmentConfig = webpackMerge(commonConfig, {
       filename: './index.html',
       title: 'UI-demo',
     }),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
 });
@@ -65,6 +67,7 @@ const productionConfig = webpackMerge(commonConfig, {
     new MiniCssExtractPlugin({
       filename: 'style.[hash:8].min.css',
     }),
+    new BundleAnalyzerPlugin(),
   ],
 });
 

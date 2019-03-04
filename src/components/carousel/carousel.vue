@@ -9,6 +9,10 @@
           width: `${carouselWidth}px`,
           height: `${carouselMinHeight}px`,
         }"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd"
+        @touchcancel="onTouchEnd"
         @transitionend.stop
       >
         <slot></slot>
@@ -86,23 +90,13 @@ export default {
     this.$nextTick().then(() => {
       window.addEventListener('resize', this.adjustCarouselSize);
 
-      this.$el.addEventListener('touchstart', this.onTouchStart);
-      this.$el.addEventListener('touchmove', this.onTouchMove);
-      this.$el.addEventListener('touchend', this.onTouchEnd);
-      this.$el.addEventListener('touchcancel', this.onTouchEnd);
-
       this.adjustCarouselSize();
       this.startInterval();
       this.setActiveCarouselItem(0);
     });
   },
-  destroyed() {
+  beforeDestroy() {
     window.removeEventListener('resize', this.adjustCarouselSize);
-
-    this.$el.removeEventListener('touchstart', this.onTouchStart);
-    this.$el.removeEventListener('touchmove', this.onTouchMove);
-    this.$el.removeEventListener('touchend', this.onTouchEnd);
-    this.$el.removeEventListener('touchcancel', this.onTouchEnd);
   },
   computed: {
     prevPage() {

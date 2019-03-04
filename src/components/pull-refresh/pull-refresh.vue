@@ -1,35 +1,31 @@
 <template>
-  <div class="pull-down-container">
+  <div class="lake-pull-refresh">
     <div
-      class="pull-down-wrapper"
-      :style="pullDown.animationStyle"
-      @transitionend="onTransitionEnd"
+      class="lake-pull-refresh-wrapper"
+      :style="{
+        transition: !isDragging ? transitionStyle : '',
+        transform: `translate3d(0, ${pullDistance}px, 0)`,
+      }"
+      @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
+      @touchend="onTouchEnd"
+      @touchcancel="onTouchEnd"
+      @transitionend.stop
     >
-      <div class="pull-down-header">
-        <div class="pull-down-content" ref="pull-down-content">
-          <span v-if="labels[pullDown.state]">{{ labels[pullDown.state] }}</span>
+      <div class="lake-pull-refresh-header">
+        <div class="lake-pull-refresh-state">
+          <span v-if="pullState">{{ pullState }}</span>
         </div>
       </div>
-
-      <transition name="fade">
-        <div class="refresh-content" v-show="pullDown.state !== 'REFRESHING'">
-          <slot></slot>
-        </div>
-      </transition>
+      <div class="lake-pull-refresh-content" v-show="pullState !== labels.REFRESHING">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { getScrollTop } from '../../utils.js';
-
-// 刷新状态
-const types = {
-  REFRESH_START: 'REFRESH_START',
-  REFRESH_READY: 'REFRESH_READY',
-  REFRESHING: 'REFRESHING',
-  REFRESH_END: 'REFRESH_END',
-};
 
 export default {
   name: 'lake-pull-refresh',
@@ -65,17 +61,15 @@ export default {
   },
   data() {
     return {
-      touchPosition: {
-        start: 0,
-      },
-      pullDown: {
-        state: types.REFRESH_START,
-        height: 0,
-        animationStyle: {
-          transition: '',
-          transform: 'translate3d(0, 0, 0)',
-        },
-      },
+      dragStartY: 0,
+      dragOffsetY: 0,
+      currentOffsetX: 0,
+      currentOffsetY: 0,
+      currentStartOffsetY: 0,
+      isDragging: false,
+      transitionStyle: 'transform .5s',
+      pullDistance: 0,
+      pullState: '',
     };
   },
   computed: {
@@ -91,89 +85,85 @@ export default {
   watch: {
     loading(loading) {
       if (!loading) {
-        // 刷新结束，重置状态
-        this.pullDown = {
-          state: types.REFRESH_END,
-          height: 0,
-          animationStyle: {
-            transition: 'transform .4s',
-            transform: 'translate3d(0, 0, 0)',
-          },
-        };
+        this.pullState = this.labels.REFRESH_END;
+        this.pullDistance = 0;
       }
     },
-  },
-  mounted() {
-    if (!this.disabled) {
-      this.$el.addEventListener('touchstart', this.onTouchStart);
-      this.$el.addEventListener('touchmove', this.onTouchMove);
-      this.$el.addEventListener('touchend', this.onTouchEnd);
-    }
-  },
-  beforeDestroy() {
-    if (!this.disabled) {
-      this.$el.removeEventListener('touchstart', this.onTouchStart);
-      this.$el.removeEventListener('touchmove', this.onTouchMove);
-      this.$el.removeEventListener('touchend', this.onTouchEnd);
-    }
   },
   methods: {
-    onTouchStart($event) {
+    onTouchStart(e) {
+      if (this.disabled) return;
+
       if (getScrollTop() === 0) {
-        this.touchPosition.start = $event.touches.item(0).pageY;
+        this.isDragging = true;
+        this.dragStartY = e.touches[0].clientY;
+        this.currentStartOffsetY = this.currentOffsetY;
       }
     },
-    onTouchMove($event) {
-      // 记录下拉距离
-      let distance = $event.touches.item(0).pageY - this.touchPosition.start;
+    onTouchMove(e) {
+      if (this.disabled || !this.isDragging) return;
 
-      if (distance > 0 && getScrollTop() === 0 && this.pullDown.state !== types.REFRESHING) {
-        $event.preventDefault();
+      if (getScrollTop() === 0) {
+        const { clientX, clientY } = e.touches[0];
+        const dragOffsetY = this.dragStartY - clientY;
 
-        distance /= 3;
+        this.pullDistance = Math.abs(dragOffsetY) / 3;
 
-        this.pullDown.height = distance;
-        this.pullDown.animationStyle.transform = `translate3d(0, ${distance}px, 0)`;
-
-        if (distance >= this.refreshHeight) {
-          // ready to refresh
-          this.pullDown.state = types.REFRESH_READY;
-        } else {
-          // no ready
-          this.pullDown.state = types.REFRESH_START;
+        if (this.pullDistance > 0 && dragOffsetY < 0) {
+          e.preventDefault();
+          this.pullState =
+            this.pullDistance >= this.refreshHeight ? this.labels.REFRESH_READY : this.labels.REFRESH_START;
         }
       }
     },
     onTouchEnd() {
-      if (getScrollTop() === 0) {
-        this.pullDown.animationStyle.transition = 'transform .4s';
+      if (this.disabled) return;
 
-        if (this.pullDown.state === types.REFRESH_READY) {
-          // now refresh
-          this.pullDown.state = types.REFRESHING;
-          this.pullDown.height = this.refreshHeight;
-          this.pullDown.animationStyle.transform = `translate3d(0, ${this.refreshHeight}px, 0)`;
+      this.isDragging = false;
 
-          this.$emit('refresh');
-        } else {
-          // reset
-          this.pullDown.state = types.REFRESH_START;
-          this.pullDown.height = 0;
-          this.pullDown.animationStyle.transform = 'translate3d(0, 0, 0)';
-        }
-
-        this.touchPosition.distance = 0;
-        this.touchPosition.start = 0;
+      if (this.pullState === this.labels.REFRESH_READY) {
+        this.pullState = this.labels.REFRESHING;
+        this.pullDistance = this.refreshHeight;
+        this.$emit('refresh');
+      } else {
+        this.pullState = this.labels.REFRESH_START;
+        this.pullDistance = 0;
       }
-    },
-    onTransitionEnd() {
-      this.pullDown.animationStyle.transition = '';
 
-      // 刷新动画结束重置状态
-      if (this.pullDown.state === types.REFRESH_END) {
-        this.pullDown.state = types.REFRESH_START;
-      }
+      this.dragStartY = 0;
     },
   },
 };
 </script>
+
+<style lang="less">
+@import '../../style/themes/default.less';
+
+.lake-pull-refresh {
+  min-height: 400px;
+  overflow: hidden;
+  &-wrapper {
+    will-change: transform;
+  }
+  &-header {
+    width: 100%;
+    height: 60px;
+    margin-top: -60px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+  &-state {
+    position: absolute;
+    max-width: 90%;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    color: @color-text-primary;
+    text-align: center;
+    font-size: 14px;
+  }
+}
+</style>
