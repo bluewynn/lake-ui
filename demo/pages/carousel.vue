@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      items: [{ bgColor: '#eee' }, { bgColor: '#eee' }, { bgColor: '#eee' }, { bgColor: '#eee' }],
+      items: [{ bgColor: '#FFEB3B' }, { bgColor: '#4CAF50' }, { bgColor: '#FF9800' }, { bgColor: '#00BCD4' }],
     };
   },
 };

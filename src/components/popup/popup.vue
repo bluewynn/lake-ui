@@ -43,6 +43,7 @@ export default {
   max-height: 100%;
   transition: 0.3s ease-out;
   -webkit-overflow-scrolling: touch;
+  z-index: 1000;
   transform: translate3d(-50%, -50%, 0);
 }
 

@@ -106,7 +106,4 @@ export default {
 .lake-fade-leave-active {
   opacity: 0;
 }
-.lake-fade-leave-active {
-  display: none;
-}
 </style>

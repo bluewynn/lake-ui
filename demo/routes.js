@@ -74,6 +74,10 @@ const routes = [
     component: () => import('./pages/progress.vue'),
   },
   {
+    path: '/popup',
+    component: () => import('./pages/popup.vue'),
+  },
+  {
     path: '*',
     redirect: '/',
   },

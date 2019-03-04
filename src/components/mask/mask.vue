@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .lake-mask {
   position: fixed;
   width: 100%;
