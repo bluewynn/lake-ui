@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      tabs: [{ name: 'Home' }, { name: 'Contact' }, { name: 'Discovery' }, { name: 'Me' }],
+      tabs: [{ name: '首页' }, { name: '通讯录' }, { name: '发现' }, { name: '我' }],
       isShowTab: true,
     };
   },

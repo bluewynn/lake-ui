@@ -20,7 +20,7 @@ const startProgress = () => {
   timerId = setInterval(() => {
     if (vmProgress.percent === 99) clearInterval(timerId);
     vmProgress.percent += 1;
-  }, 1000);
+  }, 100);
 };
 const stopProgress = () => {
   clearInterval(timerId);
@@ -44,7 +44,6 @@ router.beforeEach((to, from, next) => {
   startProgress();
   next();
 });
-
 router.afterEach(() => {
   stopProgress();
 });

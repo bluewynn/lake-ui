@@ -1,6 +1,8 @@
 <template>
   <div class="lake-tabbar" :class="`fixed-${position}`" v-show="show">
-    <slot></slot>
+    <div class="lake-tabbar-wrapper">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

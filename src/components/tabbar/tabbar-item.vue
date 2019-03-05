@@ -2,7 +2,7 @@
   <div class="lake-tabbar-item" :class="active ? 'active' : ''" @click="onClick">
     <slot name="icon"></slot>
     <slot>
-      <div>{{ text }}</div>
+      <div class="lake-tabbar-item-text">{{ text }}</div>
     </slot>
   </div>
 </template>
