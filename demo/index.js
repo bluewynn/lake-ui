@@ -8,6 +8,28 @@ import '../src/style/index.less';
 Vue.use(VueRouter);
 Vue.use(UI);
 
+const { progress } = UI;
+const vmProgress = new Vue(progress).$mount();
+
+vmProgress.fixed = true;
+
+let timerId = 0;
+const startProgress = () => {
+  clearInterval(timerId);
+  document.body.appendChild(vmProgress.$el);
+  timerId = setInterval(() => {
+    if (vmProgress.percent === 99) clearInterval(timerId);
+    vmProgress.percent += 1;
+  }, 1000);
+};
+const stopProgress = () => {
+  clearInterval(timerId);
+  vmProgress.percent = 100;
+  vmProgress.$nextTick().then(() => {
+    document.body.removeChild(vmProgress.$el);
+  });
+};
+
 const router = new VueRouter({
   mode: 'hash',
   base: __dirname,
@@ -19,10 +41,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title || document.title;
+  startProgress();
   next();
 });
 
-router.afterEach(() => {});
+router.afterEach(() => {
+  stopProgress();
+});
 
 if (process.env.NODE_ENV !== 'production') {
   Vue.config.productionTip = false;

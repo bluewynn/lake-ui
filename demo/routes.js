@@ -20,7 +20,7 @@ const routes = [
   {
     path: '/popup',
     component: () => import('./pages/popup.vue'),
-    meta: { group: 'Popup' },
+    meta: { group: 'Basic' },
   },
 
   /* Form */

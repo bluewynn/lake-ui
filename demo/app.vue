@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style lang="less">
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 body {
   background-color: #f5f5f5;
   font-size: 14px;

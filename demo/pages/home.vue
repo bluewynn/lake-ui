@@ -1,8 +1,8 @@
 <template>
   <page-view title="Home">
     <div class="component-group" v-for="(group, key) of demoComponents" :key="key">
-      <div class="component-group-name">{{ key }}</div>
-      <div class="component-group-items">
+      <div class="component-group-name" @click="collapse(key)">{{ key }}</div>
+      <div class="component-group-items" v-show="collapsesShow[key]">
         <div class="component-group-item" v-for="item in group" :key="item.name">
           <router-link class="component-group-item-link" :to="item.path">{{ item.name }}</router-link>
         </div>
@@ -23,12 +23,22 @@ export default {
   data() {
     return {
       demoComponents: {},
+      collapsesShow: {},
     };
   },
   mounted() {
     const { routes } = this.$router.options;
 
     this.demoComponents = groupBy(routes, 'meta.group');
+    this.collapsesShow = Object.keys(this.demoComponents).reduce((prev, crt) => {
+      prev[crt] = false;
+      return prev;
+    }, {});
+  },
+  methods: {
+    collapse(key) {
+      this.collapsesShow[key] = !this.collapsesShow[key];
+    },
   },
 };
 </script>

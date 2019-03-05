@@ -25,14 +25,14 @@ export default {
       type: String,
       default: 'default',
       validator(type) {
-        return BTN_TYPES.includes(type);
+        return type === '' || BTN_TYPES.includes(type);
       },
     },
     size: {
       type: String,
-      default: 'normal',
+      default: '',
       validator(size) {
-        return BTN_SIZES.includes(size);
+        return size === '' || BTN_SIZES.includes(size);
       },
     },
     inline: {
@@ -46,11 +46,12 @@ export default {
   },
   computed: {
     btnClass() {
-      return {
-        'btn-inline': this.inline,
-        [`btn-${this.mode}`]: true,
-        [`btn-${this.size}`]: true,
-      };
+      return [
+        this.inline ? 'btn-inline' : '',
+        this.mode ? `btn-${this.mode}` : '',
+        this.size ? `btn-${this.size}` : '',
+        this.loading ? `btn-loading` : '',
+      ];
     },
   },
   methods: {
@@ -68,10 +69,11 @@ export default {
 </script>
 
 <style lang="less">
-@color-default: #fff;
-@color-primary: #007bff;
-@color-warning: #dc3545;
+@import '../../style/themes/default.less';
 
+/**
+ * get backgroundColor active status and disabled status
+ */
 .btn-mutate(@backgroundColor) {
   &:active {
     background-color: darken(@backgroundColor, 10%);
@@ -99,37 +101,38 @@ export default {
   word-break: break-word;
   white-space: nowrap;
   color: #333;
-  background-color: @color-default;
+  background-color: #fff;
   border: 1px solid #f1f1f1;
-  border-radius: 5px;
+  border-radius: 3px;
   padding: 0 15px;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  .btn-mutate(@color-default);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+  .btn-mutate(#fff);
 
   &.btn-primary {
     color: #fff;
-    background-color: @color-primary;
-    border-color: @color-primary;
-    .btn-mutate(@color-primary);
+    background-color: @brand-primary;
+    border-color: @brand-primary;
+    .btn-mutate(@brand-primary);
   }
   &.btn-warning {
     color: #fff;
-    background-color: @color-warning;
-    border-color: @color-warning;
-    .btn-mutate(@color-warning);
+    background-color: @brand-error;
+    border-color: @brand-error;
+    .btn-mutate(@brand-error);
   }
   &.btn-outline {
-    color: @color-primary;
+    color: @brand-primary;
     background-color: transparent;
-    border-color: @color-primary;
+    border-color: @brand-primary;
   }
   &.btn-link {
-    color: @color-primary;
+    color: @brand-primary;
     background-color: transparent;
     border-color: transparent;
   }
-
   &.btn-small {
     font-size: 13px;
     height: 30px;
@@ -140,24 +143,22 @@ export default {
     height: 38px;
     line-height: 38px;
   }
-  &.btn-large {
-    font-size: 17px;
-    height: 45px;
-    line-height: 45px;
-  }
 
   &.btn-inline {
     display: inline-block;
     vertical-align: middle;
     width: auto;
   }
-
+  &.btn-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .loading {
-    display: inline-block;
-    vertical-align: middle;
+    display: block;
     width: 12px;
     height: 12px;
-    margin-right: 2px;
+    margin-right: 6px;
     border: 2px solid #e8e8e8;
     border-top-color: #c5c5c5;
     border-radius: 100%;
