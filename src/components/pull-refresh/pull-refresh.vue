@@ -136,34 +136,4 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import '../../style/themes/default.less';
-
-.lake-pull-refresh {
-  min-height: 400px;
-  overflow: hidden;
-  &-wrapper {
-    will-change: transform;
-  }
-  &-header {
-    width: 100%;
-    height: 60px;
-    margin-top: -60px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-  }
-  &-state {
-    position: absolute;
-    max-width: 90%;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 30px;
-    color: @color-text-primary;
-    text-align: center;
-    font-size: 14px;
-  }
-}
-</style>
+<style lang="less"></style>

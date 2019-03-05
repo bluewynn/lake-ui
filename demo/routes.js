@@ -79,7 +79,7 @@ const routes = [
     meta: { group: 'Feedback' },
   },
   {
-    path: '/action-sheet',
+    path: '/actionsheet',
     component: () => import('./pages/actionsheet.vue'),
     meta: { group: 'Feedback' },
   },

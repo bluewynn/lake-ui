@@ -1,15 +1,15 @@
 <template>
-  <div class="notice-bar" @click="onClick" v-if="isShow">
+  <div class="lake-notice-bar" @click="onClick" v-if="isShow">
     <slot name="icon-left">
-      <!-- <i class="icon-warn"></i> -->
+      <!-- <i class="lake-notice-bar-icon-warn"></i> -->
     </slot>
-    <div class="content-wrapper" ref="noticeContentWrapper">
-      <div class="content" ref="noticeContent" :style="{right: `${contentRight}px`}">
+    <div class="lake-notice-bar-content-wrapper" ref="noticeContentWrapper">
+      <div class="lake-notice-bar-content" ref="noticeContent" :style="{ right: `${contentRight}px` }">
         <slot></slot>
       </div>
     </div>
     <slot name="icon-right">
-      <i class="icon-close" v-if="enableClose" @click.stop="onClose">x</i>
+      <i class="lake-notice-bar-icon-close" v-if="enableClose" @click.stop="onClose">x</i>
     </slot>
   </div>
 </template>
@@ -73,34 +73,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less">
-.notice-bar {
-  background-color: #fffce5;
-  color: #707070;
-  font-size: 12px;
-  line-height: 36px;
-  height: 36px;
-  padding: 0 10px;
-  display: flex;
-  align-items: center;
-  .content-wrapper {
-    flex: 1;
-    overflow: hidden;
-    .content {
-      position: relative;
-      right: 297px;
-      white-space: nowrap;
-      display: inline-block;
-      padding: 0 7.5px;
-    }
-  }
-  .icon-warn,
-  .icon-close {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-  }
-}
-</style>

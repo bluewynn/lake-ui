@@ -1,7 +1,7 @@
 <template>
   <div>
     <lake-mask :show="show" :lock-scroll="true" @click="onCancel" />
-    <transition name="slide">
+    <transition name="lake-slide">
       <div class="lake-actionsheet" v-if="show">
         <div class="lake-actionsheet-wrapper">
           <div class="lake-actionsheet-title" v-if="title">
@@ -80,85 +80,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less" scoped>
-@import '../../style/themes/default.less';
-@import '../../style/common/mixins.less';
-
-.lake-actionsheet {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  &-wrapper {
-    background-color: @color-bg-body;
-    overflow: hidden;
-  }
-  &-title {
-    position: relative;
-    text-align: center;
-    padding: 12px 15px;
-    font-weight: bold;
-    font-size: 13px;
-    color: @color-text-primary;
-    .single-line();
-    .border-1px-bottom();
-  }
-  &-body {
-    max-height: 300px;
-    min-height: 100px;
-    overflow-y: auto;
-  }
-  &-item {
-    position: relative;
-    padding: 12px 15px;
-    background-color: @color-bg-base;
-    text-align: center;
-    .border-1px-bottom();
-  }
-  &-item-name {
-    font-size: 15px;
-    line-height: 1.5;
-    color: @color-text-primary;
-    .single-line();
-  }
-  &-subitem-name {
-    font-size: 12px;
-    line-height: 1.5;
-    color: @color-text-secondary;
-    .single-line();
-  }
-  &-operation {
-    display: flex;
-    position: relative;
-    align-items: center;
-    margin-top: 6px;
-  }
-  &-operation-cancel {
-    flex: 1;
-    position: relative;
-    text-align: center;
-    border: none;
-    outline: none;
-    background-color: #fff;
-    padding: 12px 10px;
-    font-size: 15px;
-    color: @color-text-secondary;
-    &:active {
-      background-color: darken(#fff, 10%);
-    }
-  }
-}
-
-.slide-enter,
-.slide-enter-active {
-  transform: translate3d(0, 100%, 0);
-  opacity: 0;
-}
-.slide-enter-active {
-  animation: 0.2s linear slide 0.2s;
-}
-.slide-leave-active {
-  animation: 0.2s linear slide 0.2s reverse;
-}
-</style>

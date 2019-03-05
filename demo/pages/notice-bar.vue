@@ -4,9 +4,15 @@
       <header class="header">Basic</header>
       <div class="body">
         <lake-notice-bar>今天的小姐姐真的很可爱，今天的小姐姐真的很可爱，今天的小姐姐真的很可爱！</lake-notice-bar>
-        <lake-notice-bar :enable-close="false">星期天的云，周一的雨，星期天的云，周一的雨，星期天的云，周一的雨！</lake-notice-bar>
+        <br />
+        <lake-notice-bar :enable-close="false"
+          >星期天的云，周一的雨，星期天的云，周一的雨，星期天的云，周一的雨！</lake-notice-bar
+        >
+        <br />
         <lake-notice-bar>
-          <span :style="{ color: 'red' }">今天的小姐姐真的很可爱，今天的小姐姐真的很可爱，今天的小姐姐真的很可爱！</span>
+          <span :style="{ color: 'red' }"
+            >今天的小姐姐真的很可爱，今天的小姐姐真的很可爱，今天的小姐姐真的很可爱！</span
+          >
         </lake-notice-bar>
       </div>
     </div>
