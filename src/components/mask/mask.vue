@@ -51,27 +51,4 @@ export default {
 };
 </script>
 
-<style lang="less">
-.lake-mask {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  &.transparent {
-    background-color: transparent;
-  }
-}
-
-.lake-fade-enter-active,
-.lake-fade-leave-active {
-  transition: opacity 0.3s;
-}
-.lake-fade-enter,
-.lake-fade-leave-to {
-  opacity: 0;
-}
-</style>
+<style lang="less"></style>

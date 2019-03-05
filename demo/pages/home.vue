@@ -31,7 +31,7 @@ export default {
 
     this.demoComponents = groupBy(routes, 'meta.group');
     this.collapsesShow = Object.keys(this.demoComponents).reduce((prev, crt) => {
-      prev[crt] = false;
+      prev[crt] = true;
       return prev;
     }, {});
   },
@@ -51,7 +51,7 @@ export default {
   &-name {
     padding: 20px;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: normal;
     color: #333;
   }
   &-item-link {

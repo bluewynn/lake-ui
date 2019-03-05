@@ -8,17 +8,18 @@
   top: 0;
   bottom: 0;
   right: 0;
+  z-index: @z-index-mask;
   background-color: @color-bg-mask;
   &.transparent {
     background-color: transparent;
   }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+.lake-fade-enter-active,
+.lake-fade-leave-active {
+  transition: opacity 0.3s;
 }
-.fade-enter,
-.fade-leave-to {
+.lake-fade-enter,
+.lake-fade-leave-to {
   opacity: 0;
 }

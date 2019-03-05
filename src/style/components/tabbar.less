@@ -1,0 +1,30 @@
+@import '../../style/common/mixins.less';
+
+.lake-tabbar {
+  position: relative;
+  z-index: @z-index-navigation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 50px;
+  background-color: #fff;
+  .border-1px-top();
+  .border-1px-bottom();
+  &-item {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: #333;
+    transition: color 0.2s;
+    &.active {
+      color: @color-text-link;
+    }
+  }
+  &.fixed-bottom {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+}

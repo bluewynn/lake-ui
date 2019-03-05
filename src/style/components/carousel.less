@@ -1,38 +1,40 @@
-.carousel {
+.lake-carousel {
   position: relative;
-  .carousel-wrapper {
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-      .carousel-inner {
-          display: flex;
-          flex-direction: row;
-          backface-visibility: hidden;
-      }
-      .carousel-item {
-          position: relative;
-          width: 100%;
-          flex: 1;
-          user-select: none;
-      }
+  &-wrapper {
+    width: 100%;
+    position: relative;
   }
-
-  .indicators {
-      position: absolute;
-      bottom: 5px;
-      left: 50%;
-      transform: translateX(-50%);
-      .indicator {
-          width: 6px;
-          height: 6px;
-          display: inline-block;
-          border-radius: 100%;
-          background: #868686;
-          opacity: .8;
-          margin: 0 3px;
-          &.active {
-              background: #fff;
-          }
-      }
+  &-inner {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    backface-visibility: hidden;
+  }
+  &-item {
+    position: relative;
+    flex: 1;
+    user-select: none;
+    transition: opacity ease 0.2s;
+    opacity: 0.75;
+  }
+  &-item.active {
+    opacity: 1;
+  }
+  &-indicators {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &-indicator {
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: #b3b1b1;
+    margin: 0 3px;
+    &.active {
+      background-color: #fff;
+    }
   }
 }
