@@ -1,13 +1,13 @@
 <template>
   <page-view title="tabbar">
-    <lake-tabbar :tabs="tabs" :show="isShowTab" selected="Contact" position="top">
-      <lake-tabbar-item v-for="(tab, index) in tabs" :key="index" :text="tab.name"></lake-tabbar-item>
+    <lake-tabbar :tabs="tabs" :show="isShowTab" :selected="1" position="top">
+      <lake-tabbar-item v-for="(tab, index) in tabs" :key="index" :index="index" :text="tab.name"></lake-tabbar-item>
     </lake-tabbar>
     <div class="demo-section">
       <lake-button mode="link" @click="isShowTab = !isShowTab">toggle tabbar display</lake-button>
     </div>
-    <lake-tabbar :tabs="tabs" :show="isShowTab">
-      <lake-tabbar-item v-for="(tab, index) in tabs" :key="index" :text="tab.name"></lake-tabbar-item>
+    <lake-tabbar :tabs="tabs" :show="isShowTab" :selected="1">
+      <lake-tabbar-item v-for="(tab, index) in tabs" :key="index" :index="index" :text="tab.name"></lake-tabbar-item>
     </lake-tabbar>
   </page-view>
 </template>
@@ -28,5 +28,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less" scoped></style>

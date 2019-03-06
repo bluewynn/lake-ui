@@ -13,8 +13,8 @@ export default {
   name: 'lake-tabbar',
   props: {
     selected: {
-      type: String,
-      default: '',
+      type: Number,
+      default: 0,
     },
     tabs: {
       type: Array,
@@ -36,11 +36,11 @@ export default {
   },
   data() {
     return {
-      crtTab: this.selected || this.tabs[0].name,
+      crtTabIndex: this.selected,
     };
   },
   watch: {
-    crtTab(newVal, oldVal) {
+    crtTabIndex(newVal, oldVal) {
       this.$emit('change', newVal, oldVal);
     },
   },

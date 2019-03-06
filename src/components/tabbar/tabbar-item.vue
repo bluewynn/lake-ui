@@ -15,16 +15,19 @@ export default {
       type: String,
       default: '',
     },
+    index: {
+      type: Number,
+    },
   },
   computed: {
     active() {
-      return this.$parent.crtTab === this.text;
+      return this.$parent.crtTabIndex === this.index;
     },
   },
   methods: {
     onClick() {
-      this.$parent.crtTab = this.text;
-      this.$emit('click', this.text);
+      this.$parent.crtTabIndex = this.index;
+      this.$emit('click', this.index);
     },
   },
 };
