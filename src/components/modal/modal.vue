@@ -1,7 +1,7 @@
 <template>
   <div>
     <lake-mask :show="show" :lock-scroll="lockScroll" @click="onMaskClick" />
-    <transition name="zoom-in">
+    <transition name="lake-zoom-in">
       <div class="lake-modal" v-if="show">
         <div class="lake-modal-wrapper">
           <div class="lake-modal-title" v-if="title">
