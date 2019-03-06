@@ -1,4 +1,5 @@
-import './style/index.less';
+import { version } from '../package.json';
+import { upperFirst } from './utils';
 import { flexBox, flexBoxItem } from './components/flex';
 import { tabs, tab } from './components/tabs';
 import noticeBar from './components/notice-bar';
@@ -20,7 +21,7 @@ import progress from './components/progress';
 import popup from './components/popup';
 import plugins from './plugins';
 
-export {
+const components = {
   flexBox,
   flexBoxItem,
   tabs,
@@ -46,5 +47,29 @@ export {
   badge,
   progress,
   popup,
-  plugins,
+};
+
+// transform component name from '{component}' to 'lake-{component}'
+const exportComponents = Object.keys(components).reduce((prev, crt) => {
+  const componentName = `lake${upperFirst(crt)}`;
+  prev[componentName] = components[crt];
+
+  return prev;
+}, {});
+
+// install components && plugins
+const install = Vue => {
+  Object.keys(components).forEach(key => Vue.component(components[key].name, components[key]));
+  Object.keys(plugins).forEach(key => Vue.use(plugins[key]));
+};
+
+// install by content script
+if (typeof window !== 'undefined' && window.Vue) {
+  install(window.Vue);
+}
+
+export default {
+  install,
+  version,
+  ...exportComponents,
 };

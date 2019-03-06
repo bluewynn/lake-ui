@@ -1,5 +1,7 @@
 const userAgent = navigator.userAgent.toLowerCase();
 
+export const upperFirst = (str = '') => str.charAt(0).toUpperCase() + str.slice(1);
+
 export const ua = {
   isAndroid: userAgent && userAgent.indexOf('android') > 0,
   isIOS: userAgent && /iphone|ipad|ipod|ios/.test(userAgent),

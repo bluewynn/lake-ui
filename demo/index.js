@@ -2,14 +2,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './app.vue';
 import routes from './routes';
-import UI from '../index.js';
+import UI from '../src/index.js';
 import '../src/style/index.less';
 
 Vue.use(VueRouter);
 Vue.use(UI);
 
-const { progress } = UI;
-const vmProgress = new Vue(progress).$mount();
+console.log(UI);
+
+const { lakeProgress } = UI;
+const vmProgress = new Vue(lakeProgress).$mount();
 
 vmProgress.fixed = true;
 
