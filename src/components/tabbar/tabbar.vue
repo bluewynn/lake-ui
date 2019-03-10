@@ -1,9 +1,11 @@
 <template>
-  <div class="lake-tabbar" :class="`fixed-${position}`" v-show="show">
-    <div class="lake-tabbar-wrapper">
-      <slot></slot>
+  <transition :name="transitionName">
+    <div class="lake-tabbar" :class="`fixed-${position}`" v-show="show">
+      <div class="lake-tabbar-wrapper">
+        <slot></slot>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -38,6 +40,11 @@ export default {
     return {
       crtTabIndex: this.selected,
     };
+  },
+  computed: {
+    transitionName() {
+      return this.position === '' || this.position === 'top' ? 'lake-slide-down' : 'lake-slide-up';
+    },
   },
   watch: {
     crtTabIndex(newVal, oldVal) {

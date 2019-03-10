@@ -1,14 +1,16 @@
 <template>
   <page-view title="tabbar">
-    <lake-tabbar :tabs="tabs" :show="isShowTab" :selected="1" position="top">
-      <lake-tabbar-item v-for="(tab, index) in tabs" :key="index" :index="index" :text="tab.name"></lake-tabbar-item>
-    </lake-tabbar>
-    <div class="demo-section">
-      <lake-button mode="link" @click="isShowTab = !isShowTab">toggle tabbar display</lake-button>
+    <div class="tabbar-content">
+      <lake-tabbar :tabs="tabs" :show="isShowTab" :selected="1" position="top">
+        <lake-tabbar-item v-for="(tab, index) in tabs" :key="index" :index="index" :text="tab.name"></lake-tabbar-item>
+      </lake-tabbar>
+      <div class="demo-section">
+        <lake-button mode="link" @click="isShowTab = !isShowTab">toggle tabbar display</lake-button>
+      </div>
+      <lake-tabbar :tabs="tabs" :show="isShowTab" :selected="1">
+        <lake-tabbar-item v-for="(tab, index) in tabs" :key="index" :index="index" :text="tab.name"></lake-tabbar-item>
+      </lake-tabbar>
     </div>
-    <lake-tabbar :tabs="tabs" :show="isShowTab" :selected="1">
-      <lake-tabbar-item v-for="(tab, index) in tabs" :key="index" :index="index" :text="tab.name"></lake-tabbar-item>
-    </lake-tabbar>
   </page-view>
 </template>
 
@@ -28,3 +30,9 @@ export default {
   },
 };
 </script>
+
+<style lang="less" scoped>
+.tabbar-content {
+  overflow: hidden;
+}
+</style>
