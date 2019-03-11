@@ -4,14 +4,17 @@
     <div class="lake-tabbar-item-text">
       <slot>{{ text }}</slot>
     </div>
-    <div class="lake-tabbar-item-info" v-if="info">{{ info > 99 ? '99+' : info }}</div>
-    <div class="lake-tabbar-item-dot" v-else-if="dot"></div>
+    <lake-badge class="lake-tabbar-item-info" :dot="false" v-if="info">{{ info > 99 ? '99+' : info }}</lake-badge>
+    <lake-badge class="lake-tabbar-item-dot" :dot="true" v-else-if="dot" />
   </div>
 </template>
 
 <script>
+import lakeBadge from '../badge';
+
 export default {
   name: 'lake-tabbar-item',
+  components: { lakeBadge },
   props: {
     text: {
       type: String,

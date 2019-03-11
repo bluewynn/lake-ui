@@ -1,7 +1,9 @@
 <template>
   <span class="lake-badge">
     <span class="lake-badge-dot" v-if="dot"></span>
-    <span class="lake-badge-text" v-else><slot>{{ text }}</slot></span>
+    <span class="lake-badge-text" v-else
+      ><slot>{{ text }}</slot></span
+    >
   </span>
 </template>
 
@@ -16,7 +18,7 @@ export default {
     dot: {
       type: Boolean,
       default: false,
-    }
+    },
   },
 };
 </script>
@@ -25,25 +27,23 @@ export default {
 @import '../../style/themes/default.less';
 
 .lake-badge {
-  position: relative;
   text-align: center;
   &-text {
-    color: #fff;
+    padding: 1px 4px;
     font-size: 12px;
     line-height: 14px;
-    padding: 1px 4px;
-    background-color: @brand-important;
+    background-color: #f00;
+    color: #fff;
     border-radius: 8px;
-    white-space: nowrap;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
   &-dot {
-    display: inline-block;
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #f00;
     border-radius: 100%;
-    padding: 4px;
-    background-color: @brand-important;
   }
 }
 </style>
