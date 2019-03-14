@@ -53,6 +53,7 @@
 - [x] add Home page
 - [ ] add progress bar
 
-## Deploy
+## Deployment
 
 - [ ] separate CSS
+d

@@ -54,6 +54,16 @@ const productionConfig = webpackMerge(commonConfig, {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
   },
   plugins: [
     new CleanWebpackPlugin(['demo/dist'], {
@@ -65,9 +75,9 @@ const productionConfig = webpackMerge(commonConfig, {
       title: 'UI-demo',
     }),
     new MiniCssExtractPlugin({
-      filename: 'style.[hash:8].min.css',
+      filename: '[name].[hash:8].min.css',
     }),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
 });
 
