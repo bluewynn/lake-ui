@@ -22,6 +22,8 @@ const developmentConfig = webpackMerge(commonConfig, {
     publicPath: '/',
     clientLogLevel: 'none',
     hot: true,
+    stats: 'errors-only',
+    overlay: true,
   },
   plugins: [
     new CleanWebpackPlugin(['demo/dist'], {

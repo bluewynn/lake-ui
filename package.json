@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.js --open",
-    "demo-dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js --open",
+    "demo-dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "demo-build": "cross-env NODE_ENV=production webpack --config build/webpack.demo.js",
     "format-code": "prettier --write src/**/*.vue,src/**/*.js"
