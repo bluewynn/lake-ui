@@ -1,4 +1,5 @@
 import toast from '../components/toast';
+import { assert } from '../utils';
 
 export default {
   install(Vue) {
@@ -10,12 +11,12 @@ export default {
       msg: '',
       type: 'text',
       position: 'middle',
-      duration: 1000,
+      duration: 2000,
     };
 
     const formatOptions = options => {
       if (typeof options !== 'string' && typeof options !== 'object') {
-        throw new Error("options should be 'string' or 'object'");
+        assert(false, "options should be 'string' or 'object'");
       }
 
       return typeof options === 'string' ? { ...defaultOptions, msg: options } : { ...defaultOptions, ...options };

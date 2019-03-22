@@ -5,7 +5,7 @@
         class="lake-carousel-inner"
         :style="{
           transform: `translate3d(${currentOffsetX}px, 0, 0)`,
-          transition: isAnimating ? transitionStyle : '',
+          transition: transitionStyle,
           width: `${carouselWidth}px`,
           height: `${carouselMinHeight}px`,
         }"
@@ -154,12 +154,8 @@ export default {
       this.carouselMinHeight = this.height || (this.$el && this.$el.clientHeight) || 0;
     },
     onTouchStart(e) {
-      if (!e.touches) {
-        e.preventDefault();
-      }
       if (this.isDragging) return;
 
-      this.isAnimating = false;
       this.dragOffsetX = 0;
 
       this.stopInterval();
@@ -208,7 +204,6 @@ export default {
       if (!this.isDragging) return;
 
       this.isDragging = false;
-      this.isAnimating = true;
 
       if (this.dragOffsetX > this.swipeDistance) {
         // 左滑
@@ -226,7 +221,6 @@ export default {
     moveToPage(page) {
       this.currentCarouselItemIndex = page;
       this.currentOffsetX = this.currentCarouselItemIndex * this.containerWidth * -1;
-      this.isAnimating = true;
       this.$emit('change', this.currentCarouselItemIndex);
     },
     setActiveCarouselItem(index) {

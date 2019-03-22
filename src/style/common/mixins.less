@@ -1,12 +1,14 @@
 @import '../themes/default.less';
 
+/**
+ * text ellipsis
+ */
 .single-line() {
   width: auto;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
-
 .double-line() {
   width: auto;
   overflow: hidden;
@@ -15,12 +17,14 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-
 .long-break() {
   word-wrap: break-word;
   word-break: normal;
 }
 
+/**
+ * retina px border
+ */
 .border-1px-base(@direction: top, @border-color: @color-border-secondary) {
   content: ' ';
   position: absolute;
@@ -71,12 +75,32 @@
     transform: scaleY(0.5);
   }
 }
+.border-1px-box(@border, @border-radius: 0) {
+  &:after {
+    content: '';
+    pointer-events: none;
+    box-sizing: border-box;
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    left: 0;
+    top: 0;
+    border-radius: @border-radius * 2;
+    border: @border;
+    transform: scale(0.5);
+    transform-origin: 0 0;
+  }
+}
 .border-1px-hide() {
   &::before,
   &::after {
     display: none;
   }
 }
+
+/**
+ * others
+ */
 .iphonex-padding-bottom(@background-color: #fff) {
   padding-bottom: 0;
   padding-bottom: constant(safe-area-inset-bottom);

@@ -10,6 +10,10 @@ export const ua = {
 
 export const getScrollTop = () => document.documentElement.scrollTop || document.body.scrollTop;
 
+export const assert = (condition = false, msg) => {
+  if (!condition) throw new Error(`[lake-ui] ${msg}`);
+};
+
 export const debounce = fn => {
   fn();
 };

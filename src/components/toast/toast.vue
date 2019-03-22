@@ -52,10 +52,45 @@ export default {
         return TOAST_POSITION.includes(pos);
       },
     },
-    duration: {
-      type: Number,
-      default: 3000,
-    },
   },
 };
 </script>
+
+<style lang="less">
+@import '../../style/themes/default.less';
+
+.lake-toast {
+  text-align: center;
+  &-inline {
+    display: inline-block;
+  }
+  &-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    background-color: #5f5c5c;
+    color: #fff;
+    border-radius: 3px;
+    padding: 6px 15px;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+    min-width: 40px;
+    max-width: 230px;
+    &.top {
+      top: 10%;
+    }
+    &.bottom {
+      top: initial;
+      bottom: 10%;
+    }
+  }
+  &-success {
+    background-color: @brand-success;
+  }
+  &-error {
+    background-color: @brand-error;
+  }
+}
+</style>

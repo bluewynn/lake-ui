@@ -40,15 +40,32 @@ export default {
     open() {
       if (!this.lockScroll) return;
 
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('lake-mask-open');
     },
     close() {
       if (!this.lockScroll) return;
 
-      document.body.style.overflow = 'initial';
+      document.body.classList.remove('lake-mask-open');
     },
   },
 };
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+@import '../../style/themes/default.less';
+
+.lake-mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: @z-index-mask;
+  background-color: @color-bg-mask;
+  &.transparent {
+    background-color: transparent;
+  }
+}
+</style>

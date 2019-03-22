@@ -1,4 +1,5 @@
 import modal from '../components/modal';
+import { assert } from '../utils';
 
 export default {
   install(Vue) {
@@ -12,9 +13,9 @@ export default {
       showCancelBtn: false,
     };
 
-    const formatOptions = (options) => {
+    const formatOptions = options => {
       if (typeof options !== 'string' && typeof options !== 'object') {
-        throw new Error('options should be \'string\' or \'object\'');
+        assert(false, "options should be 'string' or 'object'");
       }
 
       return typeof options === 'string' ? { ...defaultOptions, msg: options } : { ...defaultOptions, ...options };
@@ -34,7 +35,7 @@ export default {
 
       Object.assign(instance, payload);
 
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         instance.$on('confirm', () => {
           instance.show = false;
           successCb && successCb();

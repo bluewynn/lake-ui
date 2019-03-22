@@ -3,106 +3,106 @@ import { upperFirst, camelCase } from './common/util';
 const routes = [
   {
     path: '',
-    component: () => import('./pages/home.vue'),
+    component: () => import(/* webpackChunkName: "pages/home" */ './pages/home.vue'),
   },
 
   /* Basic */
   {
     path: '/flex',
-    component: () => import('./pages/flex.vue'),
+    component: () => import(/* webpackChunkName: "pages/flex" */ './pages/flex.vue'),
     meta: { group: 'Basic' },
   },
   {
     path: '/button',
-    component: () => import('./pages/button.vue'),
+    component: () => import(/* webpackChunkName: "pages/button" */ './pages/button.vue'),
     meta: { group: 'Basic' },
   },
   {
     path: '/popup',
-    component: () => import('./pages/popup.vue'),
+    component: () => import(/* webpackChunkName: "pages/popup" */ './pages/popup.vue'),
     meta: { group: 'Basic' },
   },
 
   /* Form */
   {
     path: '/field',
-    component: () => import('./pages/field.vue'),
+    component: () => import(/* webpackChunkName: "pages/field" */ './pages/field.vue'),
     meta: { group: 'Form' },
   },
   {
     path: '/image-upload',
-    component: () => import('./pages/image-upload.vue'),
+    component: () => import(/* webpackChunkName: "pages/image-upload" */ './pages/image-upload.vue'),
     meta: { group: 'Form' },
   },
 
   /* Display */
   {
     path: '/carousel',
-    component: () => import('./pages/carousel.vue'),
+    component: () => import(/* webpackChunkName: "pages/carousel" */ './pages/carousel.vue'),
     meta: { group: 'Display' },
   },
   {
     path: '/list',
-    component: () => import('./pages/list.vue'),
+    component: () => import(/* webpackChunkName: "pages/list" */ './pages/list.vue'),
     meta: { group: 'Display' },
   },
   {
     path: '/notice-bar',
-    component: () => import('./pages/notice-bar.vue'),
+    component: () => import(/* webpackChunkName: "pages/notice-bar" */ './pages/notice-bar.vue'),
     meta: { group: 'Display' },
   },
   {
     path: '/badge',
-    component: () => import('./pages/badge.vue'),
+    component: () => import(/* webpackChunkName: "pages/badge" */ './pages/badge.vue'),
     meta: { group: 'Display' },
   },
   {
     path: '/search-bar',
-    component: () => import('./pages/search-bar.vue'),
+    component: () => import(/* webpackChunkName: "pages/search-bar" */ './pages/search-bar.vue'),
     meta: { group: 'Display' },
   },
   {
     path: '/tag',
-    component: () => import('./pages/tag.vue'),
+    component: () => import(/* webpackChunkName: "pages/tag" */ './pages/tag.vue'),
     meta: { group: 'Display' },
   },
 
   /* Feedback */
   {
     path: '/toast',
-    component: () => import('./pages/toast.vue'),
+    component: () => import(/* webpackChunkName: "pages/toast" */ './pages/toast.vue'),
     meta: { group: 'Feedback' },
   },
   {
     path: '/modal',
-    component: () => import('./pages/modal.vue'),
+    component: () => import(/* webpackChunkName: "pages/modal" */ './pages/modal.vue'),
     meta: { group: 'Feedback' },
   },
   {
     path: '/actionsheet',
-    component: () => import('./pages/actionsheet.vue'),
+    component: () => import(/* webpackChunkName: "pages/actionsheet" */ './pages/actionsheet.vue'),
     meta: { group: 'Feedback' },
   },
   {
     path: '/progress',
-    component: () => import('./pages/progress.vue'),
+    component: () => import(/* webpackChunkName: "pages/progress" */ './pages/progress.vue'),
     meta: { group: 'Feedback' },
   },
 
   /* Navigation */
   {
     path: '/tabbar',
-    component: () => import('./pages/tabbar.vue'),
+    component: () => import(/* webpackChunkName: "pages/tabbar" */ './pages/tabbar.vue'),
     meta: { group: 'Navigation' },
   },
   {
     path: '/tabs',
-    component: () => import('./pages/tabs.vue'),
+    component: () => import(/* webpackChunkName: "pages/tabs" */ './pages/tabs.vue'),
     meta: { group: 'Navigation' },
   },
   {
     path: '/pagination',
-    component: () => import('./pages/pagination.vue'),
+    component: () => import(/* webpackChunkName: "pages/pagination" */ './pages/pagination.vue'),
     meta: { group: 'Navigation' },
   },
 
