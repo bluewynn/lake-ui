@@ -12,7 +12,7 @@
 <script>
 import lakeMask from '../mask';
 
-const POPUP_POSITIONS = ['top', 'center', 'bottom'];
+const POPUP_POSITIONS = ['top', 'center', 'bottom', 'full-screen'];
 
 export default {
   name: 'lake-popup',
@@ -46,6 +46,7 @@ export default {
         top: 'lake-slide-reverse',
         center: 'lake-fade',
         bottom: 'lake-slide',
+        'full-screen': 'lake-slide',
       };
 
       return this.position ? transitionMap[this.position] : transitionMap.center;
@@ -79,12 +80,16 @@ export default {
     transform: translate3d(0, 0, 0);
     width: 100%;
   }
-  &.bottom {
+  &.bottom,
+  &.full-screen {
     top: initial;
     left: 0;
     bottom: 0;
     transform: translate3d(0, 0, 0);
     width: 100%;
+  }
+  &.full-screen {
+    height: 100vh;
   }
 }
 </style>

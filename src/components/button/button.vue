@@ -19,10 +19,6 @@ export default {
     },
     type: {
       type: String,
-      default: 'button',
-    },
-    mode: {
-      type: String,
       default: 'default',
       validator(type) {
         return type === '' || BTN_TYPES.includes(type);
@@ -48,7 +44,7 @@ export default {
     btnClass() {
       return [
         this.inline ? 'btn-inline' : '',
-        this.mode ? `btn-${this.mode}` : '',
+        this.type ? `btn-${this.type}` : '',
         this.size ? `btn-${this.size}` : '',
         this.loading ? `btn-loading` : '',
       ];
