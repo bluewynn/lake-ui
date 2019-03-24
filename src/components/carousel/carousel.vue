@@ -5,7 +5,7 @@
         class="lake-carousel-inner"
         :style="{
           transform: `translate3d(${currentOffsetX}px, 0, 0)`,
-          transition: transitionStyle,
+          transition: !dragState.isDragging ? transitionStyle : 'transform 0s ease',
           width: `${carouselWidth}px`,
           height: `${carouselMinHeight}px`,
         }"
@@ -31,8 +31,11 @@
 </template>
 
 <script>
+import drag from '../../mixins/drag';
+
 export default {
   name: 'lake-carousel',
+  mixins: [drag],
   props: {
     width: {
       type: Number,
@@ -72,16 +75,9 @@ export default {
       transitionStyle: 'transform .5s ease',
       currentCarouselItemIndex: 0,
       carouselItemCount: 0,
-      dragOffsetX: 0,
-      dragOffsetY: 0,
-      dragStartX: 0,
-      dragStartY: 0,
       currentOffsetX: 0,
       currentOffsetY: 0,
       currentStartOffsetX: 0,
-      currentStartOffsetY: 0,
-      isDragging: false,
-      isScrolling: false,
       isAnimating: false,
       timerId: null,
     };
@@ -96,6 +92,7 @@ export default {
     });
   },
   beforeDestroy() {
+    this.stopInterval();
     window.removeEventListener('resize', this.adjustCarouselSize);
   },
   computed: {
@@ -154,61 +151,32 @@ export default {
       this.carouselMinHeight = this.height || (this.$el && this.$el.clientHeight) || 0;
     },
     onTouchStart(e) {
-      if (this.isDragging) return;
-
-      this.dragOffsetX = 0;
-
-      this.stopInterval();
-      this.isDragging = true;
-      this.isScrolling = false;
-      this.dragStartX = e.touches[0].clientX;
-      this.dragStartY = e.touches[0].clientY;
+      this.dragStart(e);
       this.currentStartOffsetX = this.currentOffsetX;
       this.currentStartOffsetY = this.currentOffsetY;
     },
     onTouchMove(e) {
-      if (!this.isDragging) return;
+      this.dragMove(e);
 
-      const { clientX, clientY } = e.touches[0];
-      const dragOffsetX = this.dragStartX - clientX;
-      const dragOffsetY = this.dragStartY - clientY;
-      const currentOffsetX = this.currentStartOffsetX - this.dragOffsetX;
+      if (this.dragState.direction !== 'x') return;
 
-      // 用户在滚动页面
-      if (
-        Math.abs(dragOffsetX) < 5 ||
-        (Math.abs(dragOffsetX) >= 5 && Math.abs(dragOffsetY) >= 1.73 * Math.abs(dragOffsetX))
-      ) {
-        this.isScrolling = true;
-        return;
-      }
-
-      this.isScrolling = false;
-      e.preventDefault();
+      const currentOffsetX = this.currentStartOffsetX - this.dragState.dragOffsetX;
 
       if (currentOffsetX > this.maxOffset) {
         this.currentOffsetX = this.maxOffset;
       } else if (currentOffsetX < this.minOffset) {
         this.currentOffsetX = this.minOffset;
       } else {
-        this.dragOffsetX = dragOffsetX;
         this.currentOffsetX = currentOffsetX;
       }
     },
-    onTouchEnd() {
-      if (this.isScrolling) {
-        this.isDragging = false;
-        return;
-      }
+    onTouchEnd(e) {
+      this.dragEnd(e);
 
-      if (!this.isDragging) return;
-
-      this.isDragging = false;
-
-      if (this.dragOffsetX > this.swipeDistance) {
+      if (this.dragState.dragOffsetX > this.swipeDistance) {
         // 左滑
         this.moveToPage(this.nextPage);
-      } else if (this.dragOffsetX < -this.swipeDistance) {
+      } else if (this.dragState.dragOffsetX < -this.swipeDistance) {
         // 右滑
         this.moveToPage(this.prevPage);
       } else {
@@ -219,6 +187,7 @@ export default {
       this.startInterval();
     },
     moveToPage(page) {
+      this.isAnimating = true;
       this.currentCarouselItemIndex = page;
       this.currentOffsetX = this.currentCarouselItemIndex * this.containerWidth * -1;
       this.$emit('change', this.currentCarouselItemIndex);
@@ -233,3 +202,46 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+.lake-carousel {
+  position: relative;
+  &-wrapper {
+    width: 100%;
+    position: relative;
+  }
+  &-inner {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    backface-visibility: hidden;
+  }
+  &-item {
+    position: relative;
+    flex: 1;
+    user-select: none;
+    transition: opacity ease 0.2s;
+    opacity: 0.75;
+  }
+  &-item.active {
+    opacity: 1;
+  }
+  &-indicators {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &-indicator {
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: #b3b1b1;
+    margin: 0 3px;
+    &.active {
+      background-color: #fff;
+    }
+  }
+}
+</style>

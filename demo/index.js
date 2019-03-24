@@ -8,8 +8,6 @@ import '../src/style/index.less';
 Vue.use(VueRouter);
 Vue.use(UI);
 
-console.log(UI);
-
 const { lakeProgress } = UI;
 const vmProgress = new Vue(lakeProgress).$mount();
 
