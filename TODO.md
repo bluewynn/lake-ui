@@ -5,6 +5,7 @@
 - [x] Button
 - [x] Flex
 - [x] Popup
+- - [x] disable scroll
 
 ## Form
 
@@ -29,7 +30,7 @@
 
 - [x] Toast
 - [x] Modal
-- - [ ] disable scroll
+- - [x] disable scroll
 - [x] Actionsheet
 - [x] Progress
 
@@ -51,9 +52,8 @@
 ## Demo
 
 - [x] add Home page
-- [ ] add progress bar
+- [x] add progress bar
 
 ## Deployment
 
 - [ ] separate CSS
-d

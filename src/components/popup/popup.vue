@@ -1,8 +1,8 @@
 <template>
   <div>
-    <lake-mask :show="show" :transparent="false" @click="onClickMask" />
+    <lake-mask :show="show" :lock-scroll="lockScroll" :transparent="false" @click="onClickMask" />
     <transition :name="transitionName">
-      <div class="lake-popup" :class="position ? `${position}` : 'center'" v-if="show">
+      <div class="lake-popup" ref="popup" :class="position ? `${position}` : 'center'" v-if="show">
         <slot></slot>
       </div>
     </transition>
@@ -38,6 +38,10 @@ export default {
       type: String,
       default: 'center',
       validator: pos => pos === '' || POPUP_POSITIONS.includes(pos),
+    },
+    lockScroll: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

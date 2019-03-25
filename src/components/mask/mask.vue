@@ -5,8 +5,13 @@
 </template>
 
 <script>
+import drag from '../../mixins/drag';
+import { getScrollTop, getScrollParent } from '../../utils/scroll';
+import { on, off } from '../../utils/event';
+
 export default {
   name: 'lake-mask',
+  mixins: [drag],
   props: {
     show: {
       type: Boolean,
@@ -18,8 +23,11 @@ export default {
     },
     lockScroll: {
       type: Boolean,
-      default: true,
+      default: false,
     },
+  },
+  mounted() {
+    this.show && this.open();
   },
   beforeDestroy() {
     this.close();
@@ -38,14 +46,41 @@ export default {
       this.$emit('click');
     },
     open() {
-      if (!this.lockScroll) return;
-
-      document.body.classList.add('lake-mask-open');
+      if (this.lockScroll) {
+        document.body.classList.add('lake-mask-open');
+        on(document.body, 'touchstart', this.dragStart, { capture: false, passive: false });
+        on(document.body, 'touchmove', this.onTouchMove, { capture: false, passive: false });
+        on(document.body, 'touchend', this.dragEnd, { capture: false, passive: false });
+      }
     },
     close() {
-      if (!this.lockScroll) return;
+      if (this.lockScroll) {
+        document.body.classList.remove('lake-mask-open');
+        off(document.body, 'touchstart', this.dragStart);
+        off(document.body, 'touchmove', this.onTouchMove);
+        off(document.body, 'touchend', this.dragEnd);
+      }
+    },
+    onTouchMove(e) {
+      this.dragMove(e);
 
-      document.body.classList.remove('lake-mask-open');
+      const node = e.target;
+      const scrollEl = getScrollParent(node);
+      const isRootScroll = scrollEl.tagName === 'HTML' || scrollEl.tagName === 'BODY' || scrollEl === window;
+      const direction = this.dragState.dragOffsetY > 0 ? 'down' : 'up';
+
+      if (
+        isRootScroll ||
+        (!isRootScroll && getScrollTop(scrollEl) === 0 && direction === 'up') ||
+        (!isRootScroll &&
+          getScrollTop(scrollEl) === scrollEl.scrollHeight - scrollEl.offsetHeight &&
+          direction === 'down')
+      ) {
+        if (e.cancelable) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
     },
   },
 };

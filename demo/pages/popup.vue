@@ -41,6 +41,20 @@
         <br />
       </div>
     </div>
+    <div class="demo-section">
+      <header class="header">Lock Scroll</header>
+      <div class="body">
+        <lake-button @click="isShowLockScroll = !isShowLockScroll">Lock Scroll</lake-button>
+        <lake-popup :show="isShowLockScroll" :lock-scroll="true" @click-mask="isShowLockScroll = false">
+          <div class="popup-content popup-lock-scroll">
+            你以为躲在这里就找不到你吗？没用的，你那样出色的男人无论在哪，都像黑夜星仔里的莹火虫那样的鲜明、那样的出众，你那忧郁的眼神，稀嘘的胡渣子，神乎其技的刀法，还有那杯Drymartine，都深深的迷住了我。
+            <br />
+            他高傲，但是宅心仁厚，他低调，但是受万人景仰，他可以把神赐给人类的火，运用的出神入化，烧出堪称火之艺术的超级菜式，他究竟是神仙的化身？还是地狱的使者？没人知道，但是可以肯定，每个人都给他一个称号——食神！
+          </div>
+        </lake-popup>
+        <br />
+      </div>
+    </div>
   </page-view>
 </template>
 
@@ -58,6 +72,7 @@ export default {
       isShowPopupBottom: false,
       isShowPopupTop: false,
       isShowFullScreen: false,
+      isShowLockScroll: false,
     };
   },
 };
@@ -83,5 +98,9 @@ export default {
   background-color: #fff;
   text-align: left;
   height: 100%;
+}
+.popup-lock-scroll {
+  height: 200px;
+  overflow: scroll;
 }
 </style>
