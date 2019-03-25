@@ -33,5 +33,9 @@ export const getScrollParent = node => {
 };
 
 export const getScrollTop = node => {
+  if (node.tagName === 'HTML' || node.tagName === 'BODY' || node === window) {
+    return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  }
+
   return 'scrollTop' in node ? node.scrollTop : node.pageYOffset;
 };
