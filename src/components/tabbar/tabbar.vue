@@ -53,3 +53,103 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+@import '../../style/common/mixins.less';
+
+.lake-tabbar {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background-color: #f9f9f9;
+  .border-1px-top();
+  .border-1px-bottom();
+  &-wrapper {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &-item {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    min-height: 50px;
+    color: @color-text-secondary;
+    transition: color 0.2s;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    &.active {
+      color: @color-text-link;
+    }
+  }
+  &-item-text {
+    line-height: 1.5;
+  }
+  &-item-dot {
+    display: block;
+    position: absolute;
+    top: 7px;
+    right: 50%;
+    margin-right: -9px;
+  }
+  &-item-info {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    margin-left: 2px;
+  }
+  &.fixed-bottom {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: @z-index-navigation;
+  }
+  &.fixed-bottom &-wrapper {
+    .iphonex-padding-bottom(#f9f9f9);
+  }
+}
+
+@keyframes lake-slide-up {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+}
+@keyframes lake-slide-down {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+}
+
+.lake-slide-up-enter-active {
+  animation: lake-slide-up reverse 0.3s;
+}
+.lake-slide-up-leave-active {
+  animation: lake-slide-up 0.3s;
+}
+.lake-slide-down-enter-active {
+  animation: lake-slide-down reverse 0.3s;
+}
+.lake-slide-down-leave-active {
+  animation: lake-slide-down 0.3s;
+}
+</style>

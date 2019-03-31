@@ -71,7 +71,7 @@ export default {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 200px;
+  min-width: 200px;
   max-height: 100%;
   -webkit-overflow-scrolling: touch;
   z-index: @z-index-popup;

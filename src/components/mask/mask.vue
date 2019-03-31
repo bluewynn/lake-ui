@@ -1,6 +1,11 @@
 <template>
   <transition name="lake-fade">
-    <div :class="['lake-mask', transparent ? 'transparent' : '']" v-if="show" @click="onClick"></div>
+    <div
+      :class="['lake-mask', transparent ? 'transparent' : '']"
+      :style="customStyle"
+      v-if="show"
+      @click="onClick"
+    ></div>
   </transition>
 </template>
 
@@ -20,6 +25,12 @@ export default {
     transparent: {
       type: Boolean,
       default: false,
+    },
+    customStyle: {
+      type: Object,
+      default() {
+        return {};
+      },
     },
     lockScroll: {
       type: Boolean,

@@ -6,49 +6,88 @@ module.exports = {
   },
   env: {
     browser: true,
+    node: true,
+    es6: true,
   },
-  extends: ['airbnb-base', 'plugin:prettier/recommended', 'plugin:vue/essential'],
+  extends: ['eslint:recommended', 'plugin:vue/essential'],
   rules: {
-    'prettier/prettier': [
+    // Best Practices
+    'array-callback-return': 'error',
+    'default-case': 'error',
+    eqeqeq: 'error',
+    'no-console': 'error',
+    'no-alert': 'error',
+    'no-debugger': 'error',
+    'no-eval': 'error',
+    'no-loop-func': 'error',
+    'no-multi-str': 'error',
+    'no-new-func': 'error',
+    'no-new-wrappers': 'error',
+    'no-return-assign': 'error',
+    'no-return-await': 'error',
+    'no-self-compare': 'error',
+    'no-sequences': 'error',
+    'no-throw-literal': 'error',
+    'no-useless-call': 'error',
+    'no-useless-concat': 'error',
+    'no-unused-expressions': [
       'error',
       {
-        endOfLine: 'auto',
+        allowShortCircuit: true,
+        allowTernary: true,
+        allowTaggedTemplates: true,
       },
     ],
-    // 单行最大代码长度
-    'max-len': [
+    'no-void': 'error',
+    'no-with': 'error',
+    radix: 'error',
+    'wrap-iife': 'error',
+    yoda: 'error',
+
+    // Variables
+    'no-shadow-restricted-names': 'error',
+    'no-undef-init': 'error',
+    'no-use-before-define': 'error',
+    'no-unused-vars': [
       'error',
       {
-        code: 120,
+        vars: 'all',
+        args: 'none',
+        caughtErrors: 'none',
+        ignoreRestSiblings: true,
       },
     ],
 
-    // import 不检测路径
-    'import/no-unresolved': 'off',
+    // Node.js and CommonJS
+    'no-new-require': 'error',
 
-    // 不区分系统换行符
-    'linebreak-style': 'off',
+    // Stylistic Issues
+    'max-params': ['error', 7],
+    'new-cap': [
+      'error',
+      {
+        newIsCap: true,
+        capIsNew: false,
+        properties: true,
+      },
+    ],
+    'no-class-assign': 'error',
+    'prefer-object-spread': 'error',
+    'no-new-object': 'error',
+    'no-array-constructor': 'error',
+    'no-multi-assign': 'error',
+    'no-unneeded-ternary': 'error',
+    semi: 'error',
+    'semi-style': ['error', 'last'],
+    'max-nested-callbacks': ['error', 3],
+    'comma-style': ['error', 'last'],
 
-    // import 去掉 file type 缩写机制
-    'import/extensions': 'off',
-
-    // 换行允许多余空格
-    'no-trailing-spaces': 'off',
-
-    // 去掉禁用 i++
-    'no-plusplus': 'off',
-
-    'no-param-reassign': 'off',
-
-    // 去掉禁用三元表达式
-    'no-nested-ternary': 'off',
-
-    'arrow-body-style': 'off',
-
-    'no-unused-expressions': [2, { allowShortCircuit: true }],
-
-    'arrow-parens': 'off',
-
-    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    // ECMAScript 6
+    'no-duplicate-imports': 'error',
+    'no-var': 'error',
+    'one-var': ['error', 'never'],
+    'prefer-const': 'error',
+    'prefer-template': 'error',
+    'new-parens': 'error',
   },
 };
