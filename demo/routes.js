@@ -22,6 +22,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "pages/popup" */ './pages/popup.vue'),
     meta: { group: 'Basic' },
   },
+  {
+    path: '/cell',
+    component: () => import(/* webpackChunkName: "pages/cell" */ './pages/cell.vue'),
+    meta: { group: 'Basic' },
+  },
 
   /* Form */
   {

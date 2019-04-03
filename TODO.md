@@ -6,6 +6,7 @@
 - [x] Flex
 - [x] Popup
 - - [x] disable scroll
+- [x] Cell
 
 ## Form
 

@@ -19,6 +19,7 @@ import { field, textarea } from './components/field';
 import badge from './components/badge';
 import progress from './components/progress';
 import popup from './components/popup';
+import { cell, cellGroup } from './components/cell';
 import plugins from './plugins';
 
 const components = {
@@ -47,6 +48,8 @@ const components = {
   badge,
   progress,
   popup,
+  cell,
+  cellGroup,
 };
 
 // transform component name from '{component}' to 'lake-{component}'
