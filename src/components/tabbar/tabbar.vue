@@ -94,18 +94,11 @@ export default {
   &-item-text {
     line-height: 1.5;
   }
-  &-item-dot {
-    display: block;
-    position: absolute;
-    top: 7px;
-    right: 50%;
-    margin-right: -9px;
-  }
-  &-item-info {
+  &-item-badge {
     position: absolute;
     top: 5px;
     left: 50%;
-    margin-left: 2px;
+    margin-left: 3px;
   }
   &.fixed-bottom {
     position: fixed;

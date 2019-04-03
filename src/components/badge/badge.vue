@@ -1,10 +1,10 @@
 <template>
-  <span class="lake-badge">
-    <span class="lake-badge-dot" v-if="dot"></span>
-    <span class="lake-badge-text" v-else
-      ><slot>{{ text }}</slot></span
-    >
-  </span>
+  <div class="lake-badge">
+    <div class="lake-badge-dot" v-if="dot"></div>
+    <div class="lake-badge-text" v-else>
+      <slot>{{ text }}</slot>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -23,13 +23,13 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import '../../style/themes/default.less';
 
 .lake-badge {
   text-align: center;
   &-text {
-    padding: 1px 4px;
+    padding: 1px 5px;
     font-size: 12px;
     line-height: 14px;
     background-color: #f00;

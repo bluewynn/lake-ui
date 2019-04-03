@@ -4,8 +4,8 @@
     <div class="lake-tabbar-item-text">
       <slot>{{ text }}</slot>
     </div>
-    <lake-badge class="lake-tabbar-item-info" :dot="false" v-if="info">{{ info > 99 ? '99+' : info }}</lake-badge>
-    <lake-badge class="lake-tabbar-item-dot" :dot="true" v-else-if="dot" />
+    <lake-badge class="lake-tabbar-item-badge" :dot="false" v-if="info">{{ info > 99 ? '99+' : info }}</lake-badge>
+    <lake-badge class="lake-tabbar-item-badge" :dot="true" v-else-if="dot" />
   </div>
 </template>
 
