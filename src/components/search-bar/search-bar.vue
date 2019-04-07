@@ -12,8 +12,8 @@
           @focus="onFocus"
           @blur="onBlur"
           @change="onChange"
-        >
-        <i class="lake-search-bar-clean" @click.prevent="onClean" v-show="keyword">x</i>
+        />
+        <lake-icon class="lake-search-bar-clear" name="clear" @click.prevent="onClean" v-show="keyword"></lake-icon>
       </div>
     </form>
     <div class="lake-search-bar-cancel" @click.prevent="onCancel" v-show="isFocus">取消</div>
@@ -21,8 +21,13 @@
 </template>
 
 <script>
+import lakeIcon from '../icon';
+
 export default {
   name: 'lake-search-bar',
+  components: {
+    lakeIcon,
+  },
   model: {
     prop: 'keyword',
   },
@@ -121,7 +126,7 @@ export default {
   }
   &-input {
     width: 100%;
-    line-height: 2.0;
+    line-height: 2;
     border: none;
     border-radius: 4px;
     outline: none;
@@ -133,7 +138,7 @@ export default {
       display: none;
     }
   }
-  &-clean {
+  &-clear {
     position: absolute;
     right: 6px;
     top: 6px;
