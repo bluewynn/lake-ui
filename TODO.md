@@ -21,10 +21,9 @@
 - [x] List
 - [x] PullRefresh
 - [x] NoticeBar
-- - [ ] icon
+- - [x] icon
 - [ ] Badge
 - [x] SearchBar
-- - [ ] fixed, throttle, debounce
 - [x] Tag
 
 ## Feedback
@@ -54,9 +53,5 @@
 
 - [x] add Home page
 - [x] add progress bar
-
-## Deployment
-
-- [ ] separate CSS
 
 ## Document

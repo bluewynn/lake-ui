@@ -2,7 +2,7 @@
   <page-view title="Notice-bar">
     <div class="demo-section">
       <header class="header">Basic</header>
-      <div class="body">
+      <div class="body no-side-padding">
         <lake-notice-bar>今天的小姐姐真的很可爱，今天的小姐姐真的很可爱，今天的小姐姐真的很可爱！</lake-notice-bar>
         <br />
         <lake-notice-bar :enable-close="false"

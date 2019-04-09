@@ -1,7 +1,7 @@
 <template>
   <div class="lake-notice-bar" @click="onClick" v-if="isShow">
     <slot name="icon-left">
-      <!-- <i class="lake-notice-bar-icon-warn"></i> -->
+      <lake-icon class="lake-notice-bar-icon-warn" name="error"></lake-icon>
     </slot>
     <div class="lake-notice-bar-content-wrapper" ref="noticeContentWrapper">
       <div class="lake-notice-bar-content" ref="noticeContent" :style="{ right: `${contentRight}px` }">
@@ -9,14 +9,19 @@
       </div>
     </div>
     <slot name="icon-right">
-      <i class="lake-notice-bar-icon-close" v-if="enableClose" @click.stop="onClose">x</i>
+      <lake-icon class="lake-notice-bar-icon-close" name="close" v-if="enableClose" @click.stop="onClose"></lake-icon>
     </slot>
   </div>
 </template>
 
 <script>
+import lakeIcon from '../../components/icon';
+
 export default {
   name: 'lake-notice-bar',
+  components: {
+    lakeIcon,
+  },
   data() {
     return {
       isShow: true,
@@ -73,3 +78,42 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+@import '../../style/themes/default.less';
+
+.lake-notice-bar {
+  background-color: #fffce5;
+  color: @color-text-secondary;
+  font-size: 12px;
+  line-height: 36px;
+  height: 36px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  &-content-wrapper {
+    flex: 1;
+    overflow: hidden;
+  }
+  &-content {
+    position: relative;
+    right: 297px;
+    white-space: nowrap;
+    display: inline-block;
+    padding: 0 7.5px;
+  }
+  &-icon-warn,
+  &-icon-close {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+  &-icon-close {
+    margin-left: 3px;
+  }
+  &-icon-warn {
+    margin-right: 3px;
+  }
+}
+</style>
