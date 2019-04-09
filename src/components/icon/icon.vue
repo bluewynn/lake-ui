@@ -38,6 +38,10 @@ export default {
 .lake-icon {
   display: inline-block;
   vertical-align: top;
+  width: 16px;
+  height: 16px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
   &-instance {
     width: 100%;
     height: 100%;

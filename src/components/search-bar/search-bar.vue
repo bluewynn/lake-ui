@@ -2,21 +2,32 @@
   <div class="lake-search-bar">
     <form class="lake-search-bar-form" action="#" @submit.prevent="onSubmit">
       <div class="lake-search-bar-box">
-        <input
-          type="search"
-          class="lake-search-bar-input"
-          :placeholder="placeholder"
-          :autocomplete="false"
-          :disabled="disabled"
-          v-model.trim="keyword"
-          @focus="onFocus"
-          @blur="onBlur"
-          @change="onChange"
-        />
-        <lake-icon class="lake-search-bar-clear" name="clear" @click.prevent="onClean" v-show="keyword"></lake-icon>
+        <div class="lake-search-bar-fake-placeholder" v-show="!isFocus" @click.prevent="focus">
+          <span class="lake-search-bar-fake-placeholder-text">
+            <lake-icon name="search"></lake-icon>
+            {{ placeholder }}
+          </span>
+        </div>
+        <div class="lake-search-bar-real-input">
+          <lake-icon class="lake-search-bar-search-icon" name="search"></lake-icon>
+          <input
+            type="search"
+            class="lake-search-bar-input"
+            :placeholder="placeholder"
+            :autocomplete="false"
+            :disabled="disabled"
+            :value="value"
+            ref="searchInput"
+            @input="$emit('input', $event.target.value)"
+            @change="onChange"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+          <lake-icon class="lake-search-bar-clear-icon" name="clear" @click.native="onClean" v-if="value"></lake-icon>
+        </div>
       </div>
     </form>
-    <div class="lake-search-bar-cancel" @click.prevent="onCancel" v-show="isFocus">取消</div>
+    <div class="lake-search-bar-cancel" @click.prevent.stop="onCancel" v-show="isFocus">取消</div>
   </div>
 </template>
 
@@ -28,11 +39,8 @@ export default {
   components: {
     lakeIcon,
   },
-  model: {
-    prop: 'keyword',
-  },
   props: {
-    keyword: {
+    value: {
       type: String,
       default: '',
     },
@@ -63,16 +71,28 @@ export default {
     };
   },
   methods: {
+    focus() {
+      this.$refs.searchInput.focus();
+    },
     onClean() {
-      this.keyword = '';
+      this.$emit('input', '');
       this.$emit('clean');
+      this.focus();
     },
     onCancel() {
+      this.isFocus = false;
       this.$emit('cancel');
     },
+    onChange($event) {
+      const { value } = $event.target;
+
+      if (value && value.trim()) {
+        this.$emit('change', $event.target.value);
+      }
+    },
     onSubmit() {
-      if (this.keyword.trim()) {
-        this.$emit('submit', this.keyword);
+      if (this.value.trim()) {
+        this.$emit('submit', this.value);
       }
     },
     onFocus() {
@@ -80,26 +100,17 @@ export default {
       this.$emit('focus');
     },
     onBlur() {
-      this.isFocus = false;
+      if (!this.value) {
+        this.isFocus = false;
+      }
+
       this.$emit('blur');
     },
-    onChange() {
-      this.$emit('change', this.keyword);
-    },
-    onScroll() {},
-  },
-  mounted() {
-    this.$nextTick().then(() => {
-      window.addEventListener('scroll', this.onScroll);
-    });
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
   },
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
 
@@ -112,42 +123,61 @@ export default {
   .border-1px-top();
   .border-1px-bottom();
 
-  &.lake-search-bar-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
-
   &-form {
     flex: 1;
   }
   &-box {
     position: relative;
+    display: flex;
+    padding: 0 5px;
+    height: 30px;
+    background-color: #fff;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  &-fake-placeholder {
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    text-align: center;
+    background-color: #fff;
+    color: @color-text-secondary;
+    line-height: 16px;
+    padding: 7px 0;
+  }
+  &-real-input {
+    position: relative;
+    width: 100%;
   }
   &-input {
     width: 100%;
+    padding: 0 26px;
     line-height: 2;
     border: none;
-    border-radius: 4px;
     outline: none;
-    padding: 0 5px;
     &::placeholder {
-      text-align: center;
+      text-align: left;
     }
     &::-webkit-search-cancel-button {
       display: none;
     }
   }
-  &-clear {
+  &-search-icon,
+  &-clear-icon {
     position: absolute;
-    right: 6px;
-    top: 6px;
+    top: 0;
+    z-index: 1;
     width: 16px;
     height: 16px;
-    background-color: #b5b5b5;
-    border-radius: 100%;
-    text-align: center;
-    color: #fff;
+    padding: 6px 0 6px 6px;
+  }
+  &-search-icon {
+    left: 0;
+  }
+  &-clear-icon {
+    right: 0;
   }
   &-cancel {
     margin-left: 6px;
