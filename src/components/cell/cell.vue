@@ -1,11 +1,11 @@
 <template>
   <div class="lake-cell" :class="size">
-    <div class="lake-cell-bd">
+    <div class="lake-cell-bd" v-if="title || $slots.title">
       <slot name="title">
         <div class="lake-cell-title">{{ title }}</div>
       </slot>
     </div>
-    <div class="lake-cell-ft">
+    <div class="lake-cell-ft" :class="title || $slots.title ? 'lake-cell-has-bd' : ''">
       <slot name="content">
         <div class="lake-cell-content">{{ content }}</div>
       </slot>
@@ -65,6 +65,8 @@ export default {
   &-ft {
     flex: 1;
     min-width: 0;
+  }
+  &-has-bd {
     margin-left: 10px;
   }
   &-content {

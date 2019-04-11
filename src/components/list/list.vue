@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { on, off } from '../../utils/event.js';
+
 export default {
   name: 'lake-list',
   props: {
@@ -38,21 +40,42 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick().then(() => {
-      this.$scrollContainer = this.useBody ? window : this.$refs.list;
-      this.$scrollContainer.addEventListener('scroll', this.onContainerScroll);
-    });
+    this.bindScroll();
   },
   beforeDestroy() {
-    this.$scrollContainer.removeEventListener('scroll', this.onContainerScroll);
+    this.unbindScroll();
+  },
+  activated() {
+    // 处理 keep-alive 的情况
+    if (!this.isBindingScroll) {
+      this.bindScroll();
+    }
+  },
+  deactivated() {
+    // 处理 keep-alive 的情况
+    if (this.isBindingScroll) {
+      this.unbindScroll();
+    }
   },
   data() {
     return {
       ticking: false,
       $scrollContainer: null,
+      isBindingScroll: false,
     };
   },
   methods: {
+    bindScroll() {
+      this.$nextTick().then(() => {
+        this.$scrollContainer = this.useBody ? window : this.$refs.list;
+        on(this.$scrollContainer, 'scroll', this.onContainerScroll);
+        this.isBindingScroll = true;
+      });
+    },
+    unbindScroll() {
+      off(this.$scrollContainer, 'scroll', this.onContainerScroll);
+      this.isBindingScroll = false;
+    },
     onContainerScroll($event) {
       if (this.finished) return;
 
@@ -90,3 +113,41 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+@import '../../style/themes/default.less';
+
+.lake-list {
+  &-loading-dots {
+    padding: 10px 0;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    min-width: 36px;
+  }
+
+  &-dot {
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background-color: #ccc;
+    border-radius: 100%;
+    display: inline-block;
+    animation: lake-bounce-delay 1s infinite ease-in-out both;
+
+    &.first {
+      animation-delay: -0.32s;
+    }
+    &.second {
+      animation-delay: -0.16s;
+    }
+  }
+
+  &-finished {
+    padding: 10px 0;
+    font-size: 13px;
+    text-align: center;
+    color: @color-text-secondary;
+  }
+}
+</style>

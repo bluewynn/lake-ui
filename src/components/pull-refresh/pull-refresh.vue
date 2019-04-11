@@ -155,5 +155,8 @@ export default {
     text-align: center;
     font-size: 14px;
   }
+  &-content {
+    min-height: 400px;
+  }
 }
 </style>

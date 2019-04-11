@@ -11,6 +11,8 @@ export default {
 </script>
 
 <style lang="less">
+@import '~normalize.css/normalize.css';
+
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
