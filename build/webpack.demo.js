@@ -52,7 +52,7 @@ const productionConfig = webpackMerge(commonConfig, {
   },
   output: {
     filename: 'js/[name].[contenthash:8].js',
-    path: path.resolve(__dirname, '../demo/dist'),
+    path: path.resolve(__dirname, '../docs'),
     publicPath: './',
     chunkFilename: 'js/[name].[contenthash:8].js',
   },
@@ -90,7 +90,7 @@ const productionConfig = webpackMerge(commonConfig, {
     },
   },
   plugins: [
-    new CleanWebpackPlugin(['demo/dist'], {
+    new CleanWebpackPlugin(['docs'], {
       root: path.resolve(process.cwd()),
     }),
     new HtmlWebpackPlugin({
