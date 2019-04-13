@@ -6,16 +6,21 @@
     "vue",
     "UI"
   ],
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "style": "lib/index.css",
+  "files": [
+    "lib"
+  ],
   "repository": "git@github.com:bluewynn/lake-ui.git",
   "author": "bluewynn",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.js --open",
-    "demo-dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js",
-    "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
-    "demo-build": "cross-env NODE_ENV=production webpack --config build/webpack.demo.js",
-    "format-code": "prettier --write src/**/*.vue,src/**/*.js"
+    "dev:demo": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js",
+    "build:lib": "rimraf lib && cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
+    "build:demo": "cross-env NODE_ENV=production webpack --config build/webpack.demo.js",
+    "lint": "eslint src/**/*.vue,src/**/*.js",
+    "lint:format": "yarn lint && prettier --write src/**/*.vue,src/**/*.js"
   },
   "engines": {
     "node": ">=8.11.4",
@@ -66,6 +71,7 @@
     "prettier": "^1.16.4",
     "prettier-eslint": "^8.8.2",
     "progress-bar-webpack-plugin": "^1.11.0",
+    "rimraf": "^2.6.3",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",

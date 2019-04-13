@@ -58,5 +58,9 @@ module.exports = {
     maxEntrypointSize: 300000,
     hints: isProduction ? 'warning' : false,
   },
+  stats: {
+    modules: false,
+    children: false,
+  },
   plugins: [new VueLoaderPlugin(), new ProgressBarWebpackPlugin(), new FriendlyErrorsPlugin()],
 };

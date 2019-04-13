@@ -49,6 +49,14 @@
 - [x] Git hook pre commit lint by eslint
 - [ ] yarn:build UI
 
+## Npm Publish
+
+- [ ] use standard-version to publish
+- [ ] package namespace: @xx/xx
+- [ ] package typings for api: xx.d.ts
+- [ ] package.json modules: lake.esm.js
+- [ ] package.json main: lake.cjs.js
+
 ## Demo
 
 - [x] add Home page
