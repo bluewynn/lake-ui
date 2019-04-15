@@ -3,13 +3,12 @@
     <form class="lake-search-bar-form" action="#" @submit.prevent="onSubmit">
       <div class="lake-search-bar-box">
         <div class="lake-search-bar-fake-placeholder" v-show="!isFocus" @click.prevent="focus">
-          <span class="lake-search-bar-fake-placeholder-text">
-            <lake-icon name="search"></lake-icon>
-            {{ placeholder }}
-          </span>
+          <lake-icon class="lake-search-bar-icon" name="search" fill="#B3B3B3"></lake-icon>
+          {{ placeholder }}
         </div>
         <div class="lake-search-bar-real-input">
-          <lake-icon class="lake-search-bar-search-icon" name="search"></lake-icon>
+          <lake-icon class="lake-search-bar-icon lake-search-bar-search-icon" name="search" size="md" fill="#B3B3B3">
+          </lake-icon>
           <input
             type="search"
             class="lake-search-bar-input"
@@ -23,7 +22,14 @@
             @focus="onFocus"
             @blur="onBlur"
           />
-          <lake-icon class="lake-search-bar-clear-icon" name="clear" @click.native="onClean" v-if="value"></lake-icon>
+          <lake-icon
+            class="lake-search-bar-icon lake-search-bar-clear-icon"
+            name="clear"
+            fill="#B3B3B3"
+            @click.native="onClean"
+            v-if="value"
+          >
+          </lake-icon>
         </div>
       </div>
     </form>
@@ -114,14 +120,14 @@ export default {
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
 
+@input-bg-color: #f5f5f5;
+
 .lake-search-bar {
   display: flex;
   align-items: center;
-  padding: 6px 9px;
+  padding: 12px 15px;
   position: relative;
-  background-color: #ececec;
-  .border-1px-top();
-  .border-1px-bottom();
+  background-color: #fff;
 
   &-form {
     flex: 1;
@@ -131,10 +137,11 @@ export default {
     display: flex;
     padding: 0 5px;
     height: 30px;
-    background-color: #fff;
+    background-color: @input-bg-color;
     align-items: center;
     border-radius: 4px;
     overflow: hidden;
+    font-size: 14px;
   }
   &-fake-placeholder {
     width: 100%;
@@ -142,8 +149,8 @@ export default {
     z-index: 2;
     left: 0;
     text-align: center;
-    background-color: #fff;
-    color: @color-text-secondary;
+    background-color: @input-bg-color;
+    color: @color-text-info;
     line-height: 16px;
     padding: 7px 0;
   }
@@ -154,23 +161,29 @@ export default {
   &-input {
     width: 100%;
     padding: 0 26px;
-    line-height: 2;
+    line-height: 30px;
     border: none;
     outline: none;
+    color: @color-text-primary;
+    background-color: @input-bg-color;
     &::placeholder {
       text-align: left;
+      color: @color-text-info;
     }
     &::-webkit-search-cancel-button {
       display: none;
     }
+  }
+  &-icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: top !important;
   }
   &-search-icon,
   &-clear-icon {
     position: absolute;
     top: 0;
     z-index: 1;
-    width: 16px;
-    height: 16px;
     padding: 6px 0 6px 6px;
   }
   &-search-icon {
@@ -180,9 +193,10 @@ export default {
     right: 0;
   }
   &-cancel {
-    margin-left: 6px;
-    font-size: 13px;
-    color: @color-text-link;
+    margin-left: 15px;
+    font-size: 16px;
+    line-height: 22px;
+    color: @brand-primary;
   }
 }
 </style>

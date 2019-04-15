@@ -51,6 +51,20 @@ module.exports = {
             },
           },
         ],
+        exclude: path.join(__dirname, '../src/icons'),
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              symbolId: 'lake-icon-[name]',
+            },
+          },
+          'svgo-loader',
+        ],
+        include: path.join(__dirname, '../src/icons'),
       },
     ],
   },

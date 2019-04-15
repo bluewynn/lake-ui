@@ -1,11 +1,13 @@
 <template>
-  <i class="lake-icon">
-    <img class="lake-icon-instance" :src="icon" alt />
-  </i>
+  <div :class="['lake-icon', size, hoverFill ? 'hover' : '']" :style="iconStyles">
+    <svg :style="{ fill: fill }" :viewBox="svg.viewBox">
+      <use :xlink:href="`#${svg.id}`"></use>
+    </svg>
+  </div>
 </template>
 
 <script>
-const ICON_SIZES = ['small', 'normal', 'large'];
+const context = require.context('../../icons', true, /\.svg$/);
 
 export default {
   name: 'lake-icon',
@@ -14,21 +16,34 @@ export default {
       type: String,
       required: true,
     },
-    width: {
-      type: Number,
-    },
-    height: {
-      type: Number,
-    },
     size: {
       type: String,
+      default: 'md',
+      validator: value => {
+        return value === '' || ['sm', 'md', 'lg'].indexOf(value) !== -1;
+      },
+    },
+    width: [Number, String],
+    height: [Number, String],
+    fill: {
+      type: String,
+      default: 'currentColor',
+    },
+    hoverFill: {
+      type: String,
       default: '',
-      validator: size => size === '' || ICON_SIZES.includes(size),
     },
   },
   computed: {
-    icon() {
-      return require(`../../icons/${this.name}.svg`);
+    iconStyles() {
+      return {
+        fill: this.hoverFill || null,
+        width: typeof this.width === 'string' ? this.width : `${this.width}px`,
+        height: typeof this.height === 'string' ? this.height : `${this.height}px`,
+      };
+    },
+    svg() {
+      return context(`./${this.name}.svg`).default;
     },
   },
 };
@@ -37,19 +52,25 @@ export default {
 <style lang="less">
 .lake-icon {
   display: inline-block;
-  vertical-align: top;
-  width: 16px;
-  height: 16px;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-  &-instance {
-    width: 100%;
-    height: 100%;
+  vertical-align: middle;
+  > svg {
+    transition: fill ease 0.1s;
     vertical-align: top;
   }
-  &.small {
+  &.sm {
+    width: 12px;
+    height: 12px;
   }
-  &.large {
+  &.md {
+    width: 16px;
+    height: 16px;
+  }
+  &.lg {
+    width: 20px;
+    height: 20px;
+  }
+  &.hover:hover > svg {
+    fill: inherit !important;
   }
 }
 </style>

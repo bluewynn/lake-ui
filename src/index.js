@@ -13,7 +13,6 @@ import pullRefresh from './components/pull-refresh';
 import modal from './components/modal';
 import actionSheet from './components/actionsheet';
 import searchBar from './components/search-bar';
-import tag from './components/tag';
 import { upload, imageUpload } from './components/upload';
 import { field, textarea } from './components/field';
 import badge from './components/badge';
@@ -40,7 +39,6 @@ const components = {
   modal,
   actionSheet,
   searchBar,
-  tag,
   upload,
   imageUpload,
   field,
@@ -53,7 +51,7 @@ const components = {
 };
 
 // transform component name from '{component}' to 'lake-{component}'
-const exportComponents = Object.keys(components).reduce((prev, crt) => {
+const namedComponents = Object.keys(components).reduce((prev, crt) => {
   const componentName = `lake${upperFirst(crt)}`;
   prev[componentName] = components[crt];
 
@@ -62,7 +60,7 @@ const exportComponents = Object.keys(components).reduce((prev, crt) => {
 
 // install components && plugins
 const install = Vue => {
-  Object.keys(components).forEach(key => Vue.component(components[key].name, components[key]));
+  Object.keys(namedComponents).forEach(key => Vue.component(key, namedComponents[key]));
   Object.keys(plugins).forEach(key => Vue.use(plugins[key]));
 };
 
@@ -74,5 +72,4 @@ if (typeof window !== 'undefined' && window.Vue) {
 export default {
   install,
   version,
-  ...exportComponents,
 };
