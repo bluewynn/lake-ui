@@ -14,7 +14,6 @@ module.exports = {
     // Best Practices
     'array-callback-return': 'error',
     'default-case': 'error',
-    eqeqeq: 'error',
     'no-console': 'error',
     'no-alert': 'error',
     'no-debugger': 'error',
@@ -30,6 +29,7 @@ module.exports = {
     'no-throw-literal': 'error',
     'no-useless-call': 'error',
     'no-useless-concat': 'error',
+    'no-useless-escape': 'off',
     'no-unused-expressions': [
       'error',
       {
@@ -87,7 +87,6 @@ module.exports = {
     'no-var': 'error',
     'one-var': ['error', 'never'],
     'prefer-const': 'error',
-    'prefer-template': 'error',
     'new-parens': 'error',
   },
 };

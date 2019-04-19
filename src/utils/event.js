@@ -1,10 +1,13 @@
+import Vue from 'vue';
+
 let passiveSupported = false;
 
-if (window) {
+if (!Vue.prototype.$isServer) {
   try {
     const opts = Object.defineProperty({}, 'passive', {
       get() {
         passiveSupported = true;
+        return true;
       },
     });
     window.addEventListener('testPassive', null, opts);
@@ -20,4 +23,8 @@ export const on = (target, type, listener, options = { passive: true, capture: f
 
 export const off = (target, type, listener) => {
   target.removeEventListener(type, listener);
+};
+
+export const once = (target, type, listener) => {
+  target.addEventListener(type, listener, { once: true });
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="lake-list" ref="list">
     <slot></slot>
-    <slot name="lake-list-loading" v-if="loading">
+    <slot name="loading" v-if="loading">
       <div class="lake-list-loading">
         <div class="lake-list-loading-dots regular">
           <div class="lake-list-dot first"></div>
@@ -10,7 +10,7 @@
         </div>
       </div>
     </slot>
-    <slot name="lake-list-finished" v-if="finished">
+    <slot name="finished" v-if="finished">
       <div class="lake-list-finished">没有更多了</div>
     </slot>
   </div>
@@ -18,6 +18,7 @@
 
 <script>
 import { on, off } from '../../utils/event.js';
+import { getScrollTop, getScrollHeight } from '../../utils/scroll.js';
 
 export default {
   name: 'lake-list',
@@ -31,12 +32,14 @@ export default {
       default: false,
     },
     loadOffset: {
+      // 触发 load 事件的距底部偏移
       type: Number,
-      default: 50,
+      default: 200,
     },
     useBody: {
+      // 默认使用 window 作为 scroll 事件绑定对象
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   mounted() {
@@ -105,8 +108,8 @@ export default {
       }
 
       return {
-        scrollTop: (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop,
-        scrollHeight: (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight,
+        scrollTop: getScrollTop(document.body),
+        scrollHeight: getScrollHeight(document.body),
         clientHeight: 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight,
       };
     },
@@ -145,7 +148,7 @@ export default {
 
   &-finished {
     padding: 10px 0;
-    font-size: 13px;
+    font-size: @size-font-sm;
     text-align: center;
     color: @color-text-secondary;
   }

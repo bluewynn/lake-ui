@@ -39,3 +39,11 @@ export const getScrollTop = node => {
 
   return 'scrollTop' in node ? node.scrollTop : node.pageYOffset;
 };
+
+export const getScrollHeight = node => {
+  if (node.tagName === 'HTML' || node.tagName === 'BODY' || node === window) {
+    return (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
+  }
+
+  return 'scrollHeight' in node ? node.scrollHeight : 0;
+};

@@ -1,89 +1,145 @@
 <template>
-  <div class="lake-tabs">
+  <div class="lake-tabs" :class="fixedClass">
     <div class="lake-tabs-wrapper" ref="tab">
       <div class="lake-tabs-inner">
         <div
           class="lake-tabs-list"
           :style="{
-            width: `${tabListWidth}px`,
-            transform: `translate3d(${tabListX}px, 0, 0)`
+            transform: `translate3d(${tabListX}px, 0, 0)`,
+            transition: !dragState.isDragging
+              ? 'transform .5s cubic-bezier(0.075, 0.82, 0.165, 1)'
+              : 'transform 0s ease',
           }"
           ref="tabList"
+          @touchstart="onTouchStart"
+          @touchmove="onTouchMove"
+          @touchend="onTouchEnd"
+          @touchcancel="onTouchEnd"
+          @transitionend.stop
         >
           <div
             class="lake-tabs-item"
-            :class="{ 'active': activeTabIndex === index }"
+            :class="{ active: activeTabIndex === index }"
             v-for="(tab, index) in tabs"
             :key="index"
             ref="tabItems"
             @click="onTabClick(tab, index)"
           >
-            <div class="tab-name">{{ tab.name }}</div>
+            <div class="lake-tabs-item-name">
+              <slot name="tab-item" :tab="tab">{{ tab }}</slot>
+            </div>
           </div>
-          <div
-            class="lake-tabs-item-active"
-            :style="{
-              width: `${tabItemWidth}px`,
-              transform: `translate3d(${activeLineOffsetLeft}px, 0, 0)`,
-            }"
-          ></div>
         </div>
-        <div
-          class="lake-tabs-panel-list"
-          :style="{
-            width: `${tabPanelListWidth}px`,
-            transform: `translate3d(${-activePanelOffsetLeft}px, 0, 0)`,
-          }"
-        >
-          <slot></slot>
-        </div>
+        <div class="lake-tabs-gradient" @click.prevent.stop="onMoreClick"></div>
+      </div>
+      <div class="lake-tabs-more" @click.prevent.stop="onMoreClick">
+        <slot name="tabs-more">
+          <lake-icon name="sort" size="md" fill="#B3B3B3"></lake-icon>
+        </slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { on, off } from '../../utils/event.js';
+import { getScrollTop } from '../../utils/scroll.js';
+import { isSupportPositionSticky } from '../../utils/browser-ability.js';
+import drag from '../../mixins/drag';
+import lakeIcon from '../icon';
+
 export default {
   name: 'lake-tabs',
+  components: { lakeIcon },
+  mixins: [drag],
   props: {
     tabs: {
       type: Array,
+      required: true,
     },
-    animated: {
+    sticky: {
+      // 是否支持粘性置顶
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
-  data: () => ({
-    activeTabIndex: 0,
-    tabListX: 0,
-    tabContainerWidth: 0,
-    tabListWidth: 0,
-    tabItemWidth: 0,
-    tabPanelListWidth: 0,
-    activeLineOffsetLeft: 0,
-    activePanelOffsetLeft: 0,
-  }),
+  data() {
+    return {
+      activeTabIndex: 0,
+      tabListX: 0,
+      dd: 0,
+      tabDragPos: 0,
+      fixedClass: '',
+    };
+  },
+  mounted() {
+    this.onScrollFixed();
+  },
+  beforeDestroy() {
+    if (this.sticky) {
+      off(window, 'scroll', this.onScroll);
+    }
+  },
   watch: {
     activeTabIndex: {
       handler(index) {
-        this.moveActiveLine(index);
-        this.moveTabPanel(index);
-        this.$emit('change', this.tabs[index], index);
+        this.$emit('change', { tab: this.tabs[index], index });
       },
     },
-    tabs: 'adjustTabsSize',
   },
   methods: {
-    adjustTabsSize() {
-      this.tabContainerWidth = this.$el.clientWidth || document.body.clientWidth;
-      this.tabItemWidth = this.tabs.length > 2 ? this.tabContainerWidth / 3 : this.tabContainerWidth / this.tabs.length;
-      this.tabListWidth = this.tabItemWidth * this.tabs.length;
-      this.tabPanelListWidth = this.tabContainerWidth * this.tabs.length;
-    },
     onTabClick(tab, index) {
       this.activeTabIndex = index;
-      this.$emit('tab-click', tab, index);
+      this.scrollView(index);
+      this.$emit('tab-click', { tab, index });
+    },
+    onMoreClick() {
+      this.$emit('more-click');
+    },
+    onTouchStart(e) {
+      this.dragStart(e);
+      this.tabDragPos = this.tabListX;
+    },
+    onTouchMove(e) {
+      this.dragMove(e);
+
+      if (this.dragState.direction !== 'x') return;
+
+      e.preventDefault();
+
+      const moveDistance = -this.dragState.dragOffsetX;
+
+      this.tabListX = this.getSaveShift(this.tabDragPos + moveDistance);
+    },
+    onTouchEnd(e) {
+      this.dragEnd(e);
+    },
+    onScrollFixed() {
+      if (this.sticky) {
+        const { offsetTop } = this.$el;
+
+        on(window, 'scroll', this.onScroll.bind(this, offsetTop));
+      }
+    },
+    onScroll(offsetTop) {
+      window.requestAnimationFrame(() => {
+        const scrollTop = getScrollTop(window);
+
+        if (scrollTop >= offsetTop) {
+          this.fixedClass = isSupportPositionSticky() ? 'sticky' : 'fixed';
+        } else {
+          this.fixedClass = '';
+        }
+      });
+    },
+    scrollView(index) {
+      const { tabList: $tabList, tabItems: $tabItems } = this.$refs;
+      const { offsetWidth: curTabItemWidth, offsetLeft: curTabItemLeft } = $tabItems[index];
+      const to = this.tabListX + curTabItemLeft;
+      const from = this.tabListX + ($tabList.offsetWidth - curTabItemWidth) / 2;
+      const shift = from - to;
+
+      this.tabListX = this.getSaveShift(shift);
     },
     getSaveShift(shift) {
       const { tabList: $tabList, tabItems: $tabItems } = this.$refs;
@@ -96,66 +152,102 @@ export default {
 
       return saveShift;
     },
-    moveActiveLine(index) {
-      this.activeLineOffsetLeft = this.tabItemWidth * index;
-    },
-    moveTabPanel(index) {
-      this.activePanelOffsetLeft = this.tabContainerWidth * index;
-    },
-  },
-  mounted() {
-    this.adjustTabsSize();
-    window.addEventListener('resize', this.adjustTabsSize);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.adjustTabsSize);
   },
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
 
 .lake-tabs {
+  width: 100%;
+  background-color: white;
+  &-wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-flow: row nowrap;
+  }
   &-inner {
+    position: relative;
     overflow: hidden;
+    flex: 1;
   }
   &-list {
-    display: flex;
-    position: relative;
-    align-items: center;
-    text-align: center;
-
-    .border-1px-top();
-    .border-1px-bottom();
+    width: 100%;
+    white-space: nowrap;
+    touch-action: pan-x;
+    will-change: transform;
   }
   &-item {
-    flex: 1;
-    line-height: 40px;
-    padding: 0 10px;
-    background-color: #fff;
-
-    &.active {
-      color: @color-text-link;
+    padding: 0 15px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+  }
+  &-item-name {
+    position: relative;
+    font-size: 14px;
+    color: @color-text-gray;
+    line-height: 20px;
+    padding: 10px 0;
+    max-width: 150px;
+    overflow: hidden;
+    transition: color 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    .single-line();
+  }
+  &-item.active {
+    .lake-tabs-item-name {
+      color: @color-text-primary;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 20px;
+      padding: 10px 0;
+    }
+    .lake-tabs-item-name::after {
+      content: ' ';
+      display: block;
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      width: 20px;
+      height: 3px;
+      transform: translateX(-50%);
+      border-radius: 1px;
+      background-color: @brand-primary;
     }
   }
-  &-item-active {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    border: 1px solid @color-text-link;
-    transition: transform ease 0.3s;
-  }
-  &-panel-list {
+  &-more {
+    position: relative;
+    padding: 12px 15px 12px 0;
     display: flex;
-    transition: transform ease 0.3s;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
   }
-}
-.lake-tab {
-  flex: 1;
-  background-color: #fff;
-  padding: 10px;
-  min-height: 100px;
+  &-gradient {
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 20px;
+    height: 40px;
+    z-index: 1;
+    right: -1px;
+    background: linear-gradient(-90deg, #ffffff 12%, rgba(255, 255, 255, 0) 100%);
+  }
+  &.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    box-shadow: 0 -1px 8px 1px rgba(119, 119, 119, 0.6);
+  }
+  &.sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    box-shadow: 0 -1px 8px 1px rgba(119, 119, 119, 0.6);
+  }
 }
 </style>

@@ -3,35 +3,19 @@
     <div class="demo-section">
       <header class="header">Basic</header>
       <lake-tabs :tabs="tabItems.slice(0, 3)">
-        <lake-tab
-          v-for="tabItem in tabItems.slice(0, 3)"
-          :key="tabItem.name"
-        >Content of {{ tabItem.name }}</lake-tab>
+        <span slot="tab-item" slot-scope="{ tab }">{{ tab.name }}</span>
       </lake-tabs>
-      <br>
+      <br />
       <lake-tabs :tabs="tabItems.slice(0, 2)">
-        <lake-tab
-          v-for="tabItem in tabItems.slice(0, 2)"
-          :key="tabItem.name"
-        >Content of {{ tabItem.name }}</lake-tab>
+        <span slot="tab-item" slot-scope="{ tab }">{{ tab.name }}</span>
       </lake-tabs>
     </div>
 
     <div class="demo-section">
       <header class="header">Multiple Tabs</header>
-      <lake-tabs :tabs="tabItems">
-        <lake-tab v-for="tabItem in tabItems" :key="tabItem.name">Content of {{ tabItem.name }}</lake-tab>
+      <lake-tabs :tabs="tabItems" :show-more-icon="true">
+        <span slot="tab-item" slot-scope="{ tab }">{{ tab.name }}</span>
       </lake-tabs>
-    </div>
-
-    <div class="demo-section">
-      <header class="header">Auto</header>
-      <div class="body"></div>
-    </div>
-
-    <div class="demo-section">
-      <header class="header">Loop</header>
-      <div class="body"></div>
     </div>
   </page-view>
 </template>
@@ -54,6 +38,10 @@ export default {
         { name: 'Tab 5' },
         { name: 'Tab 6' },
         { name: 'Tab 7' },
+        { name: 'Tab 8' },
+        { name: 'Tab 9' },
+        { name: 'Tab 10' },
+        { name: 'Tab 11' },
       ],
     };
   },

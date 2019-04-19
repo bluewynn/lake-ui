@@ -1,7 +1,7 @@
 import { version } from '../package.json';
 import { upperFirst } from './utils';
 import { flexBox, flexBoxItem } from './components/flex';
-import { tabs, tab } from './components/tabs';
+import { tabs } from './components/tabs';
 import noticeBar from './components/notice-bar';
 import { carousel, carouselItem } from './components/carousel';
 import pagination from './components/pagination';
@@ -11,7 +11,7 @@ import toast from './components/toast';
 import list from './components/list';
 import pullRefresh from './components/pull-refresh';
 import modal from './components/modal';
-import actionSheet from './components/actionsheet';
+import actionsheet from './components/actionsheet';
 import searchBar from './components/search-bar';
 import { upload, imageUpload } from './components/upload';
 import { field, textarea } from './components/field';
@@ -25,7 +25,6 @@ const components = {
   flexBox,
   flexBoxItem,
   tabs,
-  tab,
   noticeBar,
   carousel,
   carouselItem,
@@ -37,7 +36,7 @@ const components = {
   list,
   pullRefresh,
   modal,
-  actionSheet,
+  actionsheet,
   searchBar,
   upload,
   imageUpload,

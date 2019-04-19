@@ -1,14 +1,12 @@
 <template>
   <div :class="['lake-icon', size, hoverFill ? 'hover' : '']" :style="iconStyles">
-    <svg :style="{ fill: fill }" :viewBox="svg.viewBox">
-      <use :xlink:href="`#${svg.id}`"></use>
+    <svg :style="{ fill: fill }" :viewBox="icon.viewBox">
+      <use :xlink:href="`#${icon.id}`"></use>
     </svg>
   </div>
 </template>
 
 <script>
-const context = require.context('../../icons', true, /\.svg$/);
-
 export default {
   name: 'lake-icon',
   props: {
@@ -35,15 +33,15 @@ export default {
     },
   },
   computed: {
+    icon() {
+      return require(`../../icons/${this.name}.svg`).default;
+    },
     iconStyles() {
       return {
         fill: this.hoverFill || null,
         width: typeof this.width === 'string' ? this.width : `${this.width}px`,
         height: typeof this.height === 'string' ? this.height : `${this.height}px`,
       };
-    },
-    svg() {
-      return context(`./${this.name}.svg`).default;
     },
   },
 };
@@ -53,6 +51,8 @@ export default {
 .lake-icon {
   display: inline-block;
   vertical-align: middle;
+  width: 16px;
+  height: 16px;
   > svg {
     transition: fill ease 0.1s;
     vertical-align: top;

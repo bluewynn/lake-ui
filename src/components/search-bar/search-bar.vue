@@ -2,8 +2,8 @@
   <div class="lake-search-bar">
     <form class="lake-search-bar-form" action="#" @submit.prevent="onSubmit">
       <div class="lake-search-bar-box">
-        <div class="lake-search-bar-fake-placeholder" v-show="!isFocus" @click.prevent="focus">
-          <lake-icon class="lake-search-bar-icon" name="search" fill="#B3B3B3"></lake-icon>
+        <div class="lake-search-bar-fake-placeholder" v-show="!isFocus && !value" @click.prevent="focus">
+          <lake-icon class="lake-search-bar-icon" name="search" size="md" fill="#B3B3B3"> </lake-icon>
           {{ placeholder }}
         </div>
         <div class="lake-search-bar-real-input">
@@ -13,7 +13,7 @@
             type="search"
             class="lake-search-bar-input"
             :placeholder="placeholder"
-            :autocomplete="false"
+            :autocomplete="autocomplete ? 'on' : 'off'"
             :disabled="disabled"
             :value="value"
             ref="searchInput"
@@ -33,7 +33,9 @@
         </div>
       </div>
     </form>
-    <div class="lake-search-bar-cancel" @click.prevent.stop="onCancel" v-show="isFocus">取消</div>
+    <div class="lake-search-bar-cancel" @click.prevent.stop="onCancel" v-show="isFocus || value">
+      {{ cancelBtnText }}
+    </div>
   </div>
 </template>
 
@@ -55,8 +57,8 @@ export default {
       default: '搜索',
     },
     autocomplete: {
-      type: String,
-      default: 'off',
+      type: Boolean,
+      default: false,
     },
     disabled: {
       type: Boolean,
@@ -70,6 +72,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    cancelBtnText: {
+      type: String,
+      default: '取消',
+    },
   },
   data() {
     return {
@@ -80,13 +86,17 @@ export default {
     focus() {
       this.$refs.searchInput.focus();
     },
+    reset() {
+      this.isFocus = false;
+      this.$emit('input', '');
+    },
     onClean() {
       this.$emit('input', '');
       this.$emit('clean');
       this.focus();
     },
     onCancel() {
-      this.isFocus = false;
+      this.reset();
       this.$emit('cancel');
     },
     onChange($event) {
@@ -136,7 +146,7 @@ export default {
     position: relative;
     display: flex;
     padding: 0 5px;
-    height: 30px;
+    height: 32px;
     background-color: @input-bg-color;
     align-items: center;
     border-radius: 4px;
@@ -161,7 +171,8 @@ export default {
   &-input {
     width: 100%;
     padding: 0 26px;
-    line-height: 30px;
+    line-height: 20px;
+    font-size: 14px;
     border: none;
     outline: none;
     color: @color-text-primary;
@@ -184,7 +195,7 @@ export default {
     position: absolute;
     top: 0;
     z-index: 1;
-    padding: 6px 0 6px 6px;
+    padding: 2px 0 2px 6px;
   }
   &-search-icon {
     left: 0;

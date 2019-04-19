@@ -31,10 +31,10 @@ export default {
       this.dragState.dragOffsetY = this.dragState.dragStartY - clientY;
 
       const getDirection = (x, y) => {
-        if (x > y && x > 5) {
+        if (x > y && x > 10) {
           return 'x';
         }
-        if (y > x && y > 5) {
+        if (y > x && y > 10) {
           return 'y';
         }
 

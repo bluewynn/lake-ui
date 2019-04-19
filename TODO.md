@@ -5,7 +5,6 @@
 - [x] Button
 - [x] Flex
 - [x] Popup
-- - [x] disable scroll
 - [x] Cell
 
 ## Form
@@ -21,7 +20,7 @@
 - [x] List
 - [x] PullRefresh
 - [x] NoticeBar
-- - [x] icon
+- - [ ] icon
 - [ ] Badge
 - [x] SearchBar
 - [x] Tag
@@ -38,7 +37,6 @@
 
 - [x] TabBar
 - [x] Tabs
-- - [ ] multiple tabs
 - - [ ] swipe panel
 - - [ ] disabled animated
 - [x] Pagination

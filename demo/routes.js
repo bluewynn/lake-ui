@@ -66,11 +66,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "pages/search-bar" */ './pages/search-bar.vue'),
     meta: { group: 'Display' },
   },
-  {
-    path: '/tag',
-    component: () => import(/* webpackChunkName: "pages/tag" */ './pages/tag.vue'),
-    meta: { group: 'Display' },
-  },
 
   /* Feedback */
   {

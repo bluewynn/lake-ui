@@ -1,5 +1,5 @@
 <template>
-  <div class="lake-carousel">
+  <div class="lake-carousel" :class="transparentSide ? 'transparent-side' : ''">
     <div class="lake-carousel-wrapper" :style="{ overflow: !transparentSide ? 'hidden' : 'initial' }">
       <div
         class="lake-carousel-inner"
@@ -22,6 +22,7 @@
       <div
         class="lake-carousel-indicator"
         :class="[currentCarouselItemIndex + 1 === n ? 'active' : '']"
+        :style="currentCarouselItemIndex + 1 === n ? indicatorItemActiveStyle : indicatorItemStyle"
         v-for="n in carouselItemCount"
         :key="n"
         @click.prevent="moveToPage(n - 1)"
@@ -32,6 +33,7 @@
 
 <script>
 import drag from '../../mixins/drag';
+import { once } from '../../utils/event.js';
 
 export default {
   name: 'lake-carousel',
@@ -66,6 +68,8 @@ export default {
       default: false,
     },
     indicatorContainerStyle: Object,
+    indicatorItemStyle: Object,
+    indicatorItemActiveStyle: Object,
   },
   data() {
     return {
@@ -84,7 +88,7 @@ export default {
   },
   mounted() {
     this.$nextTick().then(() => {
-      window.addEventListener('resize', this.adjustCarouselSize);
+      once(window, 'resize', this.adjustCarouselSize);
 
       this.adjustCarouselSize();
       this.startInterval();
@@ -93,7 +97,6 @@ export default {
   },
   beforeDestroy() {
     this.stopInterval();
-    window.removeEventListener('resize', this.adjustCarouselSize);
   },
   computed: {
     prevPage() {
@@ -141,7 +144,7 @@ export default {
       }
     },
     adjustCarouselSize() {
-      this.containerWidth = this.width || (this.$el && this.$el.clientWidth) || 0;
+      this.containerWidth = this.width || (this.$el && this.$el.clientWidth) || 'auto';
       this.carouselItemCount =
         (this.$slots &&
           this.$slots.default &&
@@ -159,6 +162,8 @@ export default {
       this.dragMove(e);
 
       if (this.dragState.direction !== 'x') return;
+
+      e.preventDefault();
 
       const currentOffsetX = this.currentStartOffsetX - this.dragState.dragOffsetX;
 
@@ -193,7 +198,7 @@ export default {
       this.$emit('change', this.currentCarouselItemIndex);
     },
     setActiveCarouselItem(index) {
-      if (this.transparentSide && this.$children && this.$children.length) {
+      if (this.$children && this.$children.length) {
         this.$children.forEach(($vm, i) => {
           $vm.active = index === i;
         });
@@ -206,6 +211,7 @@ export default {
 <style lang="less">
 .lake-carousel {
   position: relative;
+  overflow: hidden;
   &-wrapper {
     width: 100%;
     position: relative;
@@ -215,16 +221,13 @@ export default {
     align-items: flex-start;
     flex-direction: row;
     backface-visibility: hidden;
+    touch-action: pan-x;
   }
   &-item {
     position: relative;
     flex: 1;
+    align-self: stretch;
     user-select: none;
-    transition: opacity ease 0.2s;
-    opacity: 0.75;
-  }
-  &-item.active {
-    opacity: 1;
   }
   &-indicators {
     position: absolute;
@@ -242,6 +245,13 @@ export default {
     &.active {
       background-color: #fff;
     }
+  }
+  &.transparent-side &-item {
+    transition: opacity ease 0.2s;
+    opacity: 0.75;
+  }
+  &.transparent-side &-item.active {
+    opacity: 1;
   }
 }
 </style>

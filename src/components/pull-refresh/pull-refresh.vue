@@ -17,7 +17,11 @@
           <span v-if="pullState">{{ pullState }}</span>
         </div>
       </div>
-      <div class="lake-pull-refresh-content" v-show="pullState !== labels.REFRESHING">
+      <div
+        class="lake-pull-refresh-content"
+        :style="{ minHeight: `${refreshMinHeight}px` }"
+        v-show="pullState !== labels.REFRESHING"
+      >
         <slot></slot>
       </div>
     </div>
@@ -40,9 +44,15 @@ export default {
       type: Boolean,
       default: false,
     },
-    refreshHeight: {
+    refreshDistance: {
+      // 触发刷新的拉动距离
       type: Number,
       default: 60,
+    },
+    refreshMinHeight: {
+      // 可触发下拉的容器高度
+      type: Number,
+      default: 400,
     },
     refreshStartText: {
       type: String,
@@ -97,14 +107,14 @@ export default {
     onTouchMove(e) {
       if (this.disabled) return;
 
-      if (getScrollTop(window) === 0) {
+      if (getScrollTop(window) === 0 && this.dragState.dragOffsetY <= 0) {
         this.dragMove(e);
         this.pullDistance = Math.abs(this.dragState.dragOffsetY) / 3;
 
         if (this.pullDistance > 0 && this.dragState.dragOffsetY < 0) {
-          e.preventDefault();
+          e.cancelable && e.preventDefault();
           this.pullState =
-            this.pullDistance >= this.refreshHeight ? this.labels.REFRESH_READY : this.labels.REFRESH_START;
+            this.pullDistance >= this.refreshDistance ? this.labels.REFRESH_READY : this.labels.REFRESH_START;
         }
       }
     },
@@ -115,7 +125,7 @@ export default {
 
       if (this.pullState === this.labels.REFRESH_READY) {
         this.pullState = this.labels.REFRESHING;
-        this.pullDistance = this.refreshHeight;
+        this.pullDistance = this.refreshDistance;
         this.$emit('refresh');
       } else {
         this.pullState = this.labels.REFRESH_START;
@@ -153,10 +163,7 @@ export default {
     height: 30px;
     color: @color-text-primary;
     text-align: center;
-    font-size: 14px;
-  }
-  &-content {
-    min-height: 400px;
+    font-size: @size-font-md;
   }
 }
 </style>
