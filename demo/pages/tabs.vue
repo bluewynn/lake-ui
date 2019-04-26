@@ -5,15 +5,32 @@
       <lake-tabs :tabs="tabItems.slice(0, 3)">
         <span slot="tab-item" slot-scope="{ tab }">{{ tab.name }}</span>
       </lake-tabs>
-      <br />
-      <lake-tabs :tabs="tabItems.slice(0, 2)">
+    </div>
+
+    <div class="demo-section">
+      <header class="header">Multiple Tabs</header>
+      <lake-tabs :tabs="tabItems" :show-more="true">
         <span slot="tab-item" slot-scope="{ tab }">{{ tab.name }}</span>
       </lake-tabs>
     </div>
 
     <div class="demo-section">
-      <header class="header">Multiple Tabs</header>
-      <lake-tabs :tabs="tabItems" :show-more-icon="true">
+      <header class="header">Selected Tabs</header>
+      <lake-tabs :tabs="tabItems" :selected="1" :show-more="true">
+        <span slot="tab-item" slot-scope="{ tab }">{{ tab.name }}</span>
+      </lake-tabs>
+    </div>
+
+    <div class="demo-section">
+      <header class="header">Unscroll Tabs</header>
+      <lake-tabs :tabs="tabItems.slice(0, 4)" :scroll="false" :show-more="false">
+        <span slot="tab-item" slot-scope="{ tab }">{{ tab.name }}</span>
+      </lake-tabs>
+    </div>
+
+    <div class="demo-section">
+      <header class="header">large Tabs</header>
+      <lake-tabs :tabs="tabItems.slice(0, 4)" :scroll="false" :show-more="false" size="large">
         <span slot="tab-item" slot-scope="{ tab }">{{ tab.name }}</span>
       </lake-tabs>
     </div>
