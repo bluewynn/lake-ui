@@ -7,7 +7,6 @@
         <lake-button type="primary">primary</lake-button>
         <lake-button type="warning">warning</lake-button>
         <lake-button type="outline">outline</lake-button>
-        <lake-button type="link">link</lake-button>
       </div>
     </div>
     <div class="demo-section">
@@ -17,7 +16,6 @@
         <lake-button type="primary" :disabled="true">primary disabled</lake-button>
         <lake-button type="warning" :disabled="true">warning disabled</lake-button>
         <lake-button type="outline" :disabled="true">outline disabled</lake-button>
-        <lake-button type="link" :disabled="true">link disabled</lake-button>
       </div>
     </div>
     <div class="demo-section">

@@ -27,6 +27,7 @@ export default {
 @import '../../style/themes/default.less';
 
 .lake-badge {
+  display: inline-block;
   text-align: center;
   &-text {
     padding: 1px 5px;

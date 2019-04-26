@@ -3,15 +3,26 @@
     <div class="demo-section">
       <header class="header">Basic</header>
       <div class="body no-side-padding">
-        <lake-tab-bar :tabs="tabs" :show="isShowTab" selected="Contact" position="bottom">
-          <lake-tab-bar-item v-for="(tab, index) in tabs" :key="index" :text="tab.name">
-            <div :style="{ position: 'relative' }">
-              {{ tab.name }}
-              <lake-badge class="badge" :dot="true" v-if="tab.name === 'Home'"></lake-badge>
-              <lake-badge class="badge" v-if="tab.name === 'Me'">1</lake-badge>
+        <lake-cell-group>
+          <lake-cell size="large">
+            <div class="text-badge" slot="content">
+              <div class="text">文字模式</div>
+              <lake-badge text="new"></lake-badge>
             </div>
-          </lake-tab-bar-item>
-        </lake-tab-bar>
+          </lake-cell>
+          <lake-cell size="large">
+            <div class="text-badge" slot="content">
+              <div class="text">文字模式</div>
+              <lake-badge text="99"></lake-badge>
+            </div>
+          </lake-cell>
+          <lake-cell size="large">
+            <div class="dot-badge" slot="content">
+              <div class="text">小点点模式</div>
+              <lake-badge :dot="true"></lake-badge>
+            </div>
+          </lake-cell>
+        </lake-cell-group>
       </div>
     </div>
   </page-view>
@@ -35,9 +46,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.badge {
-  position: absolute;
-  right: 0;
-  top: -8px;
+.dot-badge,
+.text-badge {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  .text {
+    flex: 1;
+  }
 }
 </style>

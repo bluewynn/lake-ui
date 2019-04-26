@@ -1,13 +1,13 @@
 <template>
   <button type="button" class="lake-btn" :class="btnClass" :disabled="disabled" @click="onClick">
-    <i class="loading" v-if="loading"></i>
+    <i class="lake-loading" v-if="loading"></i>
     <slot name="icon"></slot>
     <slot></slot>
   </button>
 </template>
 
 <script>
-const BTN_TYPES = ['default', 'primary', 'warning', 'outline', 'link'];
+const BTN_TYPES = ['default', 'primary', 'warning', 'outline'];
 const BTN_SIZES = ['small', 'normal', 'large'];
 
 export default {
@@ -43,10 +43,10 @@ export default {
   computed: {
     btnClass() {
       return [
-        this.inline ? 'btn-inline' : '',
-        this.type ? `btn-${this.type}` : '',
-        this.size ? `btn-${this.size}` : '',
-        this.loading ? `btn-loading` : '',
+        this.inline ? 'lake-btn-inline' : '',
+        this.type ? `lake-btn-${this.type}` : '',
+        this.size ? `lake-btn-${this.size}` : '',
+        this.loading ? `lake-btn-loading` : '',
       ];
     },
   },
@@ -58,7 +58,7 @@ export default {
         return;
       }
 
-      this.$emit('click');
+      this.$emit('click', $event);
     },
   },
 };
@@ -66,90 +66,106 @@ export default {
 
 <style lang="less">
 @import '../../style/themes/default.less';
-
+@import '../../style/common/mixins.less';
+@btnPrefixClass: lake-btn;
 /**
  * get backgroundColor active status and disabled status
  */
 .btn-mutate(@backgroundColor) {
+  @level: 7;
+
+  &.@{btnPrefixClass}-loading,
   &:active {
-    background-color: darken(@backgroundColor, 10%);
-    border-color: darken(@backgroundColor, 10%);
+    color: rgba(255, 255, 255, 0.6);
+    background-color: .hsv-color(@backgroundColor, @level) [ @result];
+    border-color: .hsv-color(@backgroundColor, @level) [ @result];
   }
   &:disabled {
+    color: #fff;
     background-color: #d8dee6;
     border-color: #d8dee6;
   }
 }
+.btn-mutate-white(@backgroundColor) {
+  &.@{btnPrefixClass}-loading,
+  &:active {
+    color: rgba(51, 51, 51, 0.6);
+    background-color: #f5f7fa;
+    border-color: #d8dee6;
+  }
+  &:disabled {
+    color: rgba(51, 51, 51, 0.3);
+    background-color: #ffffff;
+    border-color: #d8dee6;
+  }
+}
 
-.lake-btn {
+.@{btnPrefixClass} {
   display: block;
   outline: 0 none;
   box-sizing: border-box;
-  padding: 0;
+  padding: 13px 15px;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   width: 100%;
-  height: 45px;
-  line-height: 45px;
+  min-width: 64px;
+  height: 48px;
+  line-height: 22px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
   white-space: nowrap;
   color: #333;
   background-color: #fff;
-  border: 1px solid #f1f1f1;
+  border: 1px solid #d8dee6;
   border-radius: 4px;
-  padding: 0 15px;
   user-select: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-appearance: none;
   -webkit-font-smoothing: antialiased;
-  .btn-mutate(#fff);
+  .btn-mutate-white(#fff);
 
-  &.btn-primary {
+  &-primary {
     color: #fff;
     background-color: @brand-primary;
     border-color: @brand-primary;
     .btn-mutate(@brand-primary);
   }
-  &.btn-warning {
+  &-warning {
     color: #fff;
     background-color: @brand-error;
     border-color: @brand-error;
     .btn-mutate(@brand-error);
   }
-  &.btn-outline {
+  &-outline {
     color: @brand-primary;
-    background-color: transparent;
-    border-color: @brand-primary;
+    background-color: #fff;
+    border-color: #008dfc;
   }
-  &.btn-link {
-    color: @brand-primary;
-    background-color: transparent;
-    border-color: transparent;
+  &-small {
+    font-size: 14px;
+    height: 32px;
+    line-height: 20px;
+    padding: 5px 10px;
   }
-  &.btn-small {
-    font-size: 13px;
-    height: 30px;
-    line-height: 30px;
-  }
-  &.btn-normal {
-    font-size: 15px;
-    height: 38px;
-    line-height: 38px;
+  &-normal {
+    font-size: 16px;
+    height: 40px;
+    line-height: 22px;
+    padding: 8px 15px;
   }
 
-  &.btn-inline {
+  &-inline {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
     width: auto;
   }
-  &.btn-loading {
+  &-loading {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .loading {
+  .lake-loading {
     display: block;
     width: 12px;
     height: 12px;

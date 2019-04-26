@@ -98,6 +98,22 @@
   }
 }
 
+.hsv-color(@color, @level) when (@level = 6) {
+  @result: @color;
+}
+.hsv-color(@color, @level) when (@level >= 1) and (@level <= 5) {
+  @hue: hsvhue(@color);
+  @saturation: hsvsaturation(@color);
+  @value: hsvvalue(@color);
+  @result: hsv(@hue, ceil(@saturation / 6 * @level), ceil((100 - @value) * (6 - @level) / 6 + @value));
+}
+.hsv-color(@color, @level) when (@level >= 7) and (@level <= 11) {
+  @hue: hsvhue(@color);
+  @saturation: hsvsaturation(@color);
+  @value: hsvvalue(@color);
+  @result: hsv(@hue, ceil((100 - @saturation) * (@level - 6) / 6 + @saturation), ceil(@value / 6 * (12 - @level)));
+}
+
 /**
  * others
  */
