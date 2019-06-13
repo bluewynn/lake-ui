@@ -1,6 +1,8 @@
 /**
- *
+ * get nearly scrollable container by specific node
+ * return document by default
  * @param {Element} node
+ * @return {Element}
  */
 export const getScrollParent = node => {
   const regex = /(auto|scroll)/;

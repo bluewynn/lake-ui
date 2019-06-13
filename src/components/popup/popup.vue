@@ -1,6 +1,13 @@
 <template>
   <div>
-    <lake-mask :show="show" :lock-scroll="lockScroll" :transparent="false" @click="onClickMask" />
+    <transition name="lake-fade">
+      <div
+        :class="['lake-mask', transparent ? 'lake-transparent' : '']"
+        :style="maskStyle"
+        v-if="show"
+        @click="onClickMask"
+      ></div>
+    </transition>
     <transition :name="transitionName">
       <div
         class="lake-popup"
@@ -15,15 +22,15 @@
 </template>
 
 <script>
-import lakeMask from '../mask';
+import drag from '../../mixins/drag';
+import { getScrollTop, getScrollHeight, getScrollParent } from '../../utils/scroll';
+import { on, off } from '../../utils/event';
 
 const POPUP_POSITIONS = ['top', 'center', 'bottom', 'full-screen', 'full-screen-left', 'full-screen-right'];
 
 export default {
   name: 'lake-popup',
-  components: {
-    lakeMask,
-  },
+  mixins: [drag],
   props: {
     show: {
       type: Boolean,
@@ -32,6 +39,10 @@ export default {
     mask: {
       type: Boolean,
       default: true,
+    },
+    transparent: {
+      type: Boolean,
+      default: false,
     },
     maskStyle: {
       type: Object,
@@ -61,7 +72,72 @@ export default {
       return this.position ? transitionMap[this.position] : transitionMap.center;
     },
   },
+  mounted() {
+    this.show && this.open();
+  },
+  beforeDestroy() {
+    this.close();
+  },
+  deactivated() {
+    this.close();
+  },
+  watch: {
+    show(show) {
+      if (show) this.open();
+      else this.close();
+    },
+  },
   methods: {
+    open() {
+      if (this.lockScroll) {
+        if (!document.body.classList.contains('lake-mask-open')) {
+          document.body.classList.add('lake-mask-open');
+        }
+
+        // set passive false to enable preventDefault
+        const eventOption = { capture: false, passive: false };
+
+        on(document, 'touchstart', this.dragStart, eventOption);
+        on(document, 'touchmove', this.onTouchMove, eventOption);
+        on(document, 'touchend', this.dragEnd, eventOption);
+      }
+    },
+    close() {
+      if (this.lockScroll) {
+        if (document.body.classList.contains('lake-mask-open')) {
+          document.body.classList.remove('lake-mask-open');
+        }
+
+        off(document, 'touchstart', this.dragStart);
+        off(document, 'touchmove', this.onTouchMove);
+        off(document, 'touchend', this.dragEnd);
+      }
+    },
+    onTouchMove(e) {
+      this.dragMove(e);
+
+      const node = e.target;
+      const scrollEl = getScrollParent(node);
+      const isRootScroll = scrollEl.tagName === 'HTML' || scrollEl.tagName === 'BODY' || scrollEl === window;
+      const direction = this.dragState.dragOffsetY > 0 ? 'down' : 'up';
+
+      if (isRootScroll) {
+        // scroll element is document, should prevent scroll
+        e.cancelable && e.preventDefault();
+      } else {
+        // scroll element is not document, e.g. a div with css overflow.
+        const scrollTop = getScrollTop(scrollEl);
+        const scrollElHeight = scrollEl.clientHeight;
+        const scrollElScrollHeight = getScrollHeight(scrollEl);
+        const isBottom = scrollTop + scrollElHeight >= scrollElScrollHeight && direction === 'down';
+        const isTop = scrollTop <= 0 && direction === 'up';
+
+        if (isBottom || isTop) {
+          // should prevent scroll when scroll bar is reach to top or bottom, cause mobile scroll bug
+          e.cancelable && e.preventDefault();
+        }
+      }
+    },
     onClickMask() {
       this.$emit('click-mask');
     },
@@ -99,6 +175,20 @@ export default {
   }
   &&-full-screen {
     height: 100vh;
+  }
+}
+.lake-mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: @z-index-mask;
+  background-color: @color-bg-mask;
+  &&-transparent {
+    background-color: transparent;
   }
 }
 </style>
