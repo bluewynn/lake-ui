@@ -12,7 +12,7 @@ export default {
   name: 'lake-badge',
   props: {
     text: {
-      type: [Boolean, String],
+      type: [Number, String],
       default: '',
     },
     dot: {
@@ -27,7 +27,6 @@ export default {
 @import '../../style/themes/default.less';
 
 .lake-badge {
-  display: inline-block;
   text-align: center;
   &-text {
     padding: 1px 5px;
@@ -40,7 +39,6 @@ export default {
     -webkit-font-smoothing: antialiased;
   }
   &-dot {
-    display: block;
     width: 8px;
     height: 8px;
     background-color: #f00;
