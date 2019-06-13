@@ -21,7 +21,7 @@
 - [x] PullRefresh
 - [x] NoticeBar
 - - [ ] icon
-- [ ] Badge
+- [x] Badge
 - [x] SearchBar
 - [x] Tag
 
@@ -29,7 +29,6 @@
 
 - [x] Toast
 - [x] Modal
-- - [x] disable scroll
 - [x] Actionsheet
 - [x] Progress
 
