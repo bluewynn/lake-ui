@@ -1,3 +1,7 @@
+/**
+ *
+ * @param {Element} node
+ */
 export const getScrollParent = node => {
   const regex = /(auto|scroll)/;
   const parents = (_node, ps) => {

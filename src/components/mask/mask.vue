@@ -11,7 +11,7 @@
 
 <script>
 import drag from '../../mixins/drag';
-import { getScrollTop, getScrollParent } from '../../utils/scroll';
+import { getScrollTop, getScrollHeight, getScrollParent } from '../../utils/scroll';
 import { on, off } from '../../utils/event';
 
 export default {
@@ -58,18 +58,29 @@ export default {
     },
     open() {
       if (this.lockScroll) {
-        document.body.classList.add('lake-mask-open');
-        on(document.body, 'touchstart', this.dragStart, { capture: false, passive: false });
-        on(document.body, 'touchmove', this.onTouchMove, { capture: false, passive: false });
-        on(document.body, 'touchend', this.dragEnd, { capture: false, passive: false });
+        if (!document.body.classList.contains('lake-mask-open')) {
+          // 防止多个 mask 时，body class 多次绑定 .lake-mask-open 的情况
+          document.body.classList.add('lake-mask-open');
+        }
+
+        // passive: false 处理 touchmove 无法 preventDefault 的问题
+        const eventOption = { capture: false, passive: false };
+
+        on(document, 'touchstart', this.dragStart, eventOption);
+        on(document, 'touchmove', this.onTouchMove, eventOption);
+        on(document, 'touchend', this.dragEnd, eventOption);
       }
     },
     close() {
       if (this.lockScroll) {
-        document.body.classList.remove('lake-mask-open');
-        off(document.body, 'touchstart', this.dragStart);
-        off(document.body, 'touchmove', this.onTouchMove);
-        off(document.body, 'touchend', this.dragEnd);
+        if (document.body.classList.contains('lake-mask-open')) {
+          // 防止多个 mask 时，body class 多次绑定 .lake-mask-open 的情况
+          document.body.classList.remove('lake-mask-open');
+        }
+
+        off(document, 'touchstart', this.dragStart);
+        off(document, 'touchmove', this.onTouchMove);
+        off(document, 'touchend', this.dragEnd);
       }
     },
     onTouchMove(e) {
@@ -80,16 +91,19 @@ export default {
       const isRootScroll = scrollEl.tagName === 'HTML' || scrollEl.tagName === 'BODY' || scrollEl === window;
       const direction = this.dragState.dragOffsetY > 0 ? 'down' : 'up';
 
-      if (
-        isRootScroll ||
-        (!isRootScroll && getScrollTop(scrollEl) === 0 && direction === 'up') ||
-        (!isRootScroll &&
-          getScrollTop(scrollEl) === scrollEl.scrollHeight - scrollEl.offsetHeight &&
-          direction === 'down')
-      ) {
-        if (e.cancelable) {
-          e.preventDefault();
-          e.stopPropagation();
+      if (isRootScroll) {
+        // document 滚动的情况，直接 prevent
+        e.cancelable && e.preventDefault();
+      } else {
+        // 非 document 滚动的情况，处理内部滚动容器触顶和触底引发的滚动穿透问题
+        const scrollTop = getScrollTop(scrollEl);
+        const scrollElHeight = scrollEl.clientHeight;
+        const scrollElScrollHeight = getScrollHeight(scrollEl);
+        const isBottom = scrollTop + scrollElHeight >= scrollElScrollHeight && direction === 'down';
+        const isTop = scrollTop <= 0 && direction === 'up';
+
+        if (isBottom || isTop) {
+          e.cancelable && e.preventDefault();
         }
       }
     },

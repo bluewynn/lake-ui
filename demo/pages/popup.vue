@@ -32,7 +32,12 @@
       <header class="header">Full Screen</header>
       <div class="body">
         <lake-button @click="isShowFullScreen = !isShowFullScreen">Popup Full Screen</lake-button>
-        <lake-popup :show="isShowFullScreen" position="full-screen" @click-mask="isShowFullScreen = false">
+        <lake-popup
+          :show="isShowFullScreen"
+          position="full-screen"
+          :lock-scroll="true"
+          @click-mask="isShowFullScreen = false"
+        >
           <div class="popup-content popup-full-screen">
             <lake-button type="primary" @click="isShowFullScreen = false">close</lake-button>
             <br />古时有关云长全神贯注下象棋刮骨疗毒，今日有我凌凌漆聚精会神看A片挖骨取弹头。

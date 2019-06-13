@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-let passiveSupported = false;
+export let passiveSupported = false;
 
 if (!Vue.prototype.$isServer) {
   try {

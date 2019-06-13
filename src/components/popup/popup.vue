@@ -2,7 +2,12 @@
   <div>
     <lake-mask :show="show" :lock-scroll="lockScroll" :transparent="false" @click="onClickMask" />
     <transition :name="transitionName">
-      <div class="lake-popup" ref="popup" :class="position ? `${position}` : 'center'" v-if="show">
+      <div
+        class="lake-popup"
+        ref="popup"
+        :class="position ? `lake-popup-${position}` : 'lake-popup-center'"
+        v-if="show"
+      >
         <slot></slot>
       </div>
     </transition>
@@ -12,7 +17,7 @@
 <script>
 import lakeMask from '../mask';
 
-const POPUP_POSITIONS = ['top', 'center', 'bottom', 'full-screen'];
+const POPUP_POSITIONS = ['top', 'center', 'bottom', 'full-screen', 'full-screen-left', 'full-screen-right'];
 
 export default {
   name: 'lake-popup',
@@ -75,24 +80,24 @@ export default {
   max-height: 100%;
   -webkit-overflow-scrolling: touch;
   z-index: @z-index-popup;
-  &.center {
+  &&-center {
     transform: translate3d(-50%, -50%, 0);
   }
-  &.top {
+  &&-top {
     top: 0;
     left: 0;
     transform: translate3d(0, 0, 0);
     width: 100%;
   }
-  &.bottom,
-  &.full-screen {
+  &&-bottom,
+  &&-full-screen {
     top: initial;
     left: 0;
     bottom: 0;
     transform: translate3d(0, 0, 0);
     width: 100%;
   }
-  &.full-screen {
+  &&-full-screen {
     height: 100vh;
   }
 }
