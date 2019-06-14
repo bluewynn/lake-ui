@@ -1,15 +1,28 @@
 <template>
-  <div class="pagination" :class="`pagination-${size}`" v-show="isShow">
-    <div v-if="!simple" class="pagination-pager" :class="current === 1 ? 'disabled' : ''" @click="first">首页</div>
-    <div class="pagination-pager" :class="current === 1 ? 'disabled' : ''" @click="prev">上页</div>
-    <div class="pagination-pager pagination-select">
-      {{ `${ current }/${ totalPage }` }}
+  <div class="lake-pagi" :class="`lake-pagi-${size}`" v-show="isShow">
+    <div v-if="!simple" class="lake-pagi-pager" :class="current === 1 ? 'lake-pagi-pager-disabled' : ''" @click="first">
+      首页
+    </div>
+    <div class="lake-pagi-pager" :class="current === 1 ? 'lake-pagi-pager-disabled' : ''" @click="prev">
+      上页
+    </div>
+    <div class="lake-pagi-pager lake-pagi-pager-select">
+      {{ `${current}/${totalPage}` }}
       <select v-model="current">
-        <option :value="page" v-for="page in totalPage" :key="page">{{ `第${ page }页` }}</option>
+        <option :value="page" v-for="page in totalPage" :key="page">{{ `第${page}页` }}</option>
       </select>
     </div>
-    <div class="pagination-pager" :class="current === totalPage ? 'disabled' : ''" @click="next">下页</div>
-    <div v-if="!simple" class="pagination-pager" :class="current === totalPage ? 'disabled' : ''" @click="last">末页</div>
+    <div class="lake-pagi-pager" :class="current === totalPage ? 'lake-pagi-pager-disabled' : ''" @click="next">
+      下页
+    </div>
+    <div
+      v-if="!simple"
+      class="lake-pagi-pager"
+      :class="current === totalPage ? 'lake-pagi-pager-disabled' : ''"
+      @click="last"
+    >
+      末页
+    </div>
   </div>
 </template>
 
@@ -21,15 +34,15 @@ export default {
   props: {
     total: {
       type: Number,
-      default: 0
+      default: 0,
     },
     currentPage: {
       type: Number,
-      default: 1
+      default: 1,
     },
     perPage: {
       type: Number,
-      default: 10
+      default: 10,
     },
     simple: {
       type: Boolean,
@@ -45,7 +58,7 @@ export default {
   },
   data() {
     return {
-      current: this.currentPage
+      current: this.currentPage,
     };
   },
   computed: {
@@ -54,12 +67,12 @@ export default {
     },
     isShow() {
       return this.current <= this.totalPage && this.totalPage > 1;
-    }
+    },
   },
   watch: {
     current(currentPage, prevPage) {
       this.$emit('change', currentPage, prevPage);
-    }
+    },
   },
   methods: {
     prev() {
@@ -81,18 +94,18 @@ export default {
       if (this.current === this.totalPage) return;
 
       this.current = this.totalPage;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less">
-.pagination {
+.lake-pagi {
   display: flex;
   align-items: center;
   align-content: center;
 
-  &.pagination-small {
+  &&-small {
     padding: 0 20px;
     .pagination-pager {
       line-height: 30px;
@@ -108,6 +121,7 @@ export default {
     color: #333;
     line-height: 40px;
     border: 1px solid #efefef;
+    transition: background-color 0.3s;
     &:first-child {
       margin-left: 0;
     }
@@ -119,7 +133,15 @@ export default {
     }
   }
 
-  &-select {
+  &-pager-disabled {
+    background-color: #f8f9fa;
+    color: #bcbcbc;
+    &:active {
+      background-color: #f8f9fa;
+    }
+  }
+
+  &-pager-select {
     position: relative;
     background-color: white;
 
@@ -137,11 +159,6 @@ export default {
         height: 100%;
       }
     }
-  }
-
-  .disabled {
-    background-color: #f8f9fa;
-    color: #bcbcbc;
   }
 }
 </style>
