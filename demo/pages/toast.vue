@@ -3,6 +3,9 @@
     <div class="demo-section">
       <header class="header">Basic</header>
       <div class="body">
+        <lake-button @click="isShow = true">test</lake-button>
+        <lake-toast :show="isShow" msg="世界真美好世界真美好世界真美好世界真美好世界真美好"></lake-toast>
+        <br />
         <lake-button @click="showText">basic</lake-button>
         <br />
         <lake-button @click="showTextResolve">resolve</lake-button>
@@ -25,6 +28,7 @@ export default {
   },
   data() {
     return {
+      isShow: false,
       isShowToast: false,
     };
   },

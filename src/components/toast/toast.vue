@@ -1,30 +1,27 @@
 <template>
-  <div>
-    <lake-mask :show="show" :transparent="true" />
-    <transition name="lake-fade">
-      <div class="lake-toast" v-if="show">
-        <div class="lake-toast-wrapper">
-          <div class="lake-toast-inline">
-            <div class="lake-toast-content" :class="[position, type]">
-              <slot name="icon"></slot>
-              {{ msg }}
-            </div>
+  <lake-popup :show="show" :lock-scroll="true" :transparent="true">
+    <div class="lake-toast">
+      <div class="lake-toast-wrapper">
+        <div class="lake-toast-inline">
+          <div class="lake-toast-content" :class="[position, type]">
+            <slot name="icon"></slot>
+            {{ msg }}
           </div>
         </div>
       </div>
-    </transition>
-  </div>
+    </div>
+  </lake-popup>
 </template>
 
 <script>
-import lakeMask from '../mask';
+import lakePopup from '../popup';
 
 const TOAST_MODES = ['success', 'loading', 'error', 'text'];
 const TOAST_POSITION = ['top', 'middle', 'bottom'];
 
 export default {
   name: 'lake-toast',
-  components: { lakeMask },
+  components: { lakePopup },
   props: {
     show: {
       type: Boolean,
@@ -41,10 +38,6 @@ export default {
         return mode === '' || TOAST_MODES.includes(mode);
       },
     },
-    mask: {
-      type: Boolean,
-      default: false,
-    },
     position: {
       type: String,
       default: 'middle',
@@ -58,6 +51,7 @@ export default {
 
 <style lang="less">
 @import '../../style/themes/default.less';
+@import '../../style/common/mixins.less';
 
 .lake-toast {
   text-align: center;
@@ -65,10 +59,6 @@ export default {
     display: inline-block;
   }
   &-content {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate3d(-50%, -50%, 0);
     background-color: #5f5c5c;
     color: #fff;
     border-radius: 3px;
@@ -78,6 +68,7 @@ export default {
     text-align: center;
     min-width: 40px;
     max-width: 230px;
+    .long-break();
     &.top {
       top: 10%;
     }
