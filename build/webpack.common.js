@@ -3,28 +3,54 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
-
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.js',
+  resolve: {
+    // 创建 import 或 require 的别名，来确保模块引入变得更简单。
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+    // 能够使用户在引入模块时不带扩展：import File from '../path/to/file';
+    extensions: ['.js', '.vue'],
+    // 告诉 webpack 解析模块时应该搜索的目录。
+    modules: ['node_modules', path.resolve(__dirname, 'src')],
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
+    // 该选项的值是以 runtime(运行时) 或 loader(载入时) 所创建的每个 URL 为前缀。
+    publicPath: '/',
   },
   module: {
+    // noParse: '', // 忽略大型的 library 可以提高构建性能。
     rules: [
       {
         test: /\.vue$/,
         use: [
           {
-            loader: 'vue-loader',
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: path.resolve('node_modules/.cache/vue-loader'),
+            },
           },
+          'vue-loader',
         ],
       },
       {
         test: /\.js?$/,
-        loader: 'babel-loader',
+        loader: [
+          {
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: path.resolve('node_modules/.cache/babel-loader'),
+            },
+          },
+          'thread-loader',
+          'babel-loader',
+        ],
         exclude: file => /node_modules/.test(file) && !/\.vue\.js/.test(file),
       },
       {
@@ -41,20 +67,42 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|webp)(\?.*)?$/,
         use: [
           {
             loader: 'url-loader',
             options: {
-              limit: 10000,
-              name: 'img/[name].[ext]',
+              limit: 4096, // 4k 以下的图片用 url-loader
+              fallback: {
+                loader: 'file-loader',
+                options: {
+                  name: 'img/[name].[hash:8].[ext]',
+                },
+              },
             },
           },
         ],
-        exclude: path.join(__dirname, '../src/icons'),
       },
       {
-        test: /\.svg$/,
+        test: /\.(svg)(\?.*)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 4096, // 4k 以下的图片用 url-loader
+              fallback: {
+                loader: 'file-loader',
+                options: {
+                  name: 'img/[name].[hash:8].[ext]',
+                },
+              },
+            },
+          },
+        ],
+        exclude: path.join(__dirname, 'src/icons'),
+      },
+      {
+        test: /\.(svg)(\?.*)?$/,
         use: [
           {
             loader: 'svg-sprite-loader',
@@ -64,7 +112,7 @@ module.exports = {
           },
           'svgo-loader',
         ],
-        include: path.join(__dirname, '../src/icons'),
+        include: path.join(__dirname, 'src/icons'),
       },
     ],
   },
@@ -76,5 +124,10 @@ module.exports = {
     modules: false,
     children: false,
   },
-  plugins: [new VueLoaderPlugin(), new ProgressBarWebpackPlugin(), new FriendlyErrorsPlugin()],
+  plugins: [
+    new VueLoaderPlugin(),
+    new CaseSensitivePathsPlugin(), // 防止 osx 系统下对大小写不敏感造成的问题，如文件夹改名
+    new ProgressBarWebpackPlugin(),
+    new FriendlyErrorsPlugin(),
+  ],
 };

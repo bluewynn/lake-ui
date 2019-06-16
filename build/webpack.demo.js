@@ -6,13 +6,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const commonConfig = require('./webpack.common');
 
 const developmentConfig = webpackMerge(commonConfig, {
   mode: 'development',
-  devtool: 'inline-source-map',
-  entry: path.join(__dirname, '../demo/index.js'),
+  entry: {
+    app: path.resolve(__dirname, '../demo/index.js'),
+  },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, '../demo/dist'),
@@ -26,9 +27,6 @@ const developmentConfig = webpackMerge(commonConfig, {
     overlay: true,
   },
   plugins: [
-    new CleanWebpackPlugin(['demo/dist'], {
-      root: path.resolve(process.cwd()),
-    }),
     new HtmlWebpackPlugin({
       template: './demo/index.html',
       filename: './index.html',
@@ -42,10 +40,14 @@ const developmentConfig = webpackMerge(commonConfig, {
 const productionConfig = webpackMerge(commonConfig, {
   mode: 'production',
   devtool: 'source-map',
-  entry: path.join(__dirname, '../demo/index.js'),
+  entry: {
+    app: path.join(__dirname, '../demo/index.js'),
+  },
   output: {
-    filename: '[name].[hash:8].min.js',
+    filename: 'js/[name].[contenthash:8].js',
     path: path.join(__dirname, '../demo/dist'),
+    publicPath: './',
+    chunkFilename: 'js/[name].[contenthash:8].js',
   },
   optimization: {
     minimizer: [
@@ -58,11 +60,18 @@ const productionConfig = webpackMerge(commonConfig, {
     ],
     splitChunks: {
       cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true,
+        vendors: {
+          name: 'chunk-vendors',
+          test: /[\\\/]node_modules[\\\/]/,
+          priority: -10,
+          chunks: 'initial',
+        },
+        common: {
+          name: 'chunk-common',
+          minChunks: 2,
+          priority: -20,
+          chunks: 'initial',
+          reuseExistingChunk: true,
         },
       },
     },
@@ -77,7 +86,8 @@ const productionConfig = webpackMerge(commonConfig, {
       title: 'UI-demo',
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[hash:8].min.css',
+      filename: 'css/[name].[hash:8].min.css',
+      chunkFilename: 'css/[name].[contenthash:8].css',
     }),
     // new BundleAnalyzerPlugin(),
   ],
