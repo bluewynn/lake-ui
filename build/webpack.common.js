@@ -2,7 +2,6 @@ const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -127,7 +126,6 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new CaseSensitivePathsPlugin(), // 防止 osx 系统下对大小写不敏感造成的问题，如文件夹改名
-    new ProgressBarWebpackPlugin(),
     new FriendlyErrorsPlugin(),
   ],
 };

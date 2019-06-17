@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
+const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const commonConfig = require('./webpack.common');
 
@@ -26,7 +27,11 @@ const developmentConfig = webpackMerge(commonConfig, {
     stats: 'errors-only',
     overlay: true,
   },
+  module: {
+    noParse: /^(vue|vue-router|vuex|vuex-router-sync)$/, // 忽略大型的 library 可以提高构建性能。
+  },
   plugins: [
+    new ProgressBarWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './demo/index.html',
       filename: './index.html',

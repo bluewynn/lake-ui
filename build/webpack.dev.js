@@ -1,5 +1,6 @@
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.common');
+const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = webpackMerge(commonConfig, {
   mode: 'development',
@@ -8,4 +9,5 @@ module.exports = webpackMerge(commonConfig, {
   devServer: {
     contentBase: './dist',
   },
+  plugins: [new ProgressBarWebpackPlugin()],
 });
