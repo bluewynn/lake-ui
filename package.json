@@ -17,10 +17,12 @@
   "license": "MIT",
   "scripts": {
     "dev:demo": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js",
-    "build:lib": "rimraf lib && cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "build:demo": "cross-env NODE_ENV=production webpack --config build/webpack.demo.js",
+    "build:lib": "rimraf lib && cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "lint": "eslint src/**/*.vue,src/**/*.js",
-    "lint:format": "yarn lint && prettier --write src/**/*.vue,src/**/*.js"
+    "lint:format": "yarn lint && prettier --write src/**/*.vue,src/**/*.js",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "engines": {
     "node": ">=8.11.4",
@@ -86,6 +88,7 @@
     "vue-loader": "^15.4.2",
     "vue-router": "^3.0.2",
     "vue-template-compiler": "^2.5.17",
+    "vuepress": "^1.0.1",
     "webpack": "^4.26.1",
     "webpack-bundle-analyzer": "^3.0.4",
     "webpack-cli": "^3.1.2",
