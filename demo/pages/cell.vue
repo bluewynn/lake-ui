@@ -34,6 +34,15 @@
         </lake-cell-group>
       </div>
     </div>
+    <div class="demo-section">
+      <header class="header">Router link</header>
+      <div class="body no-side-padding">
+        <lake-cell-group>
+          <lake-cell tag="router-link" to="/" title="标题" content="内容" size="large"></lake-cell>
+          <lake-cell tag="router-link" to="/button" title="标题" content="内容"></lake-cell>
+        </lake-cell-group>
+      </div>
+    </div>
   </page-view>
 </template>
 

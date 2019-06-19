@@ -6,7 +6,6 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  entry: './src/index.js',
   resolve: {
     // 创建 import 或 require 的别名，来确保模块引入变得更简单。
     alias: {
@@ -16,12 +15,6 @@ module.exports = {
     extensions: ['.js', '.vue'],
     // 告诉 webpack 解析模块时应该搜索的目录。
     modules: ['node_modules', path.resolve(__dirname, 'src')],
-  },
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-    // 该选项的值是以 runtime(运行时) 或 loader(载入时) 所创建的每个 URL 为前缀。
-    publicPath: '/',
   },
   module: {
     // noParse: '', // 忽略大型的 library 可以提高构建性能。
@@ -39,7 +32,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.js?$/,
+        test: /\.jsx?$/,
         loader: [
           {
             loader: 'cache-loader',

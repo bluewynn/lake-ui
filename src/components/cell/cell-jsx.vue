@@ -1,24 +1,13 @@
-<template>
-  <div class="lake-cell" :class="size">
-    <div class="lake-cell-bd" v-if="title || $slots.title">
-      <slot name="title">
-        <div class="lake-cell-title">{{ title }}</div>
-      </slot>
-    </div>
-    <div class="lake-cell-ft" :class="title || $slots.title ? 'lake-cell-has-bd' : ''">
-      <slot name="content">
-        <div class="lake-cell-content">{{ content }}</div>
-      </slot>
-    </div>
-  </div>
-</template>
-
 <script>
 const CELL_SIZES = ['normal', 'large'];
 
 export default {
   name: 'lake-cell',
   props: {
+    tag: {
+      type: String,
+      default: 'div',
+    },
     size: {
       type: String,
       default: '',
@@ -34,6 +23,22 @@ export default {
       type: String,
       default: '',
     },
+  },
+  render(h) {
+    const CustomTag = `${this.tag}`;
+
+    return (
+      <CustomTag class={['lake-cell', this.size]} {...{ attrs: this.$attrs }}>
+        {this.title || this.$slots.title ? (
+          <div class="lake-cell-bd">
+            {this.$slots.title ? this.$slots.title : <div class="lake-cell-title">{this.title}</div>}
+          </div>
+        ) : null}
+        <div class={['lake-cell-ft', this.title || this.$slots.title ? 'lake-cell-has-bd' : '']}>
+          {this.$slots.content ? this.$slots.content : <div class="lake-cell-content">{this.content}</div>}
+        </div>
+      </CustomTag>
+    );
   },
 };
 </script>

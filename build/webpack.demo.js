@@ -7,17 +7,19 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const commonConfig = require('./webpack.common');
 
 const developmentConfig = webpackMerge(commonConfig, {
-  mode: 'development',
+  mode: 'development', // webpack 4 不需要 DefinePlugin
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     app: path.resolve(__dirname, '../demo/index.js'),
   },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, '../demo/dist'),
+    publicPath: './',
   },
   devServer: {
     port: 9527,
@@ -46,11 +48,11 @@ const productionConfig = webpackMerge(commonConfig, {
   mode: 'production',
   devtool: 'source-map',
   entry: {
-    app: path.join(__dirname, '../demo/index.js'),
+    app: path.resolve(__dirname, '../demo/index.js'),
   },
   output: {
     filename: 'js/[name].[contenthash:8].js',
-    path: path.join(__dirname, '../demo/dist'),
+    path: path.resolve(__dirname, '../demo/dist'),
     publicPath: './',
     chunkFilename: 'js/[name].[contenthash:8].js',
   },
@@ -94,7 +96,9 @@ const productionConfig = webpackMerge(commonConfig, {
       filename: 'css/[name].[hash:8].min.css',
       chunkFilename: 'css/[name].[contenthash:8].css',
     }),
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+    }),
   ],
 });
 
