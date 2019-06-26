@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="lake-fade">
+    <transition name="lake-fade" appear>
       <div
         :class="['lake-mask', transparent ? 'lake-transparent' : '']"
         :style="maskStyle"
@@ -8,7 +8,7 @@
         @click="onClickMask"
       ></div>
     </transition>
-    <transition :name="transitionName">
+    <transition :name="transitionName" appear>
       <div
         class="lake-popup"
         ref="popup"
@@ -26,7 +26,7 @@ import drag from '../../mixins/drag';
 import { getScrollTop, getScrollHeight, getScrollParent } from '../../utils/scroll';
 import { on, off } from '../../utils/event';
 
-const POPUP_POSITIONS = ['top', 'center', 'bottom', 'full-screen', 'full-screen-left', 'full-screen-right'];
+const POPUP_POSITIONS = ['top', 'center', 'bottom', 'full-screen', 'right', 'full-screen-left', 'full-screen-right'];
 
 export default {
   name: 'lake-popup',
@@ -59,11 +59,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    animate: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     transitionName() {
+      if (!this.animate) return '';
+
       const transitionMap = {
         top: 'lake-slide-reverse',
+        right: 'lake-slide-right',
         center: 'lake-fade',
         bottom: 'lake-slide',
         'full-screen': 'lake-slide',
@@ -164,6 +171,16 @@ export default {
     left: 0;
     transform: translate3d(0, 0, 0);
     width: 100%;
+  }
+  &&-right {
+    left: initial;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transform: translate3d(0, 0, 0);
+    width: 200px;
+    max-width: 300px;
+    height: 100%;
   }
   &&-bottom,
   &&-full-screen {
