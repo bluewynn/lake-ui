@@ -3,11 +3,22 @@
     <div class="demo-section">
       <header class="header">Basic</header>
       <div class="body">
-        <lake-button @click="isShowBasicActionsheet = !isShowBasicActionsheet">Basic</lake-button>
-        <lake-actionsheet :show.sync="isShowBasicActionsheet" :items="items"></lake-actionsheet>
-        <br>
+        <lake-button @click="isShowBasicActionsheet = !isShowBasicActionsheet">
+          Basic
+        </lake-button>
+        <lake-actionsheet
+          :show="isShowBasicActionsheet"
+          :items="items"
+          @close="isShowBasicActionsheet = false"
+        ></lake-actionsheet>
+        <br />
         <lake-button @click="isShowTitleActionsheet = !isShowTitleActionsheet">With Title</lake-button>
-        <lake-actionsheet title="请选择正确的选项" :show.sync="isShowTitleActionsheet" :items="items"></lake-actionsheet>
+        <lake-actionsheet
+          title="请选择正确的选项"
+          :show="isShowTitleActionsheet"
+          @close="isShowTitleActionsheet = false"
+          :items="items"
+        ></lake-actionsheet>
       </div>
     </div>
 
@@ -15,7 +26,11 @@
       <header class="header">Custom</header>
       <div class="body">
         <lake-button @click="isShowCustomActionsheet = !isShowCustomActionsheet">Custom</lake-button>
-        <lake-actionsheet title="请选择正确的选项" :show.sync="isShowCustomActionsheet">
+        <lake-actionsheet
+          title="请选择正确的选项"
+          :show="isShowCustomActionsheet"
+          @close="isShowCustomActionsheet = false"
+        >
           <div slot="body">自定义内容</div>
         </lake-actionsheet>
       </div>
@@ -47,5 +62,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

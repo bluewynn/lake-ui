@@ -1,5 +1,5 @@
 <template>
-  <lake-popup :show="show" position="bottom" :lock-scroll="true" @click="onCancel">
+  <lake-popup :show="show" position="bottom" :lock-scroll="true" @click-mask="onClose">
     <div class="lake-actionsheet">
       <div class="lake-actionsheet-wrapper">
         <div class="lake-actionsheet-title" v-if="title">
@@ -7,19 +7,21 @@
         </div>
         <section class="lake-actionsheet-body">
           <slot name="body">
-            <div
+            <lake-cell
               class="lake-actionsheet-item"
               v-for="(item, index) in items"
               :key="index"
-              @click.prevent.stop="onItemSelect(item)"
+              @click.native.prevent.stop="onItemSelect(item)"
             >
-              <div class="lake-actionsheet-item-name">{{ item.name }}</div>
-              <div class="lake-actionsheet-subitem-name" v-if="item.subName">{{ item.subName }}</div>
-            </div>
+              <template slot="content">
+                <div class="lake-actionsheet-item-name">{{ item.name }}</div>
+                <div class="lake-actionsheet-subitem-name" v-if="item.subName">{{ item.subName }}</div>
+              </template>
+            </lake-cell>
           </slot>
         </section>
         <div class="lake-actionsheet-operation" v-if="showCancelBtn">
-          <lake-button class="lake-actionsheet-operation-cancel" size="normal" @click="onCancel">{{
+          <lake-button class="lake-actionsheet-operation-cancel" size="normal" @click="onClose">{{
             cancelBtnText
           }}</lake-button>
         </div>
@@ -69,12 +71,11 @@ export default {
   },
   methods: {
     onItemSelect(item) {
-      this.$emit('update:show', false);
       this.$emit('select', item);
+      this.$emit('close');
     },
-    onCancel() {
-      this.$emit('update:show', false);
-      this.$emit('cancel');
+    onClose() {
+      this.$emit('close');
     },
   },
 };
@@ -105,28 +106,20 @@ export default {
     overflow-y: auto;
   }
   &-item {
-    position: relative;
-    padding: 12px 15px;
-    background-color: @color-bg-base;
     text-align: center;
-    .border-1px-bottom();
   }
   &-item-name {
+    text-align: center;
     font-size: 15px;
-    line-height: 1.5;
-    color: @color-text-primary;
     .single-line();
   }
   &-subitem-name {
     font-size: 12px;
-    line-height: 1.5;
+    margin-top: 4px;
     color: @color-text-secondary;
     .single-line();
   }
   &-operation {
-    display: flex;
-    position: relative;
-    align-items: center;
     margin-top: 6px;
   }
   &-operation-cancel {
