@@ -1,1 +1,1 @@
-{ "singleQuote": true, "trailingComma": "all", "printWidth": 120, "tabWidth": 2, "semicolons": true, "parser": "vue" }
+{ "singleQuote": true, "trailingComma": "all", "printWidth": 120, "tabWidth": 2, "semicolons": true }

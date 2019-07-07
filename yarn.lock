@@ -740,6 +740,7 @@
 "@vue/babel-preset-jsx@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/@vue/babel-preset-jsx/download/@vue/babel-preset-jsx-1.0.0.tgz#e515cd453a5a8ea6b0f30b2bb92f266d8ab4e9f5"
+  integrity sha1-5RXNRTpajqaw8wsruS8mbYq06fU=
   dependencies:
     "@vue/babel-helper-vue-jsx-merge-props" "^1.0.0"
     "@vue/babel-plugin-transform-vue-jsx" "^1.0.0"

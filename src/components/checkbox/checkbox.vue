@@ -76,6 +76,9 @@ export default {
     left: 5px;
     top: 5px;
     z-index: -1;
+    outline: 0;
+    padding: 0;
+    -webkit-appearance: none;
   }
   &-fake {
     border-radius: 2px;
