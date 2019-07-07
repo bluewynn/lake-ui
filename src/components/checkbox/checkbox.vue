@@ -2,7 +2,7 @@
   <div class="lake-checkbox" :class="disabled ? 'lake-checkbox-disabled' : ''">
     <label class="lake-checkbox-label">
       <div class="lake-checkbox-input-icon">
-        <div class="lake-checkbox-fake" :class="checked ? 'lake-checkbox-fake-checked' : ''">
+        <div class="lake-checkbox-fake" :class="isChecked ? 'lake-checkbox-fake-checked' : ''">
           <lake-icon name="check" :width="18" :height="18"></lake-icon>
         </div>
         <input
@@ -10,13 +10,13 @@
           class="lake-checkbox-input"
           :disabled="disabled"
           :readonly="readonly"
-          :checked="checked"
-          @input="$emit('input', $event.target.checked)"
+          :checked="isChecked"
+          @click="onClick"
           @change="$emit('change', $event.target.checked)"
         />
       </div>
       <div class="lake-checkbox-content">
-        <slot></slot>
+        <slot>{{ label }}</slot>
       </div>
     </label>
   </div>
@@ -24,6 +24,8 @@
 
 <script>
 import lakeIcon from '../icon';
+
+const CHECKBOX_SIZE = ['small', 'normal', 'large'];
 
 export default {
   name: 'lake-checkbox',
@@ -35,9 +37,8 @@ export default {
     event: 'change',
   },
   props: {
-    name: {
-      type: String,
-      default: '',
+    label: {
+      type: [String, Number],
     },
     checked: {
       type: Boolean,
@@ -50,10 +51,53 @@ export default {
     size: {
       type: String,
       default: '',
+      validator(size) {
+        return size === '' || CHECKBOX_SIZE.includes(size);
+      },
     },
     readonly: {
       type: Boolean,
       default: false,
+    },
+  },
+  data() {
+    return {
+      isChild: this.$parent.$options.name === 'lake-checkbox-group',
+    };
+  },
+  computed: {
+    isChecked() {
+      if (this.isChild) {
+        return this.$parent.value.includes(this.label);
+      } else {
+        return this.checked;
+      }
+    },
+  },
+  methods: {
+    onClick() {
+      if (!this.isChild || this.disabled) return;
+
+      let { value } = this.$parent;
+      const { min, max } = this.$parent;
+
+      if (value.includes(this.label)) {
+        if (value.length === min) {
+          this.$parent.$emit('minimum', value.length);
+          return;
+        }
+
+        value = value.filter(item => item !== this.label);
+        this.$parent.$emit('input', value);
+      } else {
+        if (value.length === max) {
+          this.$parent.$emit('maximum', value.length);
+          return;
+        }
+
+        value.push(this.label);
+        this.$parent.$emit('input', value);
+      }
     },
   },
 };
