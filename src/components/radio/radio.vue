@@ -1,13 +1,13 @@
 <template>
-  <div class="lake-checkbox" :class="disabled ? 'lake-checkbox-disabled' : ''">
-    <label class="lake-checkbox-label">
-      <div class="lake-checkbox-input-icon">
-        <div class="lake-checkbox-fake" :class="isChecked ? 'lake-checkbox-fake-checked' : ''">
-          <lake-icon name="check" :block="true" :width="iconSize.width" :height="iconSize.height"></lake-icon>
+  <div class="lake-radio" :class="disabled ? 'lake-radio-disabled' : ''">
+    <label class="lake-radio-label">
+      <div class="lake-radio-input-icon">
+        <div class="lake-radio-fake" :class="isChecked ? 'lake-radio-fake-checked' : ''">
+          <div class="lake-radio-icon"></div>
         </div>
         <input
-          type="checkbox"
-          class="lake-checkbox-input"
+          type="radio"
+          class="lake-radio-input"
           :disabled="disabled"
           :readonly="readonly"
           :checked="isChecked"
@@ -15,7 +15,7 @@
           @change="$emit('change', $event.target.checked)"
         />
       </div>
-      <div class="lake-checkbox-content">
+      <div class="lake-radio-content">
         <slot>{{ label }}</slot>
       </div>
     </label>
@@ -28,7 +28,7 @@ import lakeIcon from '../icon';
 const CHECKBOX_SIZE = ['small', 'normal', 'large'];
 
 export default {
-  name: 'lake-checkbox',
+  name: 'lake-radio',
   components: {
     lakeIcon,
   },
@@ -62,7 +62,7 @@ export default {
   },
   data() {
     return {
-      isChild: this.$parent.$options.name === 'lake-checkbox-group',
+      isChild: this.$parent.$options.name === 'lake-radio-group',
     };
   },
   computed: {
@@ -84,26 +84,7 @@ export default {
     onClick() {
       if (!this.isChild || this.disabled) return;
 
-      let { value } = this.$parent;
-      const { min, max } = this.$parent;
-
-      if (value.includes(this.label)) {
-        if (value.length === min) {
-          this.$parent.$emit('minimum', value.length);
-          return;
-        }
-
-        value = value.filter(item => item !== this.label);
-        this.$parent.$emit('input', value);
-      } else {
-        if (value.length === max) {
-          this.$parent.$emit('maximum', value.length);
-          return;
-        }
-
-        value.push(this.label);
-        this.$parent.$emit('input', value);
-      }
+      this.$parent.$emit('input', this.label);
     },
   },
 };
@@ -113,7 +94,7 @@ export default {
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
 
-.lake-checkbox {
+.lake-radio {
   &-label {
     display: flex;
     align-items: center;
@@ -131,14 +112,30 @@ export default {
     -webkit-appearance: none;
   }
   &-fake {
-    border-radius: 2px;
+    border-radius: 100%;
     overflow: hidden;
     background-color: #fff;
     border: 1px solid #ccc;
+    transition: background-color 0.3 ease;
   }
   &-fake-checked {
     background-color: @brand-primary;
     border: 1px solid @brand-primary;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin: -4px 0 0 -4px;
+      width: 8px;
+      height: 8px;
+      background-color: #fff;
+      border-radius: 100%;
+    }
+  }
+  &-icon {
+    width: 18px;
+    height: 18px;
   }
   &-content {
     flex: 1;

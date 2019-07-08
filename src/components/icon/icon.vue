@@ -1,5 +1,5 @@
 <template>
-  <div :class="['lake-icon', size, hoverFill ? 'hover' : '']" :style="iconStyles">
+  <div :class="['lake-icon', size, hoverFill ? 'hover' : '', block ? 'lake-icon-block' : '']" :style="iconStyles">
     <svg :style="{ fill: fill }" :viewBox="icon.viewBox">
       <use :xlink:href="`#${icon.id}`"></use>
     </svg>
@@ -31,6 +31,10 @@ export default {
       type: String,
       default: '',
     },
+    block: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     icon() {
@@ -53,6 +57,9 @@ export default {
   vertical-align: middle;
   width: 16px;
   height: 16px;
+  &&-block {
+    display: block;
+  }
   > svg {
     transition: fill ease 0.1s;
     vertical-align: top;

@@ -1,7 +1,7 @@
 <template>
   <page-view title="Button">
     <div class="demo-section">
-      <header class="header">Basic</header>
+      <header class="header">Basic Checkbox</header>
       <div class="body">
         <lake-checkbox v-model="isBasicCheck">同意</lake-checkbox>
       </div>
@@ -30,6 +30,24 @@
         <div>max 3 min 1：{{ cxkCheckAgain.join(',') }}</div>
       </div>
     </div>
+    <div class="demo-section">
+      <header class="header">Basic Radio</header>
+      <div class="body">
+        <lake-radio v-model="isBasicRadio">同意</lake-radio>
+      </div>
+    </div>
+    <div class="demo-section">
+      <header class="header">Radio Group</header>
+      <div class="body">
+        <lake-radio-group v-model="cxkRadio">
+          <lake-radio label="唱">我会唱</lake-radio>
+          <lake-radio label="跳">我会跳</lake-radio>
+          <lake-radio label="Rap">我会rap</lake-radio>
+          <lake-radio label="篮球">我会篮球</lake-radio>
+        </lake-radio-group>
+        <div>选中：{{ cxkRadio }}</div>
+      </div>
+    </div>
   </page-view>
 </template>
 
@@ -46,13 +64,9 @@ export default {
       isBasicCheck: true,
       cxkCheck: [],
       cxkCheckAgain: [],
+      isBasicRadio: true,
+      cxkRadio: 'Rap',
     };
   },
 };
 </script>
-
-<style lang="less" scoped>
-.lake-btn {
-  margin-bottom: 10px;
-}
-</style>
