@@ -12,8 +12,8 @@
         <lake-checkbox-group v-model="cxkCheck">
           <lake-checkbox label="唱"></lake-checkbox>
           <lake-checkbox label="跳"></lake-checkbox>
-          <lake-checkbox label="Rap"></lake-checkbox>
-          <lake-checkbox label="篮球"></lake-checkbox>
+          <lake-checkbox :readonly="true" label="Rap"></lake-checkbox>
+          <lake-checkbox :disabled="true" label="篮球"></lake-checkbox>
         </lake-checkbox-group>
         <div>选中：{{ cxkCheck.join(',') }}</div>
       </div>
@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       isBasicCheck: true,
-      cxkCheck: [],
+      cxkCheck: ['Rap'],
       cxkCheckAgain: [],
       isBasicRadio: true,
       cxkRadio: 'Rap',

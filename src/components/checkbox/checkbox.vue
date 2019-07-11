@@ -1,9 +1,18 @@
 <template>
-  <div class="lake-checkbox" :class="disabled ? 'lake-checkbox-disabled' : ''">
+  <div
+    class="lake-checkbox"
+    :class="[disabled ? 'lake-checkbox-disabled' : '', readonly ? 'lake-checkbox-readonly' : '']"
+  >
     <label class="lake-checkbox-label">
       <div class="lake-checkbox-input-icon">
         <div class="lake-checkbox-fake" :class="isChecked ? 'lake-checkbox-fake-checked' : ''">
-          <lake-icon name="check" :block="true" :width="iconSize.width" :height="iconSize.height"></lake-icon>
+          <lake-icon
+            name="check"
+            :block="true"
+            :width="iconSize.width"
+            :height="iconSize.height"
+            v-if="isChecked"
+          ></lake-icon>
         </div>
         <input
           type="checkbox"
@@ -82,7 +91,7 @@ export default {
   },
   methods: {
     onClick() {
-      if (!this.isChild || this.disabled) return;
+      if (!this.isChild || this.disabled || this.readonly) return;
 
       let { value } = this.$parent;
       const { min, max } = this.$parent;
@@ -113,6 +122,9 @@ export default {
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
 
+@color-readonly: #ccc;
+@color-disabled: #ccc;
+
 .lake-checkbox {
   &-label {
     display: flex;
@@ -134,7 +146,9 @@ export default {
     border-radius: 2px;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid @color-readonly;
+    width: 16px;
+    height: 16px;
   }
   &-fake-checked {
     background-color: @brand-primary;
@@ -148,6 +162,17 @@ export default {
     color: @color-text-primary;
     letter-spacing: 0;
     margin-left: 11px;
+  }
+  &&-readonly {
+    .lake-checkbox-fake {
+      background-color: @color-readonly;
+      border: 1px solid @color-readonly;
+    }
+  }
+  &&-disabled {
+    .lake-checkbox-fake {
+      background-color: @color-disabled;
+    }
   }
 }
 </style>
