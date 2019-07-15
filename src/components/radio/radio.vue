@@ -90,7 +90,8 @@ export default {
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
 
-@color-disabled: #ccc;
+@color-disabled: #e6e6e6;
+@color-disabled-checked: #ccc;
 
 .lake-radio {
   &-label {
@@ -153,6 +154,10 @@ export default {
     .lake-radio-fake {
       background-color: @color-disabled;
       border-color: @color-disabled;
+    }
+    .lake-radio-fake-checked {
+      background-color: @color-disabled-checked;
+      border-color: @color-disabled-checked;
     }
   }
 }

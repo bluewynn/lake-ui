@@ -116,7 +116,8 @@ export default {
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
 
-@color-disabled: #ccc;
+@color-disabled: #e6e6e6;
+@color-disabled-checked: #ccc;
 
 .lake-checkbox {
   &-label {
@@ -139,7 +140,7 @@ export default {
     border-radius: 2px;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid @color-disabled;
+    border: 1px solid #ccc;
     width: 16px;
     height: 16px;
     transition: background-color 0.2s ease, border 0.2s ease;
@@ -161,6 +162,10 @@ export default {
     .lake-checkbox-fake {
       background-color: @color-disabled;
       border-color: @color-disabled;
+    }
+    .lake-checkbox-fake-checked {
+      background-color: @color-disabled-checked;
+      border-color: @color-disabled-checked;
     }
   }
 }
