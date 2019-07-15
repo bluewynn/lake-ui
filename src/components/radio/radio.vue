@@ -9,7 +9,6 @@
           type="radio"
           class="lake-radio-input"
           :disabled="disabled"
-          :readonly="readonly"
           :checked="isChecked"
           @click="onClick"
           @change="$emit('change', $event.target.checked)"
@@ -55,10 +54,6 @@ export default {
         return size === '' || CHECKBOX_SIZE.includes(size);
       },
     },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
@@ -85,6 +80,7 @@ export default {
       if (!this.isChild || this.disabled) return;
 
       this.$parent.$emit('input', this.label);
+      this.$emit('click');
     },
   },
 };
@@ -93,6 +89,8 @@ export default {
 <style lang="less">
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
+
+@color-disabled: #ccc;
 
 .lake-radio {
   &-label {
@@ -116,21 +114,26 @@ export default {
     overflow: hidden;
     background-color: #fff;
     border: 1px solid #ccc;
-    transition: background-color 0.3 ease;
-  }
-  &-fake-checked {
-    background-color: @brand-primary;
-    border: 1px solid @brand-primary;
+    transition: background-color 0.2s ease, border 0.2s ease;
     &::after {
       content: '';
       position: absolute;
       left: 50%;
       top: 50%;
-      margin: -4px 0 0 -4px;
+      transform: translate3d(-50%, -50%, 0);
+      width: 0;
+      height: 0;
+      border-radius: 100%;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+  }
+  &-fake-checked {
+    background-color: @brand-primary;
+    border: 1px solid @brand-primary;
+    &::after {
       width: 8px;
       height: 8px;
       background-color: #fff;
-      border-radius: 100%;
     }
   }
   &-icon {
@@ -145,6 +148,12 @@ export default {
     color: @color-text-primary;
     letter-spacing: 0;
     margin-left: 11px;
+  }
+  &&-disabled {
+    .lake-radio-fake {
+      background-color: @color-disabled;
+      border-color: @color-disabled;
+    }
   }
 }
 </style>

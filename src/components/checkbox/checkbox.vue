@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="lake-checkbox"
-    :class="[disabled ? 'lake-checkbox-disabled' : '', readonly ? 'lake-checkbox-readonly' : '']"
-  >
+  <div class="lake-checkbox" :class="[disabled ? 'lake-checkbox-disabled' : '']">
     <label class="lake-checkbox-label">
       <div class="lake-checkbox-input-icon">
         <div class="lake-checkbox-fake" :class="isChecked ? 'lake-checkbox-fake-checked' : ''">
@@ -18,7 +15,6 @@
           type="checkbox"
           class="lake-checkbox-input"
           :disabled="disabled"
-          :readonly="readonly"
           :checked="isChecked"
           @click="onClick"
           @change="$emit('change', $event.target.checked)"
@@ -64,10 +60,6 @@ export default {
         return size === '' || CHECKBOX_SIZE.includes(size);
       },
     },
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
@@ -91,7 +83,7 @@ export default {
   },
   methods: {
     onClick() {
-      if (!this.isChild || this.disabled || this.readonly) return;
+      if (!this.isChild || this.disabled) return;
 
       let { value } = this.$parent;
       const { min, max } = this.$parent;
@@ -113,6 +105,8 @@ export default {
         value.push(this.label);
         this.$parent.$emit('input', value);
       }
+
+      this.$emit('click');
     },
   },
 };
@@ -122,7 +116,6 @@ export default {
 @import '../../style/themes/default.less';
 @import '../../style/common/mixins.less';
 
-@color-readonly: #ccc;
 @color-disabled: #ccc;
 
 .lake-checkbox {
@@ -146,9 +139,10 @@ export default {
     border-radius: 2px;
     overflow: hidden;
     background-color: #fff;
-    border: 1px solid @color-readonly;
+    border: 1px solid @color-disabled;
     width: 16px;
     height: 16px;
+    transition: background-color 0.2s ease, border 0.2s ease;
   }
   &-fake-checked {
     background-color: @brand-primary;
@@ -163,15 +157,10 @@ export default {
     letter-spacing: 0;
     margin-left: 11px;
   }
-  &&-readonly {
-    .lake-checkbox-fake {
-      background-color: @color-readonly;
-      border: 1px solid @color-readonly;
-    }
-  }
   &&-disabled {
     .lake-checkbox-fake {
       background-color: @color-disabled;
+      border-color: @color-disabled;
     }
   }
 }
