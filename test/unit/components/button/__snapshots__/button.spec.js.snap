@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`button should render component and match snapshot 1`] = `
+<button
+  class="lake-btn lake-btn-default"
+  type="button"
+>
+  <!---->
+    
+</button>
+`;
+
+exports[`button should render component with loading and match snapshot 1`] = `
+<button
+  class="lake-btn lake-btn-default lake-btn-loading"
+  type="button"
+>
+  <i
+    class="lake-loading"
+  />
+    
+</button>
+`;
+
+exports[`button should render component with slot and match snapshot 1`] = `
+<button
+  class="lake-btn lake-btn-default"
+  type="button"
+>
+  <!---->
+    submit
+</button>
+`;

@@ -23,7 +23,8 @@
     "lint:format": "yarn lint && prettier --write src/**/*.vue,src/**/*.js",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "test": "jest"
+    "test": "jest --config ./jest.config.js",
+    "test:coverage": "yarn test --coverage"
   },
   "engines": {
     "node": ">=8.11.4",
@@ -41,20 +42,6 @@
       "git add"
     ]
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "vue"
-    ],
-    "transform": {
-      ".*\\.(vue)$": "vue-jest",
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
-    },
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    }
-  },
   "dependencies": {
     "normalize.css": "^8.0.1"
   },
@@ -66,6 +53,7 @@
     "@vue/babel-preset-jsx": "^1.0.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "autoprefixer": "^9.4.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.4",

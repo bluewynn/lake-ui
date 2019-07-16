@@ -3,3 +3,4 @@ dist
 demo/dist
 scripts
 node_modules
+test
