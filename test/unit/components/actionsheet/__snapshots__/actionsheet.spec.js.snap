@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`actionsheet should render component and match snapshot 1`] = `
+<div>
+  <!---->
+   
+  <!---->
+</div>
+`;
+
+exports[`actionsheet should render component with items props and match snapshot 1`] = `
+<div>
+  <div
+    appear=""
+    class="lake-mask"
+    name="lake-fade"
+  />
+   
+  <div
+    appear=""
+    class="lake-popup lake-popup-bottom"
+    name="lake-slide"
+  >
+    <div
+      class="lake-actionsheet"
+    >
+      <div
+        class="lake-actionsheet-wrapper"
+      >
+        <!---->
+         
+        <section
+          class="lake-actionsheet-body"
+        >
+          <div
+            class="lake-actionsheet-item lake-cell"
+          >
+            <div
+              class="lake-cell-ft"
+            >
+              <div
+                class="lake-actionsheet-item-name"
+              >
+                action 1
+              </div>
+               
+              <!---->
+            </div>
+          </div>
+          <div
+            class="lake-actionsheet-item lake-cell"
+          >
+            <div
+              class="lake-cell-ft"
+            >
+              <div
+                class="lake-actionsheet-item-name"
+              >
+                action 2
+              </div>
+               
+              <!---->
+            </div>
+          </div>
+          <div
+            class="lake-actionsheet-item lake-cell"
+          >
+            <div
+              class="lake-cell-ft"
+            >
+              <div
+                class="lake-actionsheet-item-name"
+              >
+                action 3
+              </div>
+               
+              <!---->
+            </div>
+          </div>
+        </section>
+         
+        <div
+          class="lake-actionsheet-operation"
+        >
+          <button
+            class="lake-btn lake-actionsheet-operation-cancel lake-btn-default lake-btn-normal"
+            type="button"
+          >
+            <!---->
+              取消
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`actionsheet should render component with show props and match snapshot 1`] = `
+<div>
+  <div
+    appear=""
+    class="lake-mask"
+    name="lake-fade"
+  />
+   
+  <div
+    appear=""
+    class="lake-popup lake-popup-bottom"
+    name="lake-slide"
+  >
+    <div
+      class="lake-actionsheet"
+    >
+      <div
+        class="lake-actionsheet-wrapper"
+      >
+        <!---->
+         
+        <section
+          class="lake-actionsheet-body"
+        />
+         
+        <div
+          class="lake-actionsheet-operation"
+        >
+          <button
+            class="lake-btn lake-actionsheet-operation-cancel lake-btn-default lake-btn-normal"
+            type="button"
+          >
+            <!---->
+              取消
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`actionsheet should render component with title props and match snapshot 1`] = `
+<div>
+  <div
+    appear=""
+    class="lake-mask"
+    name="lake-fade"
+  />
+   
+  <div
+    appear=""
+    class="lake-popup lake-popup-bottom"
+    name="lake-slide"
+  >
+    <div
+      class="lake-actionsheet"
+    >
+      <div
+        class="lake-actionsheet-wrapper"
+      >
+        <div
+          class="lake-actionsheet-title"
+        >
+          test title
+        </div>
+         
+        <section
+          class="lake-actionsheet-body"
+        />
+         
+        <div
+          class="lake-actionsheet-operation"
+        >
+          <button
+            class="lake-btn lake-actionsheet-operation-cancel lake-btn-default lake-btn-normal"
+            type="button"
+          >
+            <!---->
+              取消
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,17 +1,17 @@
 import { mount } from '@vue/test-utils';
-import lakeButton from '@/components/button';
+import button from '@/components/button';
 
 describe('button', () => {
   // basic test
-  it('should render component and match snapshot', () => {
-    const wrapper = mount(lakeButton);
+  test('should render component and match snapshot', () => {
+    const wrapper = mount(button);
 
     expect(wrapper.element).toMatchSnapshot();
   });
 
   // props test
-  it('should have lake-btn-primary class when using type props', () => {
-    const wrapper = mount(lakeButton, {
+  test('should have lake-btn-primary class when using type props', () => {
+    const wrapper = mount(button, {
       propsData: {
         type: 'primary',
       },
@@ -20,8 +20,8 @@ describe('button', () => {
     expect(wrapper.classes('lake-btn-primary')).toBe(true);
   });
 
-  it('should have lake-btn-small class when using size props', () => {
-    const wrapper = mount(lakeButton, {
+  test('should have lake-btn-small class when using size props', () => {
+    const wrapper = mount(button, {
       propsData: {
         size: 'small',
       },
@@ -30,8 +30,8 @@ describe('button', () => {
     expect(wrapper.classes('lake-btn-small')).toBe(true);
   });
 
-  it('should have lake-btn-inline class when using inline props', () => {
-    const wrapper = mount(lakeButton, {
+  test('should have lake-btn-inline class when using inline props', () => {
+    const wrapper = mount(button, {
       propsData: {
         inline: true,
       },
@@ -40,8 +40,8 @@ describe('button', () => {
     expect(wrapper.classes('lake-btn-inline')).toBe(true);
   });
 
-  it('should disabled click when using disabled props', () => {
-    const wrapper = mount(lakeButton, {
+  test('should disabled click when using disabled props', () => {
+    const wrapper = mount(button, {
       propsData: {
         disabled: true,
       },
@@ -54,8 +54,8 @@ describe('button', () => {
     expect(click.mock.calls.length).toBe(0);
   });
 
-  it('should render component with loading and match snapshot', () => {
-    const wrapper = mount(lakeButton, {
+  test('should render component with loading and match snapshot', () => {
+    const wrapper = mount(button, {
       propsData: {
         loading: true,
       },
@@ -65,8 +65,8 @@ describe('button', () => {
   });
 
   // event test
-  it('should emit a click event', () => {
-    const wrapper = mount(lakeButton);
+  test('should emit a click event', () => {
+    const wrapper = mount(button);
     const click = jest.fn();
 
     wrapper.vm.$on('click', click);
@@ -76,8 +76,8 @@ describe('button', () => {
   });
 
   // slot test
-  it('should render component with slot and match snapshot', () => {
-    const wrapper = mount(lakeButton, {
+  test('should render component with slot and match snapshot', () => {
+    const wrapper = mount(button, {
       slots: {
         default: 'submit',
       },
