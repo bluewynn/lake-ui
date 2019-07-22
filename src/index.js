@@ -21,6 +21,7 @@ import popup from './components/popup';
 import { cell, cellGroup } from './components/cell';
 import { checkbox, checkboxGroup } from './components/checkbox';
 import { radio, radioGroup } from './components/radio';
+import result from './components/result';
 import plugins from './plugins';
 
 const components = {
@@ -53,6 +54,7 @@ const components = {
   checkboxGroup,
   radio,
   radioGroup,
+  result,
 };
 
 // transform component name from '{component}' to 'lake-{component}'
@@ -106,4 +108,5 @@ export default {
   checkboxGroup,
   radio,
   radioGroup,
+  result,
 };

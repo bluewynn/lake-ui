@@ -111,6 +111,13 @@ const routes = [
     meta: { group: 'Navigation' },
   },
 
+  /* Bussiness */
+  {
+    path: '/result',
+    component: () => import(/* webpackChunkName: "pages/result" */ './pages/result.vue'),
+    meta: { group: 'Bussiness' },
+  },
+
   {
     path: '*',
     redirect: '/',

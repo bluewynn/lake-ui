@@ -74,3 +74,20 @@
 .lake-slide-reverse-leave-active {
   animation: lake-slide-reverse 0.2s ease-out reverse;
 }
+
+@keyframes lake-slide-right {
+  from {
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+  }
+  to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+  }
+}
+.lake-slide-right-enter-active {
+  animation: lake-slide-right 0.2s ease-out;
+}
+.lake-slide-right-leave-active {
+  animation: lake-slide-right 0.2s ease-out reverse;
+}
