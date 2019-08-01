@@ -3,8 +3,12 @@
     <div class="lake-result" v-if="show">
       <div class="lake-result-wrapper">
         <lake-icon class="lake-result-icon" :name="type" :width="60" :height="60"></lake-icon>
-        <div class="lake-result-title" slot="title">{{ title }}</div>
-        <div class="lake-result-desc" slot="desc" v-if="desc || $slots.desc">{{ desc }}</div>
+        <div class="lake-result-title" slot="title">
+          <slot name="title">{{ title }}</slot>
+        </div>
+        <div class="lake-result-desc" v-if="desc || $slots.desc">
+          <slot name="desc">{{ desc }}</slot>
+        </div>
       </div>
       <div class="lake-result-btn-group">
         <slot name="btn-group">

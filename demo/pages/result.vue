@@ -23,6 +23,23 @@
         ></lake-result>
       </div>
     </div>
+
+    <div class="demo-section">
+      <header class="header">Custom slot</header>
+      <div class="body">
+        <lake-button type="primary" @click="isShowCustomSlot = !isShowCustomSlot">Custom Slot</lake-button>
+        <lake-result
+          type="success"
+          :show="isShowCustomSlot"
+          :show-cancel-btn="false"
+          @confirm="isShowCustomSlot = false"
+          @close="isShowCustomSlot = false"
+        >
+          <div slot="title">Slot Title</div>
+          <div slot="desc">Slot Desc</div>
+        </lake-result>
+      </div>
+    </div>
   </page-view>
 </template>
 
@@ -36,6 +53,7 @@ export default {
     return {
       isShowResult: false,
       isShowCustomResult: false,
+      isShowCustomSlot: false,
     };
   },
 };
