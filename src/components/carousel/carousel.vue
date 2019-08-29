@@ -214,10 +214,12 @@ export default {
   overflow: hidden;
   &-wrapper {
     width: 100%;
+    height: 100%;
     position: relative;
   }
   &-inner {
     display: flex;
+    height: 100%;
     align-items: flex-start;
     flex-direction: row;
     backface-visibility: hidden;

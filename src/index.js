@@ -1,5 +1,5 @@
 import { version } from '../package.json';
-import { upperFirst } from './utils';
+import { upperFirst } from './utils/helper';
 import { flexBox, flexBoxItem } from './components/flex';
 import { tabs } from './components/tabs';
 import noticeBar from './components/notice-bar';

@@ -1,5 +1,5 @@
 import modal from '../components/modal';
-import { assert } from '../utils';
+import { assert } from '../utils/helper';
 
 export default {
   install(Vue) {

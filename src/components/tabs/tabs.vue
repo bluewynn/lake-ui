@@ -99,6 +99,7 @@ export default {
   watch: {
     selected(selected) {
       this.activeTabIndex = selected;
+      this.scrollView(this.activeTabIndex);
     },
     activeTabIndex: {
       handler(index) {

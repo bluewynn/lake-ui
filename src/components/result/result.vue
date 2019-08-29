@@ -3,7 +3,7 @@
     <div class="lake-result" v-if="show">
       <div class="lake-result-wrapper">
         <lake-icon class="lake-result-icon" :name="type" :width="60" :height="60"></lake-icon>
-        <div class="lake-result-title" slot="title">
+        <div class="lake-result-title">
           <slot name="title">{{ title }}</slot>
         </div>
         <div class="lake-result-desc" v-if="desc || $slots.desc">

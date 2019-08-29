@@ -1,5 +1,5 @@
 import toast from '../components/toast';
-import { assert } from '../utils';
+import { assert } from '../utils/helper';
 
 export default {
   install(Vue) {

@@ -51,6 +51,7 @@ export default {
     value: {
       type: String,
       default: '',
+      required: true,
     },
     placeholder: {
       type: String,
@@ -116,10 +117,6 @@ export default {
       this.$emit('focus');
     },
     onBlur() {
-      if (!this.value) {
-        this.isFocus = false;
-      }
-
       this.$emit('blur');
     },
   },

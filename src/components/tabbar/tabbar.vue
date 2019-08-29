@@ -47,6 +47,9 @@ export default {
     },
   },
   watch: {
+    selected(newVal) {
+      this.crtTabIndex = newVal;
+    },
     crtTabIndex(newVal, oldVal) {
       this.$emit('change', newVal, oldVal);
     },

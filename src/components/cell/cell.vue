@@ -15,6 +15,10 @@ export default {
         return size === '' || CELL_SIZES.includes(size);
       },
     },
+    hover: {
+      type: Boolean,
+      default: true,
+    },
     title: {
       type: String,
       default: '',
@@ -28,7 +32,10 @@ export default {
     const CustomTag = `${this.tagName}`;
 
     return (
-      <CustomTag class={['lake-cell', this.size ? `lake-cell-${this.size}` : '']} {...{ attrs: this.$attrs }}>
+      <CustomTag
+        class={['lake-cell', this.size ? `lake-cell-${this.size}` : '', this.hover ? 'lake-cell-hover' : '']}
+        {...{ attrs: this.$attrs }}
+      >
         {this.title || this.$slots.title ? (
           <div class="lake-cell-bd">
             {this.$slots.title ? this.$slots.title : <div class="lake-cell-title">{this.title}</div>}
@@ -54,7 +61,11 @@ export default {
   padding: 14px 15px;
   background-color: #fff;
   text-decoration: none;
+  transition: background-color 0.3s ease;
   .border-1px-bottom(15px, 15px);
+  &&-hover:active {
+    background-color: #ececec;
+  }
   &&-large {
     padding: 20px 15px;
   }
