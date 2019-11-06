@@ -19,10 +19,10 @@
     "dev:demo": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.demo.js",
     "build:demo": "cross-env NODE_ENV=production webpack --config build/webpack.demo.js",
     "build:lib": "rimraf lib && cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
-    "lint": "eslint src/**/*.vue,src/**/*.js",
-    "lint:format": "yarn lint && prettier --write src/**/*.vue,src/**/*.js",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
+    "lint": "eslint --ext *.vue,*.js",
+    "lint:format": "yarn lint && prettier --write *.vue,*.js",
+    "docs:dev": "vue-styleguidist server",
+    "docs:build": "vue-styleguidist build",
     "test": "jest --config ./jest.config.js",
     "test:coverage": "yarn test --coverage"
   },
@@ -37,13 +37,13 @@
   },
   "lint-staged": {
     "*.{js,vue}": [
-      "eslint --fix",
-      "prettier --write",
+      "npm run lint:format",
       "git add"
     ]
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "vue-styleguidist": "^3.26.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",

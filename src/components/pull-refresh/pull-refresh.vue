@@ -22,6 +22,7 @@
         :style="{ minHeight: `${refreshMinHeight}px` }"
         v-show="pullState !== labels.REFRESHING"
       >
+        <!-- @slot 可自定义下拉刷新的内容 -->
         <slot></slot>
       </div>
     </div>
@@ -32,6 +33,10 @@
 import { getScrollTop } from '../../utils/scroll';
 import drag from '../../mixins/drag';
 
+/**
+ * @version 1.0.1
+ * 通过触发，立刻重新加载内容。
+ */
 export default {
   name: 'lake-pull-refresh',
   mixins: [drag],
@@ -126,6 +131,12 @@ export default {
       if (this.pullState === this.labels.REFRESH_READY) {
         this.pullState = this.labels.REFRESHING;
         this.pullDistance = this.refreshDistance;
+        /**
+         * 刷新回调函数
+         *
+         * @event refresh
+         * @type {undefined}}
+         */
         this.$emit('refresh');
       } else {
         this.pullState = this.labels.REFRESH_START;

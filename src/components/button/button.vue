@@ -10,13 +10,22 @@
 const BTN_TYPES = ['default', 'primary', 'warning', 'outline'];
 const BTN_SIZES = ['small', 'normal', 'large'];
 
+/**
+ * 按钮用于开始一个即时操作。
+ */
 export default {
   name: 'lake-button',
   props: {
+    /**
+     * 按钮失效状态
+     */
     disabled: {
       type: Boolean,
       default: false,
     },
+    /**
+     * 设置按钮类型，可选值为 ['default', 'primary', 'warning', 'outline'] 或者不设
+     */
     type: {
       type: String,
       default: 'default',
@@ -24,6 +33,9 @@ export default {
         return type === '' || BTN_TYPES.includes(type);
       },
     },
+    /**
+     * 设置按钮大小，可选值为 ['small', 'normal', 'large'] 或者不设
+     */
     size: {
       type: String,
       default: '',
@@ -31,10 +43,16 @@ export default {
         return size === '' || BTN_SIZES.includes(size);
       },
     },
+    /**
+     * 按钮是否为行内元素
+     */
     inline: {
       type: Boolean,
       default: false,
     },
+    /**
+     * 设置按钮载入状态
+     */
     loading: {
       type: Boolean,
       default: false,
@@ -58,6 +76,12 @@ export default {
         return;
       }
 
+      /**
+       * 点击按钮时的回调
+       *
+       * @event click
+       * @type {event}
+       */
       this.$emit('click', $event);
     },
   },
