@@ -1,7 +1,9 @@
 <template>
   <button type="button" class="lake-btn" :class="btnClass" :disabled="disabled" @click="onClick">
     <i class="lake-loading" v-if="loading"></i>
+    <!-- @slot 自定义按钮的图标 -->
     <slot name="icon"></slot>
+    <!-- @slot 自定义按钮里的内容 -->
     <slot></slot>
   </button>
 </template>
@@ -69,6 +71,12 @@ export default {
     },
   },
   methods: {
+    /**
+     * 手动触发按钮的点击事件
+     *
+     * @param {object} $event
+     * @public
+     */
     onClick($event) {
       if (this.disabled) {
         $event.preventDefault();
@@ -81,6 +89,7 @@ export default {
        *
        * @event click
        * @type {event}
+       * @property {DOMEvent} $event
        */
       this.$emit('click', $event);
     },

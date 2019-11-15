@@ -1,6 +1,6 @@
 示例
 
-```html
+```vue
 <div class="demo-section">
   <header class="header">Basic</header>
   <div class="body">
