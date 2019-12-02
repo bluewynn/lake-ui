@@ -59,11 +59,11 @@ const productionConfig = webpackMerge(commonConfig, {
   optimization: {
     minimize: true,
     minimizer: [
-      new TerserPlugin({
-        parallel: 4,
-        cache: true,
-        sourceMap: true,
-      }),
+      // new TerserPlugin({
+      //   parallel: 4,
+      //   cache: true,
+      //   sourceMap: true,
+      // }),
       // new UglifyJsPlugin({
       //   cache: true,
       //   parallel: true,
