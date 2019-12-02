@@ -12,7 +12,7 @@
   "files": [
     "lib"
   ],
-  "repository": "git@github.com:bluewynn/lake-ui.git",
+  "repository": "git@git.code.oa.com:wynnezheng",
   "author": "bluewynn",
   "license": "MIT",
   "scripts": {
@@ -89,8 +89,8 @@
     "svg-sprite-loader": "^4.1.6",
     "svgo": "^1.2.2",
     "svgo-loader": "^2.2.1",
+    "terser-webpack-plugin": "^2.2.1",
     "thread-loader": "^2.1.2",
-    "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
     "vue": "^2.5.17",
     "vue-jest": "^3.0.4",

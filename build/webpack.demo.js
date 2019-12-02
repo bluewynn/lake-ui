@@ -4,10 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const ProgressBarWebpackPlugin = require('progress-bar-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const commonConfig = require('./webpack.common');
 
 const developmentConfig = webpackMerge(commonConfig, {
@@ -57,12 +57,18 @@ const productionConfig = webpackMerge(commonConfig, {
     chunkFilename: 'js/[name].[contenthash:8].js',
   },
   optimization: {
+    minimize: true,
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
+        parallel: 4,
         cache: true,
-        parallel: true,
-        sourceMap: true, // set to true if you want JS source maps
+        sourceMap: true,
       }),
+      // new UglifyJsPlugin({
+      //   cache: true,
+      //   parallel: true,
+      //   sourceMap: true, // set to true if you want JS source maps
+      // }),
       new OptimizeCSSAssetsPlugin({}),
     ],
     splitChunks: {
@@ -96,9 +102,9 @@ const productionConfig = webpackMerge(commonConfig, {
       filename: 'css/[name].[hash:8].min.css',
       chunkFilename: 'css/[name].[contenthash:8].css',
     }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-    }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: 'static',
+    // }),
   ],
 });
 
